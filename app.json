@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "SchoolBudd",
+    "description": "Redefine College Prep.",
+    "slug": "moveitmoveit1",
+    "privacy": "public",
+    "sdkVersion": "26.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#708090"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.joshuaosagie06.schoolbudd2",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["skype"]
+      },
+    },
+    "android": {
+      "package": "com.joshuaosagie06.schoolbudd2"
+    }
+  }
+}

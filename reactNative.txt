@@ -1,0 +1,8 @@
+Payments: We plan on using Firebase/Stripe for the payments. We want to implement specifically a Stripe Connect custom account, but are also open to a standard account. We were initially not planning on using Stripe Connect, and were planning on just doing something via Stripe and Firebase, but ran into some issues. We are already able to create tokens and charge credit/debit cards, the only issue is releasing the payment to a different party. You can no longer transfer funds on Stripe unless it is a Connect account.
+
+We would need:
+Payment UI/Card Input Component
+Firebase implementation (tracking when a customer is created/if funds are reimbursed/charges made, etc)
+Stripe Connect implementation (essentially helping create the stripe connect account, and working to actually have funds released)
+
+The project is not difficult, it is just we are working on a deadline and need to move faster.
