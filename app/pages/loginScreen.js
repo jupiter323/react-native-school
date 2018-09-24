@@ -10,6 +10,13 @@ import { WebBrowser } from 'expo';
 import GenerateForm from 'react-native-form-builder';
 import { View, Text } from 'native-base';
 
+
+const stripe_url = 'https://api.stripe.com/v1/'
+// const secret_key = firebase.config().stripe.token;
+//create token
+const stripe = require('stripe-client')('pk_test_qkgEe4JVlRcszR12vsEMODWU');
+
+
 // // These Fields will create a login form with three fields
 // const fieldsLogin = [
 //   {
@@ -149,6 +156,7 @@ verifyEmail = async() => {
  )
 }
 
+
 onPressSaveNewUser =async() => {
   // console.log("email pre creating user" + this.state.signUpEmail);
   // console.log("password " + this.state.signUpPassword);
@@ -194,6 +202,48 @@ onPressSaveNewUser =async() => {
     firebase.database().ref('users').child(user.uid).child('skypeName').set(this.state.skypeName);
     await AsyncStorage.setItem("hasLoggedIn", "true");
     this.toggleSignUpModal();
+
+
+    //create stripe account if he is a consultant
+    const selectedPortal = await AsyncStorage.getItem('portal');
+    if (selectedPortal === 'consultant') {
+      var consultantDetails = {
+        "type" : 'custom',
+        "email" : formValues.emailAddress,
+        "business_name" : formValues.firstName + " " + formValues.lastName
+          };
+  
+      var formBody = [];
+      for (var property in consultantDetails) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(consultantDetails[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+      var that = this;
+      return fetch(stripe_url + 'accounts', {
+         method: 'POST',
+         headers: {
+           'Accept': 'application/json',
+           'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
+           'Content-Type': 'application/x-www-form-urlencoded',
+         },
+         body: formBody
+       }).then((response) => {
+         response.json().then(solved => {
+          console.log("Account " + JSON.stringify(solved));
+          firebase.database().ref('stripe_customers').child(firebase.auth().currentUser.uid).child('account').set({
+            id : solved.id,
+            email : solved.email,
+            type : solved.type,
+            created : solved.created
+          });
+         });
+       }).catch((error) => {  
+          console.error(error);
+        });
+    }
+    
   // }
 }
 
@@ -232,29 +282,29 @@ onPressMakeAccount= async() => {
        }
    }
 
-     async logInWithFacebook() {
-       //This line obtains a token. A good guide on how to set up Facebook login
-       // could be found on Expo website https://docs.expo.io/versions/latest/sdk/facebook.html
-       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('344994569331151', {permissions: ['public_profile', 'email'],});
-       if (type === 'success') {
-         // Get the user's name using Facebook's Graph API
-         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-         const name = (await response.json()).name;
-         //Signs up the user in Firebase authentication. Before being able to use
-         //this make sure that you have Facebook enabled in the sign-in methods
-         // in Firebase
-         const credential = firebase.auth.FacebookAuthProvider.credential(token);
-         var result = await firebase.auth().signInWithCredential(credential);
+  async logInWithFacebook() {
+    //This line obtains a token. A good guide on how to set up Facebook login
+    // could be found on Expo website https://docs.expo.io/versions/latest/sdk/facebook.html
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('344994569331151', {permissions: ['public_profile', 'email'],});
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      const name = (await response.json()).name;
+      //Signs up the user in Firebase authentication. Before being able to use
+      //this make sure that you have Facebook enabled in the sign-in methods
+      // in Firebase
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      var result = await firebase.auth().signInWithCredential(credential);
 
-         //After signing in/up, we add some additional user info to the database
-         //so that we can use it for other things, e.g. users needing to know
-         //names of each other
-         firebase.database().ref('users').child(result.uid).child('name').set(name);
-         await AsyncStorage.setItem("hasLoggedIn", "true");
-       } else {
-         // this.logInWithFacebook();
-       }
-     }
+      //After signing in/up, we add some additional user info to the database
+      //so that we can use it for other things, e.g. users needing to know
+      //names of each other
+      firebase.database().ref('users').child(result.uid).child('name').set(name);
+      await AsyncStorage.setItem("hasLoggedIn", "true");
+    } else {
+      // this.logInWithFacebook();
+    }
+  }
 
 
     render() {

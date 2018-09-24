@@ -28,7 +28,7 @@ export default class Blank2 extends React.Component {
 constructor(props) {
   super(props);
   this.state = {
-    token : '',
+    token : 'tok_visa',
     cardNum : '',
     expYear : '',
     expMonth : '',
@@ -37,12 +37,11 @@ constructor(props) {
     cvc : '',
     uid : firebase.auth().currentUser.uid,
     valid : false,
-    customerId : '',
     amount : 0,
-    payouts : 0,
-    email : firebase.auth().currentUser.email,
     destination : '',
-    trans_amount : 0,
+    bookingStatus : false,
+    consultant_id : 'qzJ7q3nwLsbZ2L9fLHETlXThlGL2',
+    chargeId : ''
   };
 }
 
@@ -50,19 +49,13 @@ constructor(props) {
 componentWillMount() {
   axios.post('https://us-central1-schoolbudd-ac7fc.cloudfunctions.net/helloWorld').then((response) => {
     console.log("axios");
-    // console.log("response " + JSON.stringify(response));
-    // console.log("response data " + response.data);
-  // Stripe.setPublishableKey('pk_test_qkgEe4JVlRcszR12vsEMODWU');
+    
+    this.getAllHistory();
+    this.getPlatformBalance(); 
   });
-  firebase.database().ref('stripe_customers').child(this.state.uid).child('sources').once('value')
-  .then(value=>{
-    this.setState({customerId : value.val()['customerId']});
-    this.setState({token : value.val()['token']});
-    console.log(value);
-  });
-  this.showAllAccount();
 }
 
+// register new credit card and get token
 createToken = async() => {
   if(!this.state.valid){
     Alert.alert('',
@@ -103,121 +96,25 @@ createToken = async() => {
         cardToken = solved.id;             
         this.setState({token: cardToken});               
         console.log("card token in fetch " + cardToken);
-        this.obtainCustomerID(cardToken);
        }); 
      }).catch((error) => {
         console.error(error);
      });
-}
-
-obtainCustomerID = async(token) => {
-  var customerDetails = {
-      "source": token,
-      "email": firebase.auth().currentUser.email
-    };
-
-  var formBody = [];
-  for (var property in customerDetails) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(customerDetails[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-  formBody = formBody.join("&");
-  // console.log("secret token " + firebase.config().stripe.token);
-
- 
-  var that = this;
-     await fetch(stripe_url + 'customers', {
-       method: 'POST',
-       headers: {
-         'Accept': 'application/json',
-         'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
-         'Content-Type': 'application/x-www-form-urlencoded',
-       },
-       body: formBody
-     }).then((response) => {
-       console.log("customer " + JSON.stringify(response));
-       response.json().then(solved => {
-         console.log("solved " + JSON.stringify(solved));
-         firebase.database().ref('stripe_customers').child(this.state.uid).child('sources').set({
-          token : token,
-          fullName : this.state.name,
-          postalCode : this.state.postalCode,
-          customerId : solved.id,
-          currency : solved.currency,
-          created : solved.created
-        });
-        this.setState({customerId : solved.id});
-        this.getCurrentBalance();
-        Alert.alert('Congratulations!',
-        'Stripe account is created successfully.',
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: false }
-        );
-       });
-     }).catch((error) => {
-        console.error(error);
-      });
-}
-
-createAccount =async() => {
-
-
-  //create a token, create a customer/id with that token, charge customer id
-  //create new customer
-  //charge customerid
-  //if customer exists, use customerId, else, insert card info, create customer, use customer id
-  
-  var chargeDetails = {
-      "type" : 'custom',
-      "email" : this.state.email
-        };
-
-    var formBody = [];
-    for (var property in chargeDetails) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(chargeDetails[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-  var that = this;
-    return fetch(stripe_url + 'accounts', {
-       method: 'POST',
-       headers: {
-         'Accept': 'application/json',
-         'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
-         'Content-Type': 'application/x-www-form-urlencoded',
-       },
-       body: formBody
-     }).then((response) => {
-       response.json().then(solved => {
-        console.log("Account " + JSON.stringify(solved));
-        firebase.database().ref('stripe_customers').child(this.state.uid).child('account').set({
-          id : solved.id,
-          email : solved.email,
-          type : solved.type,
-          created : solved.created
-        });
-       });
-     }).catch((error) => {
-        console.error(error);
-      });
  }
- createTransfer =async() => {
 
-
-  //create a token, create a customer/id with that token, charge customer id
-  //create new customer
-  //charge customerid
-  //if customer exists, use customerId, else, insert card info, create customer, use customer id
+ // create new transfer from platform account to consultant account
+ // parameers : transfer amount, firebase id of consultant
+ createTransfer =async(amount, consultant_id) => {
   
-  var chargeDetails = {
-      "amount" : this.state.trans_amount,
+  firebase.database().ref('stripe_customers').child(consultant_id).child('account').once('value')
+  .then(value=>{
+    this.setState({destination : value.val()['id']});
+    console.log(this.state.destination);
+    var chargeDetails = {
+      "amount" : amount,
       "currency" : 'usd',
-      "destination" : this.state.destination,
-      "transfer_group" : "ORDER_1"
+      "source_transaction" : this.state.chargeId,
+      "destination" : value.val()['id']
         };
 
     var formBody = [];
@@ -227,7 +124,6 @@ createAccount =async() => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-  var that = this;
     return fetch(stripe_url + 'transfers', {
        method: 'POST',
        headers: {
@@ -240,51 +136,26 @@ createAccount =async() => {
        response.json().then(solved => {
         console.log("Transfer " + JSON.stringify(solved));
         this.getAllHistory();
-        this.getCurrentBalance();
-        // firebase.database().ref('stripe_customers').child(this.state.uid).child('account').set({
-        //   id : solved.id,
-        //   email : solved.email,
-        //   type : solved.type,
-        //   created : solved.created
-        // });
+        this.getPlatformBalance();
+        this.getConsultantBalance(consultant_id);
        });
      }).catch((error) => {
         console.error(error);
       });
+  });  
  }
 
- 
- showAllAccount = async() => {
-  return fetch(stripe_url + 'accounts?limit=100', {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
-  }).then((response) => {
-    response.json().then(solved => {
-      console.log("accounts " + JSON.stringify(solved));      
-    });
-  }).catch((error) => {
-    console.error(error);
-  });
- }
-//
-submitNewCharge =async() => {
 
-
-  //create a token, create a customer/id with that token, charge customer id
-  //create new customer
-  //charge customerid
-  //if customer exists, use customerId, else, insert card info, create customer, use customer id
+ // create new charge from credit card to platform account
+ // parameters :  charge amount, source or token
+createCharge =async(amount,token) => {
   
-  console.log('amount : ' + this.state.amount + ' customerId :' + this.state.customerId + ' token :' + this.state.token);
-  var chargeDetails = {
-      "amount": this.state.amount,
-      "customer": this.state.customerId,
-      "currency": 'usd',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-      "description": 'Example charge',
+    var chargeDetails = {
+      "amount": amount,
+      "description" : "Example Charge",
+      "currency": 'usd',   
+      "source" : token,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+      "statement_descriptor": 'custom descriptor'
     };
 
     var formBody = [];
@@ -294,7 +165,6 @@ submitNewCharge =async() => {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-  var that = this;
     return fetch(stripe_url + 'charges', {
        method: 'POST',
        headers: {
@@ -304,64 +174,19 @@ submitNewCharge =async() => {
        },
        body: formBody
      }).then((response) => {
-       console.log("charge " + JSON.stringify(response));
        response.json().then(solved => {
+        this.setState({chargeId : solved.id});
+        console.log("charge " + JSON.stringify(solved));
         this.getAllHistory();
-        this.getCurrentBalance();
+        this.getPlatformBalance();
        });
      }).catch((error) => {
         console.error(error);
       });
  }
- submitNewPayout =async() => {
-
-
-  //create a token, create a customer/id with that token, charge customer id
-  //create new customer
-  //charge customerid
-  //if customer exists, use customerId, else, insert card info, create customer, use customer id
-  console.log("payouts : " + this.state.payouts);
-  var chargeDetails = {
-      "amount": this.state.payouts,
-      "currency": 'usd',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-      "description": 'Example payout',
-    };
-
-    var formBody = [];
-    for (var property in chargeDetails) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(chargeDetails[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-  var that = this;
-    return fetch(stripe_url + 'payouts', {
-       method: 'POST',
-       headers: {
-         'Accept': 'application/json',
-         'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
-         'Content-Type': 'application/x-www-form-urlencoded',
-       },
-       body: formBody
-     }).then((response) => {
-       response.json().then(solved => {
-        console.log("payouts " + JSON.stringify(solved));
-        firebase.database().ref('stripe_customers').child(this.state.uid).child('payouts').push({
-          id : solved.id,
-          balance_transaction : solved.balance_transaction,
-          amount : solved.amount,
-          created : solved.created,
-          currency : solved.currency
-        });
-        this.getAllHistory();
-        this.getCurrentBalance();
-       });
-     }).catch((error) => {
-        console.error(error);
-      });
- }
-
- getCurrentBalance  =async() => {
+ 
+ // get current balance of platform account
+ getPlatformBalance  = async() => {
     return fetch(stripe_url + 'balance', {
       method: 'GET',
       headers: {
@@ -370,17 +195,51 @@ submitNewCharge =async() => {
         'Content-Type': 'application/x-www-form-urlencoded',
       }
     }).then((response) => {
-      console.log("balance " + JSON.stringify(response));
       response.json().then(solved => {
-        firebase.database().ref('stripe_customers').child(this.state.uid).child('balance').set(solved);
-        console.log("customers : " + JSON.stringify(solved));
-        
+        firebase.database().ref('Platform_Balance').set(solved);        
       });
     }).catch((error) => {
       console.error(error);
     });
  }
 
+ // book new appointment 
+ // it will charge 1.2 * appointment's amount from credit card to platform
+ createNewBooking = async() =>{
+   await this.createCharge(Math.ceil(this.state.amount*1.12), this.state.token);  
+   await this.setState({bookingStatus : true});
+ }
+
+ // complete this appointment
+ // after completion, the 0.95 * appointment's amount will be transfered from platform account to consultant account
+ release = async() => {
+   console.log("amount : "  + this.state.amount + "  custom account id : " + this.state.consultant_id);
+   await this.createTransfer(Math.floor(this.state.amount*0.95), this.state.consultant_id)
+   await this.setState({bookingStatus : false});
+ }
+ 
+ // get the balance of selected consultant.
+ // it will be called after completion of appointment, so will update firebase database
+ getConsultantBalance = async(consultant_id) => {
+  return fetch(stripe_url + 'balance', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Stripe-Account' : this.state.destination
+    }
+  }).then((response) => {
+    response.json().then(solved => {
+      firebase.database().ref('stripe_customers').child(consultant_id).child('balance').set(solved);        
+    });
+  }).catch((error) => {
+    console.error(error);
+  });
+ }
+
+ // get all transactino history
+ // it will be called after every transaction, so it will update firebase database
  getAllHistory  = async() => {
 
   return fetch(stripe_url + 'balance/history?limit=100', {
@@ -391,13 +250,47 @@ submitNewCharge =async() => {
       'Content-Type': 'application/x-www-form-urlencoded',
     }
   }).then((response) => {
-    console.log("balance " + JSON.stringify(response));
     response.json().then(solved => {
-      firebase.database().ref('stripe_customers').child(this.state.uid).child('history').set(solved);      
+      firebase.database().ref('Transaction_History').set(solved);      
     });
   }).catch((error) => {
     console.error(error);
   });
+ }
+
+ // if student don't want to release, he can report to admin.
+ // after admin check all reports from student and consultant, he can refund charge for appointment.
+ // parameter :  id of charge, refunding amount.
+ refundCharge = async(chargeId, amount) => {
+  var refundDetails = {
+    "charge": chargeId,
+    "amount": amount
+  };
+
+  var formBody = [];
+  for (var property in refundDetails) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(refundDetails[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+  return fetch(stripe_url + 'refunds', {
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json',
+       'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
+       'Content-Type': 'application/x-www-form-urlencoded',
+     },
+     body: formBody
+   }).then((response) => {
+     response.json().then(solved => {
+      console.log("refunds " + JSON.stringify(solved));
+      this.getAllHistory();
+      this.getPlatformBalance();
+     });
+   }).catch((error) => {
+      console.error(error);
+    });
  }
 
   render() {
@@ -428,76 +321,35 @@ submitNewCharge =async() => {
           <View
             style={{
               borderBottomColor: 'black',
-              borderBottomWidth: 3,
+              borderBottomWidth: 5,
             }}
           />
-            <TextInput style={styles.chargeText}
-            placeholder="Please insert your email."
-            keyboardType='email-address'        
-            value={this.state.email}    
-            underlineColorAndroid={'transparent'} 
-            onChangeText={(email)=>this.setState({email})}
-            />
-             <TouchableOpacity style={styles.buttonContainer} onPress={this.createAccount}>
-               <Text style={styles.buttonText}>Create account</Text>
-            </TouchableOpacity>  
-          <View
-            style={{
-              borderBottomColor: 'black',
-              borderBottomWidth: 3,
-            }}
-          />
-            <TextInput style={styles.chargeText}
-            placeholder="Please insert charging amount."
+          <Text style={{marginLeft : 'auto', marginRight : 'auto', fontSize : 30, fontWeight : 'bold', marginBottom : 30}}>Testing Escrow System</Text>
+          <TextInput
+            style={styles.chargeText}
             keyboardType='numeric'
+            underlineColorAndroid={'transparent'}      
+            onChangeText={(amount)=>this.setState({amount})}          
+            placeholder="funding amount for booking">
+          </TextInput>
+          <TextInput
+            style={styles.chargeText}
             underlineColorAndroid={'transparent'} 
-            onChangeText={(amount)=>this.setState({amount})}
-            />
-             <TouchableOpacity style={styles.buttonContainer} onPress={this.submitNewCharge}>
-               <Text style={styles.buttonText}>Charge</Text>
+            value={this.state.consultant_id}
+            onChangeText={(consultant_id)=>this.setState({consultant_id})}     
+            placeholder="consultant's id">
+          </TextInput>
+          {
+            this.state.bookingStatus?            
+            <TouchableOpacity style={styles.buttonContainer}  onPress={this.release}>
+              <Text style={styles.buttonText}>Complete</Text>
             </TouchableOpacity>
-          <View
-          style={{
-            borderBottomColor: 'black',
-            borderBottomWidth: 3,
-          }}
-          />
-            <TextInput style={styles.chargeText}
-            placeholder="Please insert destination account."
-            underlineColorAndroid={'transparent'} 
-            onChangeText={(destination)=>this.setState({destination})}
-            />
-             <TextInput style={styles.chargeText}
-            placeholder="Please insert transfer account."
-            underlineColorAndroid={'transparent'} 
-            onChangeText={(trans_amount)=>this.setState({trans_amount})}
-            />
-             <TouchableOpacity style={styles.buttonContainer} onPress={this.createTransfer}>
-               <Text style={styles.buttonText}>Transfer</Text>
-            </TouchableOpacity>  
-          <View
-          style={{
-            borderBottomColor: 'black',
-            borderBottomWidth: 3,
-          }}
-          />
-            <TextInput style={styles.chargeText}
-            placeholder="Please insert payout amount."
-            keyboardType='numeric'
-            underlineColorAndroid={'transparent'} 
-            onChangeText={(payouts)=>this.setState({payouts})}
-            />
-             <TouchableOpacity style={styles.buttonContainer} onPress={this.submitNewPayout}>
-               <Text style={styles.buttonText}>Payout</Text>
+            :
+            <TouchableOpacity  style={styles.buttonContainer}  onPress={this.createNewBooking}>
+              <Text style={styles.buttonText}>Booking</Text>
             </TouchableOpacity>
-          {/* <TouchableHighlight
-            style= {styles.sellingView}
-            onPress={() => this.getCurrentBalance()}>
-              <View>
-              <Text style = {styles.sellingText}>Balance</Text>
-              </View>
-          </TouchableHighlight> */}
-
+          }
+         
           </ScrollView>
         </View>
      </View>
@@ -593,5 +445,6 @@ const styles = StyleSheet.create({
     marginLeft : 'auto', 
     marginRight : 'auto', 
     textAlign : 'center',
-  }
+  },
+  
 });
