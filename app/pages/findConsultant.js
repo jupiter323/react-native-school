@@ -5,13 +5,14 @@ import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import Colors from '../Themes/Colors';
 import SaleBlock from '../components/saleBlock';
-import { Card, ListItem, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { Card, ListItem, Slider, Icon, SearchBar } from 'react-native-elements'
 import firebase from 'firebase';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import LoggedOut from '../components/loggedOutScreen';
 import SelectMultiple from 'react-native-select-multiple';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import { globalStyles } from '../Themes/Styles';
 
 const {width, height} = Dimensions.get('window');
 
@@ -77,7 +78,7 @@ export default class FindConsultant extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'lightblue'}
+        color={'#5A3DC9'}
         onPress={() => navigate('DrawerToggle')}
       />
       )
@@ -328,10 +329,10 @@ export default class FindConsultant extends React.Component {
                   placeholder='Search For Consultant...'
                   />
 
-                <View style={{height: 100, width: Metrics.screenWidth*.9, justifyContent: 'center', marginBottom: 10}}>
+                <View style={{height: 200, width: Metrics.screenWidth*.9, justifyContent: 'center', marginBottom: 10}}>
                   <Slider
                     value={this.state.price}
-                    thumbTintColor= 'lightblue'
+                    thumbTintColor= '#5A3DC9'
                     minimumValue= {5}
                     maximumValue= {250}
                     value = {140}
@@ -342,11 +343,16 @@ export default class FindConsultant extends React.Component {
                   <Text>Maximum Price: ${this.state.price}</Text>
 
                   <SectionedMultiSelect
-                    ref={SectionedMultiSelect => this.SectionedMultiSelect = SectionedMultiSelect}
+                    ref={SectionedMultiSelect => {this.SectionedMultiSelect = SectionedMultiSelect}}
                     items={items}
                     uniqueKey='id'
                     subKey='children'
                     selectText='Choose some things...'
+                    style={{ backgroundColor: 'red'}}
+                    styles={{
+                      selectToggle: [{flex: 'auto', marginTop: 15,}, globalStyles.btn],
+                      selectToggleText: globalStyles.btnText,
+                    }}
                     showDropDowns={true}
                     readOnlyHeadings={true}
                     onSelectedItemsChange={this.onSelectedItemsChange}
@@ -354,15 +360,18 @@ export default class FindConsultant extends React.Component {
                     showCancelButton={true}
                     showChips={false}
                     onConfirm={() => this.resetList()}
-                    selectToggleIconComponent={  <CheckBox
-                        center
-                        title={"Filter Consultants"}
-                        iconRight
-                        iconType='material'
-                        uncheckedIcon='add'
-                        containerStyle={{width: Metrics.screenWidth*.95}}
-                        onPress={() => this.SectionedMultiSelect._toggleSelector()}
-                      />}
+                    selectToggleIconComponent={
+                      <Icon type="material" name="add" color="white" />
+                      // <CheckBox
+                      //   center
+                      //   // title={"Filter Consultants"}
+                      //   iconRight
+                      //   iconType='material'
+                      //   uncheckedIcon='add'
+                      //   containerStyle={{width: '100%', height: 40, alignSelf: 'center'}}
+                      //   onPress={() => this.SectionedMultiSelect._toggleSelector()}
+                      // />
+                    }
                   />
                 </View>
 
@@ -383,7 +392,7 @@ export default class FindConsultant extends React.Component {
                     onRefresh = {() => this.resetList()}
                     refreshing = {this.state.refreshing}
                     removeClippedSubviews = {true}
-                    ListFooterComponent = {<ActivityIndicator />}
+                    ListFooterComponent = {this.state.refreshing ? <ActivityIndicator /> : <View />}
                   />
                 </View>
           </SafeAreaView>
