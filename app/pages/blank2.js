@@ -8,6 +8,7 @@ import Modal from "react-native-modal";
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { CreditCardInput } from "react-native-credit-card-input";
 import axios from 'axios';
+import { globalStyles } from '../Themes/Styles';
 
 // const stripe = Stripe('pk_test_qkgEe4JVlRcszR12vsEMODWU');
 // Stripe.setPublishableKey('pk_test_qkgEe4JVlRcszR12vsEMODWU');
@@ -316,7 +317,7 @@ createCharge =async(amount,token) => {
             onChange={this._onChange}
           />
           <TouchableOpacity style={styles.buttonContainer} onPress={this.createToken}>
-            <Text style={styles.buttonText}>Register Credit Card</Text>
+            <Text style={globalStyles.btnText}>Register Credit Card</Text>
             </TouchableOpacity>
           <View
             style={{
@@ -428,9 +429,10 @@ const styles = StyleSheet.create({
     padding : 20,
     width : 200,
     borderRadius : 10,
-    backgroundColor : 'rgba(0,0,0,0.8)',
-    marginLeft : 'auto',
-    marginRight : 'auto'
+    backgroundColor : '#5A3DC9',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   buttonText: {
     textAlign : 'center',
