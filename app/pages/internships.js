@@ -37,7 +37,7 @@ export default class Internships extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'lightblue'}
+        color={'#5A3DC9'}
         onPress={params.createQuestion}
       />
     ),

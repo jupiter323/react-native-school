@@ -49,9 +49,9 @@ constructor(props) {
 componentWillMount() {
   axios.post('https://us-central1-schoolbudd-ac7fc.cloudfunctions.net/helloWorld').then((response) => {
     console.log("axios");
-    
+
     this.getAllHistory();
-    this.getPlatformBalance(); 
+    this.getPlatformBalance();
   });
 }
 
@@ -89,14 +89,14 @@ createToken = async() => {
          'Accept': 'application/json',
          'Authorization': 'Bearer ' + 'pk_test_qkgEe4JVlRcszR12vsEMODWU',
          'Content-Type': 'application/x-www-form-urlencoded',
-       },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+       },
        body: formBody
      }).then((response) => {
        response.json().then(solved => {
-        cardToken = solved.id;             
-        this.setState({token: cardToken});               
+        cardToken = solved.id;
+        this.setState({token: cardToken});
         console.log("card token in fetch " + cardToken);
-       }); 
+       });
      }).catch((error) => {
         console.error(error);
      });
@@ -105,7 +105,7 @@ createToken = async() => {
  // create new transfer from platform account to consultant account
  // parameers : transfer amount, firebase id of consultant
  createTransfer =async(amount, consultant_id) => {
-  
+
   firebase.database().ref('stripe_customers').child(consultant_id).child('account').once('value')
   .then(value=>{
     this.setState({destination : value.val()['id']});
@@ -142,19 +142,19 @@ createToken = async() => {
      }).catch((error) => {
         console.error(error);
       });
-  });  
+  });
  }
 
 
  // create new charge from credit card to platform account
  // parameters :  charge amount, source or token
 createCharge =async(amount,token) => {
-  
+
     var chargeDetails = {
       "amount": amount,
       "description" : "Example Charge",
-      "currency": 'usd',   
-      "source" : token,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+      "currency": 'usd',
+      "source" : token,
       "statement_descriptor": 'custom descriptor'
     };
 
@@ -184,7 +184,7 @@ createCharge =async(amount,token) => {
         console.error(error);
       });
  }
- 
+
  // get current balance of platform account
  getPlatformBalance  = async() => {
     return fetch(stripe_url + 'balance', {
@@ -196,17 +196,17 @@ createCharge =async(amount,token) => {
       }
     }).then((response) => {
       response.json().then(solved => {
-        firebase.database().ref('Platform_Balance').set(solved);        
+        firebase.database().ref('Platform_Balance').set(solved);
       });
     }).catch((error) => {
       console.error(error);
     });
  }
 
- // book new appointment 
+ // book new appointment
  // it will charge 1.2 * appointment's amount from credit card to platform
  createNewBooking = async() =>{
-   await this.createCharge(Math.ceil(this.state.amount*1.12), this.state.token);  
+   await this.createCharge(Math.ceil(this.state.amount*1.12), this.state.token);
    await this.setState({bookingStatus : true});
  }
 
@@ -217,7 +217,7 @@ createCharge =async(amount,token) => {
    await this.createTransfer(Math.floor(this.state.amount*0.95), this.state.consultant_id)
    await this.setState({bookingStatus : false});
  }
- 
+
  // get the balance of selected consultant.
  // it will be called after completion of appointment, so will update firebase database
  getConsultantBalance = async(consultant_id) => {
@@ -231,7 +231,7 @@ createCharge =async(amount,token) => {
     }
   }).then((response) => {
     response.json().then(solved => {
-      firebase.database().ref('stripe_customers').child(consultant_id).child('balance').set(solved);        
+      firebase.database().ref('stripe_customers').child(consultant_id).child('balance').set(solved);
     });
   }).catch((error) => {
     console.error(error);
@@ -251,7 +251,7 @@ createCharge =async(amount,token) => {
     }
   }).then((response) => {
     response.json().then(solved => {
-      firebase.database().ref('Transaction_History').set(solved);      
+      firebase.database().ref('Transaction_History').set(solved);
     });
   }).catch((error) => {
     console.error(error);
@@ -328,19 +328,19 @@ createCharge =async(amount,token) => {
           <TextInput
             style={styles.chargeText}
             keyboardType='numeric'
-            underlineColorAndroid={'transparent'}      
-            onChangeText={(amount)=>this.setState({amount})}          
+            underlineColorAndroid={'transparent'}
+            onChangeText={(amount)=>this.setState({amount})}
             placeholder="funding amount for booking">
           </TextInput>
           <TextInput
             style={styles.chargeText}
-            underlineColorAndroid={'transparent'} 
+            underlineColorAndroid={'transparent'}
             value={this.state.consultant_id}
-            onChangeText={(consultant_id)=>this.setState({consultant_id})}     
+            onChangeText={(consultant_id)=>this.setState({consultant_id})}
             placeholder="consultant's id">
           </TextInput>
           {
-            this.state.bookingStatus?            
+            this.state.bookingStatus?
             <TouchableOpacity style={styles.buttonContainer}  onPress={this.release}>
               <Text style={styles.buttonText}>Complete</Text>
             </TouchableOpacity>
@@ -349,13 +349,13 @@ createCharge =async(amount,token) => {
               <Text style={styles.buttonText}>Booking</Text>
             </TouchableOpacity>
           }
-         
+
           </ScrollView>
         </View>
      </View>
     );
   }
-  
+
   _onChange = form => {
     console.log(form);
     this.setState({valid : form.valid});
@@ -369,7 +369,7 @@ createCharge =async(amount,token) => {
     }
   }
   _onFocus = field => console.log("focusing", field);
-  
+
 }
 
 const styles = StyleSheet.create({
@@ -379,9 +379,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
-  movingView: {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+  movingView: {
     flex: 1,
-    backgroundColor: 'powderblue',
+    backgroundColor: '#5A3DC9',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
   },
   buyingView: {
     flex: 1,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#5A3DC9',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -439,12 +439,12 @@ const styles = StyleSheet.create({
     fontSize : 15
   },
   chargeText : {
-    width : 300, 
-    marginTop : 30, 
+    width : 300,
+    marginTop : 30,
     fontSize : 20,
-    marginLeft : 'auto', 
-    marginRight : 'auto', 
+    marginLeft : 'auto',
+    marginRight : 'auto',
     textAlign : 'center',
   },
-  
+
 });

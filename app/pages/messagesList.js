@@ -19,7 +19,7 @@ export default class MessagesList extends React.Component {
         <Feather style={styles.icon}
           name="menu"
           size={Metrics.icons.medium}
-          color={'lightblue'}
+          color={'#5A3DC9'}
           onPress={() => navigate('DrawerToggle')}
         />
         )
@@ -139,13 +139,13 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
-    backgroundColor: 'powderblue',
+    backgroundColor: '#5A3DC9',
   },
   messagesContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'powderblue',
+    backgroundColor: '#5A3DC9',
   },
   addChatContainer: {
     flexDirection: "row",

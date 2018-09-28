@@ -58,22 +58,22 @@ export default class OnboardingScreen extends React.Component {
           <Button
           title="Students"
           onPress={this._selectPortalStudent}
-          backgroundColor="skyblue"/>
+          backgroundColor="#5A3DC9"/>
 
           <Button
           title="Consultants"
           onPress={this._selectPortalConsultant}
-          backgroundColor="skyblue"/>
+          backgroundColor="#5A3DC9"/>
 
           <Button
           title="Educators"
           onPress={this._selectPortalSchool}
-          backgroundColor="skyblue"/>
+          backgroundColor="#5A3DC9"/>
 
           <Button
           title="Parents"
           onPress={this._selectPortalParent}
-          backgroundColor="skyblue"/>
+          backgroundColor="#5A3DC9"/>
         </View>
       </SafeAreaView>
     );

@@ -38,7 +38,7 @@ export default class Logout extends React.Component {
                   <Button
                   title="Logout"
                   onPress={() => this.onPressLogout()}
-                  color="powderblue"/>
+                  color="#5A3DC9"/>
                 </View>
 
               </View>
@@ -53,7 +53,7 @@ export default class Logout extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'powderblue',
+      backgroundColor: '#5A3DC9',
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
       height: Metrics.screenHeight*.05,
       borderWidth: 1,
       marginBottom: 55,
-      backgroundColor: 'lightblue',
+      backgroundColor: '#5A3DC9',
       alignItems: 'center',
       justifyContent: 'center',
     },

@@ -126,10 +126,10 @@ export default class TimelineSheet extends React.Component {
           onPress={()=> this.toggleModal()}
           name="plus-circle"
           size={Metrics.icons.medium}
-          color={'lightblue'}
+          color={'#5A3DC9'}
         />
         <Button
-          color='powderblue'
+          color='#5A3DC9'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
           title='Save'
           onPress={() => this.onPressSaveGoals()}/>
@@ -158,7 +158,7 @@ export default class TimelineSheet extends React.Component {
                    onSubmitEditing={(text) => this.setState({goalText: text})}
                    />
                <Button
-                 color='powderblue'
+                 color='#5A3DC9'
                  buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                  title='Add'
                  onPress={() => this.onPressPushGoal()}/>

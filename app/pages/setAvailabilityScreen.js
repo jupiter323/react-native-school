@@ -69,7 +69,7 @@ export default class SetAvailabilityScreen extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'lightblue'}
+        color={'#5A3DC9'}
         onPress={() => navigate('DrawerToggle')}
       />
       )
@@ -90,7 +90,7 @@ export default class SetAvailabilityScreen extends React.Component {
    componentWillMount =async() => {
      console.log(JSON.stringify(this.props.navigation.state.params.bookingDate.dateString));
      console.log("book date prop " + this.state.bookingDate);
-     
+
 
      // this.setState({ bookingDate: this.props.navigation.state.params.bookingDate })
    }

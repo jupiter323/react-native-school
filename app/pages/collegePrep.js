@@ -28,7 +28,7 @@ export default class CollegePrep extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'lightblue'}
+        color={'#5A3DC9'}
         onPress={params.createQuestion}
       />
     ),
@@ -290,12 +290,12 @@ export default class CollegePrep extends React.Component {
                              onSubmitEditing={(text) => this.setState({question: text})}
                              />
                          <Button
-                           color='powderblue'
+                           color='#5A3DC9'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                            title={this.state.currentTopic}
                            onPress={() => this.onPressTopic()}/>
                          <Button
-                           color='powderblue'
+                           color='#5A3DC9'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                            title='Post'
                            onPress={() => this.onPressPostQuestion()}/>

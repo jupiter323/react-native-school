@@ -53,7 +53,7 @@ export default class AnswerComponent extends React.Component {
                 onChangeText={(answer) => this.setState({answer})}
                 placeholder="Your Answer Goes Here"/>
                 <Button
-                  color='powderblue'
+                  color='#5A3DC9'
                   buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                   title='Answer'
                   onPress={() => this.onPressPostQuestion()}/>

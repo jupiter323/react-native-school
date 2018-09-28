@@ -25,7 +25,7 @@ export default class LoggedOut extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'powderblue',
+      backgroundColor: '#5A3DC9',
       alignItems: 'center',
       justifyContent: 'center'
     },

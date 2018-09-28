@@ -49,7 +49,7 @@ export default class ProfileConsultantPreferences extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'lightblue'}
+        color={'#5A3DC9'}
         onPress={() => navigate('DrawerToggle')}
       />
       )
@@ -303,7 +303,7 @@ export default class ProfileConsultantPreferences extends React.Component {
 
                               <Slider
                                 value={this.state.price}
-                                thumbTintColor= 'lightblue'
+                                thumbTintColor= '#5A3DC9'
                                 minimumValue= {5}
                                 maximumValue= {250}
                                 value = {140}
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     marginBottom: 55,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#5A3DC9',
   },
   postButtonText: {
     color: 'white',

@@ -101,10 +101,13 @@ export default class SaleBlock extends React.Component {
       <TouchableOpacity onPress={() => this.openConsultantScreen()}>
         <View style={styles.cardView}>
           <Card style={styles.card}
-              title={this.state.name}
+              // title={this.state.name}
               image={{uri: this.state.profilePicture}}
               imageStyle={{ flex: 1}}
-              imageProps={{ resizeMode: 'contain'}}>
+              imageProps={{ resizeMode: 'cover'}}>
+              <Text style={styles.textStyles}>
+              Name: {this.state.name}
+              </Text>
               <Text style={styles.textStyles}>
               Hometown: {this.state.cityState}
               </Text>
