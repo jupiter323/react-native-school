@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#5A3DC9',
+    color: '#9B59B6',
   },
   buttonNotPressed: {
     color: 'black',

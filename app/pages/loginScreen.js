@@ -324,13 +324,13 @@ export default class Login extends React.Component {
               <MaterialCommunityIcons style={styles.icon}
                 name='shield'
                 size={Metrics.icons.large}
-                color={'#5A3DC9'}
+                color={'#9B59B6'}
                 onPress={() => this.toggleLoginModal()}
               />
               <MaterialCommunityIcons style={styles.icon}
                 name="facebook"
                 size={Metrics.icons.large}
-                color={'#5A3DC9'}
+                color={'#9B59B6'}
                 onPress={() => this.logInWithFacebook()}
               />
             </View>
@@ -375,13 +375,13 @@ export default class Login extends React.Component {
               <MaterialCommunityIcons style={styles.icon}
                 name='shield'
                 size={Metrics.icons.large}
-                color={'#5A3DC9'}
+                color={'#9B59B6'}
                 onPress={() => this.toggleLoginModal()}
               />
               <MaterialCommunityIcons style={styles.icon}
                 name="facebook"
                 size={Metrics.icons.large}
-                color={'#5A3DC9'}
+                color={'#9B59B6'}
                 onPress={() => this.logInWithFacebook()}
               />
             </View>
@@ -433,7 +433,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
     height: Metrics.screenHeight * .05,
     borderWidth: 1,
     marginBottom: 55,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
     height: Metrics.screenHeight * .6,
     borderStyle: 'solid',
     borderWidth: 1.5,
-    borderColor: '#5A3DC9',
+    borderColor: '#9B59B6',
     borderTopWidth: 25,
     alignItems: 'stretch',
     // justifyContent: 'space-around',
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 2,
     shadowOpacity: 0.5,
-    shadowColor: '#5A3DC9',
+    shadowColor: '#9B59B6',
   },
   modalText: {
     alignSelf: 'center',
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#5A3DC9',
+    borderColor: '#9B59B6',
     backgroundColor: 'white',
   },
   modalBtn: {
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 10,
     borderRadius: 10,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
   },
   btnText: {
     color: 'white',

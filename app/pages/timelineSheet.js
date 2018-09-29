@@ -16,6 +16,7 @@ import TimelineBlock from '../components/timelineBlock';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import Metrics from '../Themes/Metrics';
+import { globalStyles } from '../Themes/Styles';
 
 
 export default class TimelineSheet extends React.Component {
@@ -126,10 +127,10 @@ export default class TimelineSheet extends React.Component {
           onPress={()=> this.toggleModal()}
           name="plus-circle"
           size={Metrics.icons.medium}
-          color={'#5A3DC9'}
+          color={'#9B59B6'}
         />
         <Button
-          color='#5A3DC9'
+          color='#9B59B6'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
           title='Save'
           onPress={() => this.onPressSaveGoals()}/>
@@ -150,7 +151,7 @@ export default class TimelineSheet extends React.Component {
 
 
                 </Text>
-                <TextInput style={styles.inputText}
+                <TextInput style={globalStyles.defaultTextInput}
                    placeholder="Ex: When are the common app essays released?"
                    underlineColorAndroid="transparent"
                    multiline={true}
@@ -158,7 +159,7 @@ export default class TimelineSheet extends React.Component {
                    onSubmitEditing={(text) => this.setState({goalText: text})}
                    />
                <Button
-                 color='#5A3DC9'
+                 color='#9B59B6'
                  buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                  title='Add'
                  onPress={() => this.onPressPushGoal()}/>
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
   modalView: {
     // width: Metrics.screenWidth,
     height: Metrics.screenHeight*.6,
+    padding: 15,
     borderStyle: 'solid',
     borderWidth: .5,
     alignItems: 'center',

@@ -7,6 +7,7 @@ import { Card, ListItem, Button, Slider, CheckBox, SearchBar } from 'react-nativ
 import firebase from 'firebase';
 import { WebBrowser } from 'expo';
 import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-check-app-install';
+import metrics from '../Themes/Metrics';
 
 /*
   Displays a Jedi ID Card
@@ -103,7 +104,7 @@ export default class SaleBlock extends React.Component {
           <Card style={styles.card}
               // title={this.state.name}
               image={{uri: this.state.profilePicture}}
-              imageStyle={{ flex: 1}}
+              imageStyle={{ flex: 1, height: metrics.screenWidth - 30}}
               imageProps={{ resizeMode: 'cover'}}>
               <Text style={styles.textStyles}>
               Name: {this.state.name}

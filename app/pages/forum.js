@@ -10,6 +10,7 @@ import firebase from 'firebase';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import LoggedOut from '../components/loggedOutScreen';
+import { globalStyles } from '../Themes/Styles';
 
 const {width, height} = Dimensions.get('window');
 
@@ -28,7 +29,7 @@ export default class Forum extends React.Component {
       <Feather style={{ marginLeft: 15}}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#5A3DC9'}
+        color={'#9B59B6'}
         onPress={() => navigate('DrawerToggle')}
       />
     ),
@@ -36,7 +37,7 @@ export default class Forum extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'#5A3DC9'}
+        color={'#9B59B6'}
         onPress={params.createQuestion}
       />
     ),
@@ -291,7 +292,7 @@ export default class Forum extends React.Component {
 
 
                           </Text>
-                          <TextInput style={styles.inputText}
+                          <TextInput style={globalStyles.defaultTextInput}
                              placeholder="Ex: When are the common app essays released?"
                              underlineColorAndroid="transparent"
                              multiline={true}
@@ -299,12 +300,12 @@ export default class Forum extends React.Component {
                              onSubmitEditing={(text) => this.setState({question: text})}
                              />
                          <Button
-                           color='#5A3DC9'
+                           color='#9B59B6'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                            title={this.state.currentTopic}
                            onPress={() => this.onPressTopic()}/>
                          <Button
-                           color='#5A3DC9'
+                           color='#9B59B6'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                            title='Post'
                            onPress={() => this.onPressPostQuestion()}/>
@@ -475,6 +476,7 @@ modalViewTopic: {
 modalViewQuestion: {
   // width: Metrics.screenWidth,
   height: Metrics.screenHeight*.6,
+  padding: 15,
   borderStyle: 'solid',
   borderWidth: .5,
   alignItems: 'center',

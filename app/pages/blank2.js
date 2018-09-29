@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   },
   movingView: {
     flex: 1,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   },
   buyingView: {
     flex: 1,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
     padding : 20,
     width : 200,
     borderRadius : 10,
-    backgroundColor : '#5A3DC9',
+    backgroundColor : '#9B59B6',
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center'

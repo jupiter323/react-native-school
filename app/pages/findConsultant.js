@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList,
-  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Button, AsyncStorage } from 'react-native';
+import {
+  StyleSheet, Text, View, Image, ActivityIndicator, SectionList,
+  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Button, AsyncStorage
+} from 'react-native';
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import Colors from '../Themes/Colors';
@@ -14,82 +16,82 @@ import SelectMultiple from 'react-native-select-multiple';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { globalStyles } from '../Themes/Styles';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const items = [
   {
     name: "Consultant Type",
     id: 0,
     children: [{
-        name: "IECA",
-        id: "IECA",
-      },{
-        name: "Current College Student",
-        id: "College Student",
-      }]
+      name: "IECA",
+      id: "IECA",
+    }, {
+      name: "Current College Student",
+      id: "College Student",
+    }]
   },
   {
     name: "Specialties",
     id: 1,
     children: [{
-        name: "Extracurriculars in High School",
-        id: "Extracurriculars in High School",
-      },{
-        name: "Grades in College",
-        id: "Grades in College",
-      },{
-        name: "Fun in College",
-        id: "Fun in College",
-      },{
-        name: "Transitioning to College",
-        id: "Transitioning to College",
-      },{
-        name: "Internships",
-        id: "Internships",
-      }]
+      name: "Extracurriculars in High School",
+      id: "Extracurriculars in High School",
+    }, {
+      name: "Grades in College",
+      id: "Grades in College",
+    }, {
+      name: "Fun in College",
+      id: "Fun in College",
+    }, {
+      name: "Transitioning to College",
+      id: "Transitioning to College",
+    }, {
+      name: "Internships",
+      id: "Internships",
+    }]
   },
   {
-  name: "Hourly or Packages",
-  id: 2,
-  children: [{
+    name: "Hourly or Packages",
+    id: 2,
+    children: [{
       name: "Just Hourly",
       id: "Just Hourly",
-    },{
+    }, {
       name: "Just Packages",
       id: "Just Packages",
-    },{
+    }, {
       name: "Both",
       id: "Both",
     }]
-    },
-  ]
+  },
+]
 /*
   Displays information about Jedi
 */
 export default class FindConsultant extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
-  const params = navigation.state.params || {};
-  const { navigate } = navigation;
-  return {
-    headerTitle: 'Find A Consultant',
-    title: 'Find A Consultant',
-    headerLeft: (
-      <Feather style={styles.icon}
-        name="menu"
-        size={Metrics.icons.medium}
-        color={'#5A3DC9'}
-        onPress={() => navigate('DrawerToggle')}
-      />
+    const params = navigation.state.params || {};
+    const { navigate } = navigation;
+    return {
+      headerTitle: 'Find A Consultant',
+      title: 'Find A Consultant',
+      headerLeft: (
+        <Feather style={styles.icon}
+          name="menu"
+          size={Metrics.icons.medium}
+          color={'#9B59B6'}
+          onPress={() => navigate('DrawerToggle')}
+        />
       )
     }
-};
+  };
 
 
   constructor(props) {
     super(props);
     this.state = {
-      jedisSectioned: [{title: 'Jedis',data:[]}],
+      jedisSectioned: [{ title: 'Jedis', data: [] }],
       buttonText: 'Show me your ID Card!',
       loading: false,
       refreshing: false,
@@ -121,81 +123,81 @@ export default class FindConsultant extends React.Component {
 
     var database = firebase.database();
     database.ref('consultants').on('child_added', (snapshot) => {
-    console.log("testing enter firebase ref");
-    var childKey = snapshot.key;
-    console.log("key " + childKey);
-    var childData = snapshot.val();
-    childData.key = childKey;
-    console.log("child data pulled" + JSON.stringify(childData));
-  //   console.log("portal " + childData.portal);
-  //   console.log("portal " + typeof childData.portal);
-  //   if (childData.name !== undefined) {
-  //   name = childData.name.toLowerCase();
-  // } else {
-  //   name = 'Placeholder';
-  // }
-  //   searchTextLowercase = this.state.searchText.toLowerCase();
-  //   var specialties1 = childData.specialties;
-  //   var typeConsultant = childData.type;
-  //   console.log("specialties yippee kiyay " + specialties1);
-  //   console.log("selectedItems " + this.state.selectedItems);
-  //   //the next block of code checks for if the consultant fulfills all of the applied filters
-  //   if ((this.state.selectedItems != "") && (childData.portal == "consultant")) {
-  //     // if (this.state.selectedSpecialtiesArray == true) {
-  //     //   await this.setState({ selectedConsultantTypeArray: false });
-  //     // }
-  //     // if (this.state.selectedAvailabilityPreferences == true) {
-  //     //
-  //     // }
-  //     // if (this.state.selectedConsultantType == true) {
-  //     //
-  //     // }
-  //     var comparisonArray = this.state.selectedItemsComparisonArray;
-  //       comparisonArray.push(childData.type);
-  //     if (this.state.selectedSpecialties == true) {
-  //       childData.specialties.forEach(function(element) {
-  //       comparisonArray.push(element.value);
-  //     });
-  //   }
-  //     comparisonArray.push(childData.availabilityPreferences);
-  //     console.log("comparisonArray " + comparisonArray);
-  //     console.log("comparisonArray string" + JSON.stringify(comparisonArray));
-  //     var stringSelections = JSON.stringify(this.state.selectedItems);
-  //             var yes = 0;
-  //             var total = 0;
-  //           this.state.selectedItems.forEach(function(element) {
-  //             total ++;
-  //             console.log("inner if statement selectedItems " + stringSelections);
-  //             console.log("value " + element);
-  //             if (comparisonArray.includes(element)) {
-  //               yes++;
-  //             };
-  //           });
-  //           if (yes == total) {
-  //             filterPass = true;
-  //           }
-  //
-  // } else {
-  //   filterPass = true;
-  // }
-  //   // if ((childData.portal === 'consultant') & itemName.includes(searchTextLowercase)) {
-  //   // console.log("array check " + this.state.selectedConsultantType.includes(childData.type));
-  //   // console.log("select consultant type " + this.state.selectedConsultantType);
-  //   // console.log("childData type" + childData.type);
-  //   //  (this.state.selectedConsultantType.includes(childData.type);
-  //     // specialties1.forEach(function(element) {
-  //     //   console.log(element);
-  //     // });
-    // if ((childData.portal == "consultant") && (name.includes(searchTextLowercase)) && (filterPass == true)) {
-      // console.log("firebase specialties " + specialties);
-        jedisList.push(childData);
-        console.log("jedis " + JSON.stringify(jedisList));
+      console.log("testing enter firebase ref");
+      var childKey = snapshot.key;
+      console.log("key " + childKey);
+      var childData = snapshot.val();
+      childData.key = childKey;
+      console.log("child data pulled" + JSON.stringify(childData));
+      //   console.log("portal " + childData.portal);
+      //   console.log("portal " + typeof childData.portal);
+      //   if (childData.name !== undefined) {
+      //   name = childData.name.toLowerCase();
       // } else {
-        // console.log(childData.portal);
+      //   name = 'Placeholder';
       // }
-    this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-    console.log(childData);
-});
+      //   searchTextLowercase = this.state.searchText.toLowerCase();
+      //   var specialties1 = childData.specialties;
+      //   var typeConsultant = childData.type;
+      //   console.log("specialties yippee kiyay " + specialties1);
+      //   console.log("selectedItems " + this.state.selectedItems);
+      //   //the next block of code checks for if the consultant fulfills all of the applied filters
+      //   if ((this.state.selectedItems != "") && (childData.portal == "consultant")) {
+      //     // if (this.state.selectedSpecialtiesArray == true) {
+      //     //   await this.setState({ selectedConsultantTypeArray: false });
+      //     // }
+      //     // if (this.state.selectedAvailabilityPreferences == true) {
+      //     //
+      //     // }
+      //     // if (this.state.selectedConsultantType == true) {
+      //     //
+      //     // }
+      //     var comparisonArray = this.state.selectedItemsComparisonArray;
+      //       comparisonArray.push(childData.type);
+      //     if (this.state.selectedSpecialties == true) {
+      //       childData.specialties.forEach(function(element) {
+      //       comparisonArray.push(element.value);
+      //     });
+      //   }
+      //     comparisonArray.push(childData.availabilityPreferences);
+      //     console.log("comparisonArray " + comparisonArray);
+      //     console.log("comparisonArray string" + JSON.stringify(comparisonArray));
+      //     var stringSelections = JSON.stringify(this.state.selectedItems);
+      //             var yes = 0;
+      //             var total = 0;
+      //           this.state.selectedItems.forEach(function(element) {
+      //             total ++;
+      //             console.log("inner if statement selectedItems " + stringSelections);
+      //             console.log("value " + element);
+      //             if (comparisonArray.includes(element)) {
+      //               yes++;
+      //             };
+      //           });
+      //           if (yes == total) {
+      //             filterPass = true;
+      //           }
+      //
+      // } else {
+      //   filterPass = true;
+      // }
+      //   // if ((childData.portal === 'consultant') & itemName.includes(searchTextLowercase)) {
+      //   // console.log("array check " + this.state.selectedConsultantType.includes(childData.type));
+      //   // console.log("select consultant type " + this.state.selectedConsultantType);
+      //   // console.log("childData type" + childData.type);
+      //   //  (this.state.selectedConsultantType.includes(childData.type);
+      //     // specialties1.forEach(function(element) {
+      //     //   console.log(element);
+      //     // });
+      // if ((childData.portal == "consultant") && (name.includes(searchTextLowercase)) && (filterPass == true)) {
+      // console.log("firebase specialties " + specialties);
+      jedisList.push(childData);
+      console.log("jedis " + JSON.stringify(jedisList));
+      // } else {
+      // console.log(childData.portal);
+      // }
+      this.setState({ loading: false, refreshing: false, jedisSectioned: [{ title: 'Jedis', data: jedisList }] });
+      console.log(childData);
+    });
 
     // var jedisList = this.state.jedisSectioned[0].data.slice();
     // this.setState({loading: true});
@@ -218,21 +220,21 @@ export default class FindConsultant extends React.Component {
 
   componentWillMount() {
     this.checkIfUserLoggedIn();
-    this.appendJedis(3,1);
+    this.appendJedis(3, 1);
     // console.log(this.state.jedis);
   }
 
-  checkIfUserLoggedIn = async() => {
+  checkIfUserLoggedIn = async () => {
     const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
     if (loginCheck === "true") {
-      await this.setState({hasLoggedIn: true});
+      await this.setState({ hasLoggedIn: true });
       console.log("hasLoggedIn" + this.state.hasLoggedIn);
       console.log("metroooooooo");
     }
-   }
+  }
 
-  toggleModal =() => {
-    this.setState({isModalVisible: !this.state.isModalVisible});
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
   onPressCategory() {
@@ -242,16 +244,16 @@ export default class FindConsultant extends React.Component {
   listItemRenderer(item) {
     return (
       <SaleBlock
-      jedi={item}
-      bookAppointment={this.bookAppointment}
-      selectConsultant={this.selectConsultant}/>
+        jedi={item}
+        bookAppointment={this.bookAppointment}
+        selectConsultant={this.selectConsultant} />
     );
   }
 
   async loadMore(count, start) {
     if (start > 1 && !this.state.refreshing && !this.state.loading) {
-      this.setState({loading: true});
-      await this.appendJedis(count,start);
+      this.setState({ loading: true });
+      await this.appendJedis(count, start);
     }
   }
 
@@ -259,157 +261,154 @@ export default class FindConsultant extends React.Component {
 
 
   resetList = async () => {
-    await this.setState({refreshing: true, jedisSectioned: [{title: 'Jedis', data:[]}]});
-    this.appendJedis(3,1);
+    await this.setState({ refreshing: true, jedisSectioned: [{ title: 'Jedis', data: [] }] });
+    this.appendJedis(3, 1);
     console.log("selectedItems " + JSON.stringify(this.state.selectedItems));
   }
 
-  onPressMiscellaneous = async() => {
-    await this.setState({ isModalVisible: false, currentCategory: 'Miscellaneous'});
+  onPressMiscellaneous = async () => {
+    await this.setState({ isModalVisible: false, currentCategory: 'Miscellaneous' });
     console.log(this.state.currentCategory);
 
     this.resetList();
   }
 
-  onSelectedItemsChange = async(selectedItems) => {
-   this.setState({ selectedItems });
-   console.log("typeof " + typeof this.state.selectedItems);
-   var selectedItemsString = JSON.stringify(selectedItems);
-   console.log("selectedItemsString " + selectedItemsString);
-   console.log("typeof string" + typeof selectedItemsString);
-   if (selectedItemsString.includes("IECA") || selectedItemsString.includes("Current College Student")) {
-     await this.setState({ selectedConsultantType: true });
-   } else {
-     await this.setState({ selectedConsultantType: false });
-   }
-   if (selectedItemsString.includes("Just Hourly") || selectedItemsString.includes("Just Packages") || selectedItemsString.includes("Both")) {
-     await this.setState({ selectedAvailabilityPreferences: true });
-   } else {
-    await  this.setState({ selectedAvailabilityPreferences: false });
-   }
-   if (selectedItemsString.includes("Extracurriculars in High School") || selectedItemsString.includes("Grades in College") || selectedItemsString.includes("Internships")
-   || selectedItemsString.includes("Transitioning to College") || selectedItemsString.includes("Fun in College")) {
-    await  this.setState({ selectedSpecialties: true });
-   } else {
-    await this.setState({ selectedSpecialties: false });
-   }
-   console.log("type " + this.state.selectedConsultantType);
-   console.log("availabilityPreferences " + this.state.selectedAvailabilityPreferences);
-   console.log("specialties " + this.state.selectedSpecialties);
- }
-
-  bookAppointment= async (item) => {
-    this.props.navigation.navigate('CalendarOtherScreen', {item: item});
+  onSelectedItemsChange = async (selectedItems) => {
+    this.setState({ selectedItems });
+    console.log("typeof " + typeof this.state.selectedItems);
+    var selectedItemsString = JSON.stringify(selectedItems);
+    console.log("selectedItemsString " + selectedItemsString);
+    console.log("typeof string" + typeof selectedItemsString);
+    if (selectedItemsString.includes("IECA") || selectedItemsString.includes("Current College Student")) {
+      await this.setState({ selectedConsultantType: true });
+    } else {
+      await this.setState({ selectedConsultantType: false });
+    }
+    if (selectedItemsString.includes("Just Hourly") || selectedItemsString.includes("Just Packages") || selectedItemsString.includes("Both")) {
+      await this.setState({ selectedAvailabilityPreferences: true });
+    } else {
+      await this.setState({ selectedAvailabilityPreferences: false });
+    }
+    if (selectedItemsString.includes("Extracurriculars in High School") || selectedItemsString.includes("Grades in College") || selectedItemsString.includes("Internships")
+      || selectedItemsString.includes("Transitioning to College") || selectedItemsString.includes("Fun in College")) {
+      await this.setState({ selectedSpecialties: true });
+    } else {
+      await this.setState({ selectedSpecialties: false });
+    }
+    console.log("type " + this.state.selectedConsultantType);
+    console.log("availabilityPreferences " + this.state.selectedAvailabilityPreferences);
+    console.log("specialties " + this.state.selectedSpecialties);
   }
 
-  selectConsultant= async (key) => {
-    this.props.navigation.navigate('SelectConsultant', {key: key});
+  bookAppointment = async (item) => {
+    this.props.navigation.navigate('CalendarOtherScreen', { item: item });
+  }
+
+  selectConsultant = async (key) => {
+    this.props.navigation.navigate('SelectConsultant', { key: key });
   }
 
   render() {
 
     if (!this.state.hasLoggedIn) {
-        return (<LoggedOut/>);
+      return (<LoggedOut />);
     } else {
 
-    return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <SafeAreaView style={styles.container}>
 
-                <View style={styles.purchaseBox}>
+            <View style={styles.purchaseBox}>
 
-                <SearchBar
-                  lightTheme
-                  round
-                  onChangeText={(searchText) => this.setState({searchText})}
-                  onClearText={console.log('')}
-                  onSubmitEditing={() => this.resetList()}
-                  icon={{ type: 'font-awesome', name: 'search' }}
-                  containerStyle={{width: Metrics.screenWidth*.95, marginBottom: 10}}
-                  placeholder='Search For Consultant...'
-                  />
+              <SearchBar
+                lightTheme
+                round
+                onChangeText={(searchText) => this.setState({ searchText })}
+                onClearText={console.log('')}
+                onSubmitEditing={() => this.resetList()}
+                icon={{ type: 'font-awesome', name: 'search' }}
+                containerStyle={{ width: Metrics.screenWidth * .95, marginTop: 20, marginBottom: 10 }}
+                placeholder='Search For Consultant...'
+              />
 
-                <View style={{height: 200, width: Metrics.screenWidth*.9, justifyContent: 'center', marginBottom: 10}}>
-                  <Slider
-                    value={this.state.price}
-                    thumbTintColor= '#5A3DC9'
-                    minimumValue= {5}
-                    maximumValue= {250}
-                    value = {140}
-                    step={1}
-                    onValueChange={(price) => this.setState({price})}
-                    onSlidingComplete={() => this.resetList()}
-                   />
-                  <Text>Maximum Price: ${this.state.price}</Text>
+              <View style={{ height: 200, width: Metrics.screenWidth * .9, justifyContent: 'center', marginBottom: 10 }}>
+                <Slider
+                  value={this.state.price}
+                  thumbTintColor='#9B59B6'
+                  minimumValue={5}
+                  maximumValue={250}
+                  value={140}
+                  step={1}
+                  onValueChange={(price) => this.setState({ price })}
+                  onSlidingComplete={() => this.resetList()}
+                />
+                <Text>Maximum Price: ${this.state.price}</Text>
 
-                  <SectionedMultiSelect
-                    ref={SectionedMultiSelect => {this.SectionedMultiSelect = SectionedMultiSelect}}
-                    items={items}
-                    uniqueKey='id'
-                    subKey='children'
-                    selectText='Choose some things...'
-                    style={{ backgroundColor: 'red'}}
-                    styles={{
-                      selectToggle: [{flex: 'auto', marginTop: 15,}, globalStyles.btn],
-                      selectToggleText: globalStyles.btnText,
-                    }}
-                    showDropDowns={true}
-                    readOnlyHeadings={true}
-                    onSelectedItemsChange={this.onSelectedItemsChange}
-                    selectedItems={this.state.selectedItems}
-                    showCancelButton={true}
-                    showChips={false}
-                    onConfirm={() => this.resetList()}
-                    selectToggleIconComponent={
-                      <Icon type="material" name="add" color="white" />
-                      // <CheckBox
-                      //   center
-                      //   // title={"Filter Consultants"}
-                      //   iconRight
-                      //   iconType='material'
-                      //   uncheckedIcon='add'
-                      //   containerStyle={{width: '100%', height: 40, alignSelf: 'center'}}
-                      //   onPress={() => this.SectionedMultiSelect._toggleSelector()}
-                      // />
-                    }
-                  />
-                </View>
+                <SectionedMultiSelect
+                  ref={SectionedMultiSelect => { this.SectionedMultiSelect = SectionedMultiSelect }}
+                  items={items}
+                  uniqueKey='id'
+                  subKey='children'
+                  selectText='Choose some things...'
+                  style={{ backgroundColor: 'red' }}
+                  styles={{
+                    selectToggle: [{ flex: 'auto', marginTop: 15, }, globalStyles.btn],
+                    selectToggleText: globalStyles.btnText,
+                  }}
+                  showDropDowns={true}
+                  readOnlyHeadings={true}
+                  onSelectedItemsChange={this.onSelectedItemsChange}
+                  selectedItems={this.state.selectedItems}
+                  showCancelButton={true}
+                  showChips={false}
+                  onConfirm={() => this.resetList()}
+                  selectToggleIconComponent={
+                    <Icon type="material" name="add" color="white" />
+                    // <CheckBox
+                    //   center
+                    //   // title={"Filter Consultants"}
+                    //   iconRight
+                    //   iconType='material'
+                    //   uncheckedIcon='add'
+                    //   containerStyle={{width: '100%', height: 40, alignSelf: 'center'}}
+                    //   onPress={() => this.SectionedMultiSelect._toggleSelector()}
+                    // />
+                  }
+                />
+              </View>
 
-                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
-                  </View>
+              </View>
 
-                </View>
+            </View>
 
-                <View style={styles.itemList}>
-                  <SectionList
-                    sections={this.state.jedisSectioned}
-                    // onEndReached={() => this.loadMore(3,this.state.jedisSectioned[0].data.length+1)}
-                    renderItem={({item}) => this.listItemRenderer(item)}
-                    ItemSeparatorComponent = {() => (<View style={{height: 10}}/>)}
-                    keyExtractor={this._keyExtractor}
-                    contentContainerStyle = {{alignItems: 'center'}}
-                    onRefresh = {() => this.resetList()}
-                    refreshing = {this.state.refreshing}
-                    removeClippedSubviews = {true}
-                    ListFooterComponent = {this.state.refreshing ? <ActivityIndicator /> : <View />}
-                  />
-                </View>
+            <View style={styles.itemList}>
+              <SectionList
+                sections={this.state.jedisSectioned}
+                // onEndReached={() => this.loadMore(3,this.state.jedisSectioned[0].data.length+1)}
+                renderItem={({ item }) => this.listItemRenderer(item)}
+                ItemSeparatorComponent={() => (<View style={{ height: 10 }} />)}
+                keyExtractor={this._keyExtractor}
+                contentContainerStyle={{ alignItems: 'center' }}
+                onRefresh={() => this.resetList()}
+                refreshing={this.state.refreshing}
+                removeClippedSubviews={true}
+                ListFooterComponent={this.state.refreshing ? <ActivityIndicator /> : <View />}
+              />
+            </View>
           </SafeAreaView>
-      </TouchableWithoutFeedback>
-    );
+        </TouchableWithoutFeedback>
+      );
 
+    }
   }
-}
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: 40,
     backgroundColor: Colors.snow,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   header: {
     height: 60,
@@ -426,9 +425,7 @@ const styles = StyleSheet.create({
   purchaseBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    height: 200,
-    width: Metrics.width*.9,
+    width: Metrics.width * .9,
   },
   textStyles: {
     justifyContent: 'center',
@@ -439,28 +436,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   itemList: {
-  height: Metrics.screenHeight*.6,
-  width: Metrics.screenWidth,
-  paddingTop: 10,
-},
-modalView: {
-  // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.6,
-  borderStyle: 'solid',
-  borderWidth: .5,
-  alignItems: 'center',
-  justifyContent: 'space-around',
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-},
-modalText: {
-  fontSize: 24,
-  fontWeight: 'bold',
-},
-icon: {
-  marginLeft: 15,
-}
+    height: Metrics.screenHeight * .6,
+    width: Metrics.screenWidth,
+    paddingTop: 10,
+  },
+  modalView: {
+    // width: Metrics.screenWidth,
+    height: Metrics.screenHeight * .6,
+    borderStyle: 'solid',
+    borderWidth: .5,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  icon: {
+    marginLeft: 15,
+  }
 });

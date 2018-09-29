@@ -30,7 +30,7 @@ export default class Resources extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#5A3DC9'}
+        color={'#9B59B6'}
         onPress={() => navigate('DrawerToggle')}
       />
       )

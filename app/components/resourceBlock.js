@@ -16,7 +16,7 @@ import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons
 */
 export default class AvailabilityBlock extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -27,65 +27,80 @@ export default class AvailabilityBlock extends React.Component {
     console.log(JSON.stringify("AvailabilityBlock props " + JSON.stringify(props)));
   }
 
-//   componentWillMount= async() => {
-//
-//   var userUID = firebase.auth().currentUser.uid;
-//   var name;
-//   console.log("uid " + userUID);
-//   var that = this;
-//
-//   firebase.auth().onAuthStateChanged(function(user) {
-//     if (user) {
-//       console.log(" User is signed in.");
-//       // console.log("name " + firebase.database().ref('users').child(userUID).child('name'));
-//       firebase.database().ref('users').child(userUID).on('value', function(snapshot) {
-//         var childKey = snapshot.key;
-//         var childData = snapshot.val();
-//         childData.key = childKey;
-//         id = childData.uid;
-//         that.setState({ userID: id});
-//       });
-//     } else {
-//       console.log(" User is not signed in.");
-//     }
-//   });
-// }
+  //   componentWillMount= async() => {
+  //
+  //   var userUID = firebase.auth().currentUser.uid;
+  //   var name;
+  //   console.log("uid " + userUID);
+  //   var that = this;
+  //
+  //   firebase.auth().onAuthStateChanged(function(user) {
+  //     if (user) {
+  //       console.log(" User is signed in.");
+  //       // console.log("name " + firebase.database().ref('users').child(userUID).child('name'));
+  //       firebase.database().ref('users').child(userUID).on('value', function(snapshot) {
+  //         var childKey = snapshot.key;
+  //         var childData = snapshot.val();
+  //         childData.key = childKey;
+  //         id = childData.uid;
+  //         that.setState({ userID: id});
+  //       });
+  //     } else {
+  //       console.log(" User is not signed in.");
+  //     }
+  //   });
+  // }
 
-navigateResource() {
-  this.props.navigation.navigate(this.props.jedi.item.navigationPath);
-}
+  navigateResource() {
+    this.props.navigation.navigate(this.props.jedi.item.navigationPath);
+  }
 
   componentDidMount() {
-    this.setState({ time: this.props.jedi.item.key})
+    this.setState({ time: this.props.jedi.item.key })
   }
 
   render() {
-          return (
-            <TouchableOpacity onPress={() => this.navigateResource()}>
-              <View style={styles.cardView}>
-                <Card
-                containerStyle= {this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
-                wrapperStyle= {this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
-                    title={this.props.jedi.item.key}>
-                    </Card>
+    return (
+      <TouchableOpacity onPress={() => this.navigateResource()}>
+        <View style={styles.cardView}>
+          <Card
+            containerStyle={this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
+            wrapperStyle={this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
+            title={this.props.jedi.item.key}
+            titleStyle={this.state.cardSelected ? styles.cardTitleSelected : styles.cardTitleNotSelected}>
+          </Card>
 
-              </View>
-            </TouchableOpacity>
-            );
+        </View>
+      </TouchableOpacity>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   cardView: {
-    width: Metrics.screenWidth,
+    width: Metrics.screenWidth - 30,
+    height: Metrics.screenHeight * .1,
+    marginHorizontal: 15,
+    marginBottom: 15,
     borderRadius: Metrics.buttonRadius,
-    height: Metrics.screenHeight* .1,
+    backgroundColor: 'red',
   },
   cardSelected: {
-    backgroundColor: '#5A3DC9',
+    margin: 0,
+    borderRadius: Metrics.buttonRadius,
+    backgroundColor: '#9B59B6',
   },
   cardNotSelected: {
+    margin: 0,
+    borderRadius: Metrics.buttonRadius,
     backgroundColor: 'white',
+    borderColor: '#9B59B6',
+  },
+  cardTitleSelected: {
+    color: 'white',
+  },
+  cardTitleNotSelected: {
+    color: '#9B59B6',
   },
   pictureView: {
     marginLeft: Metrics.marginHorizontal,
@@ -122,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#5A3DC9',
+    color: '#9B59B6',
   },
   buttonNotPressed: {
     color: 'black',

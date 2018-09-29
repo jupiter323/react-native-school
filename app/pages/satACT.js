@@ -37,7 +37,7 @@ export default class SATACT extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'#5A3DC9'}
+        color={'#9B59B6'}
         onPress={params.createQuestion}
       />
     ),

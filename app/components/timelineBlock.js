@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     height: Metrics.screenHeight* .1,
   },
   cardSelected: {
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
   },
   cardNotSelected: {
     backgroundColor: 'white',
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#5A3DC9',
+    color: '#9B59B6',
   },
   buttonNotPressed: {
     color: 'black',

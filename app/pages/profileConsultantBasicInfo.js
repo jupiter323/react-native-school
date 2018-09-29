@@ -41,7 +41,7 @@ export default class ProfileConsultantBasicInfo extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#5A3DC9'}
+        color={'#9B59B6'}
         onPress={() => navigate('DrawerToggle')}
       />
       )
@@ -218,12 +218,12 @@ export default class ProfileConsultantBasicInfo extends React.Component {
           <Button
             onPress={() => this.onPressUploadPicture()}
             title="Upload Profile Pic"
-            color="#5A3DC9"
+            color="#9B59B6"
           />
           <Button
             onPress={() => this.onPressTakePicture()}
             title="Take Profile Pic"
-            color="#5A3DC9"/>
+            color="#9B59B6"/>
         </View>)
 
     } else {
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     marginBottom: 55,
-    backgroundColor: '#5A3DC9',
+    backgroundColor: '#9B59B6',
   },
   postButtonText: {
     color: 'white',
