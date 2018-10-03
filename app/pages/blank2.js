@@ -54,8 +54,11 @@ componentWillMount() {
   });
   this.getAllHistory();
   this.getPlatformBalance(); 
-  this.setState({totalPrice : this.props.navigation.state.params.totalPrice});
-  console.log("TotalPrice : " + this.props.navigation.state.params.totalPrice);  
+  if(this.props.navigation.state.params.totalPrice != undefined){
+    this.setState({totalPrice : this.props.navigation.state.params.totalPrice});
+    console.log("TotalPrice : " + this.props.navigation.state.params.totalPrice);
+  }
+    
 }
 
 // register new credit card and get token

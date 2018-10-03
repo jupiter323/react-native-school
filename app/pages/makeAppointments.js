@@ -198,7 +198,7 @@ export default class MakeAppointments extends React.Component {
     // this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
   // } else {
       this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
-      this.props.navigation.navigate('InsertCardScreen',{totalPrice :this.state.totalPrice});
+      this.props.navigation.navigate('InputCreditCard',{totalPrice :this.state.totalPrice});
     }
   }
 
