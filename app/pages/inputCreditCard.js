@@ -32,7 +32,9 @@ export default class InputCreditCard extends React.Component {
           cvc : '',
           uid : firebase.auth().currentUser.uid,
           valid : false,
+          consultantId : '',
           totalPrice : 0,
+          bookingStatus : false,
           destination : '',
           chargeId : ''
         };
@@ -44,6 +46,7 @@ export default class InputCreditCard extends React.Component {
         this.getAllHistory();
         this.getPlatformBalance(); 
         this.setState({totalPrice : this.props.navigation.state.params.totalPrice});
+        this.setState({consultantId : this.props.navigation.state.params.consultantId});
         console.log("TotalPrice : " + this.props.navigation.state.params.totalPrice);
           
       }
@@ -101,7 +104,7 @@ export default class InputCreditCard extends React.Component {
        // create new charge from credit card to platform account
        // parameters :  charge amount, source or token
       createCharge =async(amount,token) => {
-        
+        await this.setState({bookingStatus : true});
           var chargeDetails = {
             "amount": amount,
             "description" : "Charge for appointment",
@@ -131,13 +134,57 @@ export default class InputCreditCard extends React.Component {
               console.log("charge " + JSON.stringify(solved));
               this.getAllHistory();
               this.getPlatformBalance();
+              
               Alert.alert("Your money is locked for appointments! If you complete this appointment, it will be released to consultant.");
              });
            }).catch((error) => {
               console.error(error);
             });
        }
-       
+       // create new transfer from platform account to consultant account
+        // parameers : transfer amount, firebase id of consultant
+        createTransfer =async(amount, consultant_id) => {
+        
+            firebase.database().ref('stripe_customers').child(consultant_id).child('account').once('value')
+            .then(value=>{
+            this.setState({destination : value.val()['id']});
+            console.log(this.state.destination);
+            var chargeDetails = {
+                "amount" : amount,
+                "currency" : 'usd',
+                "source_transaction" : this.state.chargeId,
+                "destination" : value.val()['id']
+                };
+        
+            var formBody = [];
+            for (var property in chargeDetails) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(chargeDetails[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+            return fetch(stripe_url + 'transfers', {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formBody
+            }).then((response) => {
+                response.json().then(solved => {
+                console.log("Transfer " + JSON.stringify(solved));
+                this.getAllHistory();
+                this.getPlatformBalance();
+                this.getConsultantBalance(consultant_id);
+                });
+            }).catch((error) => {
+                console.error(error);
+                });
+            });  
+        }
+        
+        
        // get current balance of platform account
        getPlatformBalance  = async() => {
           return fetch(stripe_url + 'balance', {
@@ -176,6 +223,31 @@ export default class InputCreditCard extends React.Component {
         });
        }
       
+        // get the balance of selected consultant.
+        // it will be called after completion of appointment, so will update firebase database
+        getConsultantBalance = async(consultant_id) => {
+            return fetch(stripe_url + 'balance', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + 'sk_test_api6b2ZD9ce6IRqwOLqaFbZU',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Stripe-Account' : this.state.destination
+            }
+            }).then((response) => {
+            response.json().then(solved => {
+                firebase.database().ref('stripe_customers').child(consultant_id).child('balance').set(solved);        
+            });
+            }).catch((error) => {
+            console.error(error);
+            });
+        }
+
+       appointmentComplete = async() => {
+            await this.createTransfer(Math.floor(this.state.amount*0.95), this.state.consultant_id)
+            await this.setState({bookingStatus : false});
+       }
+
         render() {
           const { navigate } = this.props.navigation;
           return (
@@ -198,9 +270,16 @@ export default class InputCreditCard extends React.Component {
                   onFocus={this._onFocus}
                   onChange={this._onChange}
                 />
-                <TouchableOpacity style={styles.buttonContainer} onPress={this.createToken}>
-                  <Text style={styles.buttonText}>Charge Now!</Text>
-                  </TouchableOpacity>
+                {
+                    this.state.bookingStatus?            
+                    <TouchableOpacity style={styles.buttonContainer}  onPress={this.appointmentComplete}>
+                    <Text style={styles.buttonText}>Complete</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity  style={styles.buttonContainer}  onPress={this.createToken}>
+                    <Text style={styles.buttonText}>Charge Now!</Text>
+                    </TouchableOpacity>
+                } 
                 </ScrollView>
               </View>
            </View>
