@@ -67,7 +67,7 @@ export default class MakeAppointments extends React.Component {
       year: '',
       month: '',
       day: '',
-      currentUserID: '',
+      price : 0
     }
     //see what props App.js is constructed with:
     console.log("make appointment screen props " + JSON.stringify(props));
@@ -198,6 +198,7 @@ export default class MakeAppointments extends React.Component {
     // this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
   // } else {
       this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
+      this.props.navigation.navigate('InsertCardScreen',{totalPrice :this.state.totalPrice});
     }
   }
 
@@ -210,7 +211,8 @@ export default class MakeAppointments extends React.Component {
     }
     var user = firebase.auth().currentUser;
     if (user) {
-      this.setState({currentUserID: user.uid })
+      this.setState({currentUserID: user.uid });
+      this.toggleAppointmentModal();
     } else {
       // No user is signed in.
       // alert("Please Sign In");
