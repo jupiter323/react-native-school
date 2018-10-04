@@ -45,11 +45,11 @@ export default class SelectConsultant extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({price: this.props.navigation.state.params.item.price, name: this.props.navigation.state.params.item.name,
-    // item: this.props.navigation.state.params.item, description: this.props.navigation.state.params.item.description, sellerName: this.props.navigation.state.params.item.seller,
-    // image: this.props.navigation.state.params.item.profilePicture, bio: this.props.navigation.state.params.item.bio,
-    // hometown: this.props.navigation.state.params.item.cityState, experience: this.props.navigation.state.params.item.years,
-    // affiliation: this.props.navigation.state.params.item.schoolName, specialties: this.props.navigation.state.params.item.specialties});
+    this.setState({price: this.props.navigation.state.params.item.price, name: this.props.navigation.state.params.item.name,
+    item: this.props.navigation.state.params.item, description: this.props.navigation.state.params.item.description, sellerName: this.props.navigation.state.params.item.seller,
+    image: this.props.navigation.state.params.item.profilePicture, bio: this.props.navigation.state.params.item.bio,
+    hometown: this.props.navigation.state.params.item.cityState, experience: this.props.navigation.state.params.item.years,
+    affiliation: this.props.navigation.state.params.item.schoolName, specialties: this.props.navigation.state.params.item.specialties});
     //
     // console.log("item props: " + JSON.stringify( this.props.navigation.state.params.item));
     // console.log("item props specialties: " + JSON.stringify( this.props.navigation.state.params.item.specialties));
