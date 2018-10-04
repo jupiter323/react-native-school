@@ -270,8 +270,8 @@ export default class InputCreditCard extends React.Component {
                   onFocus={this._onFocus}
                   onChange={this._onChange}
                 />
-                <Text style={{marginLeft : 'auto', marginRight : 'auto', fontSize : 15, fontWeight : 'bold', marginTop : 20}}>Total price : {this.state.totalPrice}</Text>
-              <Text style={{marginLeft : 'auto', marginRight : 'auto', fontSize : 15, fontWeight : 'bold', marginVertical : 20}}>You should pay 12% fee : {Math.ceil(this.state.totalPrice*1.12)}</Text>
+                <Text style={{marginLeft : 'auto', marginRight : 'auto', fontSize : 15, fontWeight : 'bold', marginTop : 20}}>Cost : ${this.state.totalPrice}</Text>
+              <Text style={{marginLeft : 'auto', marginRight : 'auto', fontSize : 15, fontWeight : 'bold', marginVertical : 20}}>Processing Fees : {Math.ceil(this.state.totalPrice*0.12)}</Text>
                 
                 {
                     this.state.bookingStatus?            
