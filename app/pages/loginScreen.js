@@ -159,6 +159,7 @@ export default class Login extends React.Component {
 
   completeSignUp = async () => {
     const formValues = this.formGenerator.getValues();
+    this.skypeAlert();
     this.verifyEmail();
     var user = firebase.auth().currentUser;
     //   // console.log("email " + this.state.signUpEmail);
