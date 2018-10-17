@@ -126,7 +126,7 @@ export default class Login extends React.Component {
         [
           { text: 'Make One Now', onPress: () => this.makeSkype() },
           { text: 'Check If I Have One', onPress: () => this.checkSkype() },
-          { text: 'Make One Later', onPress: () => this.setState({ skypeAlertClear: true }), style: 'cancel' },
+          { text: 'Make One Later', onPress: () => this.setState({ skypeAlertClear: true }, this.completeSignUp), style: 'cancel' },
         ],
         { cancelable: false }
       )
@@ -159,7 +159,10 @@ export default class Login extends React.Component {
 
   completeSignUp = async () => {
     const formValues = this.formGenerator.getValues();
-    this.skypeAlert();
+    if (!this.state.skypeAlertClear) {
+      this.skypeAlert(formValues);
+      return
+    }
     this.verifyEmail();
     var user = firebase.auth().currentUser;
     //   // console.log("email " + this.state.signUpEmail);
