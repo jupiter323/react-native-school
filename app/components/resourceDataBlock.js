@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   cardView: {
     width: Metrics.screenWidth,
     borderRadius: Metrics.buttonRadius,
-    height: Metrics.screenHeight* .4,
+    height: Metrics.screenHeight* .2,
   },
   cardSelected: {
     backgroundColor: '#9B59B6',

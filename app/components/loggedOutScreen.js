@@ -13,7 +13,8 @@ export default class LoggedOut extends React.Component {
             <View style={styles.container}>
               <View style={styles.feedbackBox}>
               <Text style={styles.textStyles}>Please login to access full app functionality.
-              After you login, if something does not load, come back to the Login Screen and Try Again!
+              After you login, if something does not load, make sure that you verify your email.
+              Login, verify your email, come back to the Login Screen and Try Again!
               </Text>
                 </View>
             </View>

@@ -109,6 +109,7 @@ export default class FindConsultant extends React.Component {
       selectedConsultantTypeArray: [],
       selectedSpecialtiesArray: [],
       selectedAvailabilityPreferencesArray: [],
+      emailVerified: false,
     }
     //see what props App.js is constructed with:
     // console.log(JSON.stringify(props));
@@ -231,6 +232,10 @@ export default class FindConsultant extends React.Component {
       console.log("hasLoggedIn" + this.state.hasLoggedIn);
       console.log("metroooooooo");
     }
+    const emailVerification = firebase.auth().currentUser.emailVerified;
+    if (emailVerification == true) {
+      await this.setState({ emailVerified: true});
+    }
   }
 
   toggleModal = () => {
@@ -310,7 +315,7 @@ export default class FindConsultant extends React.Component {
 
   render() {
 
-    if (!this.state.hasLoggedIn) {
+    if (!this.state.hasLoggedIn || !this.state.emailVerified) {
       return (<LoggedOut />);
     } else {
 
