@@ -14,13 +14,14 @@ import { WebBrowser } from 'expo';
 
 const {width, height} = Dimensions.get('window');
 
-const dataTimes =
+const subject =
 [
   {key: 'High School Internships - Chegg', link: 'http://www.internships.com/high-school', summary: '6:30 am', category:'Internships'},
   {key: 'High School Internships - Indeed', link: 'https://www.indeed.com/jobs?q=High+School+Intern&l=', summary: '6:30 am', category: 'ACT'},
   {key: 'Reason Prep SAT', link: 'https://members.reasonprep.com/courses/category/SAT', summary: '6:30 am', category: 'SAT'},
   {key: 'Reason Prep ACT', link: 'https://members.reasonprep.com/courses/category/ACT', summary: '6:30 am', category:'ACT'},
 ]
+
 
 /*
   Displays information about Jedi
@@ -33,14 +34,6 @@ export default class Internships extends React.Component {
   return {
     headerTitle: 'Internships/Contests',
     title: 'Internships/Contests',
-    headerRight: (
-      <Feather style={{ marginRight: 15}}
-        name="plus-circle"
-        size={Metrics.icons.medium}
-        color={'#9B59B6'}
-        onPress={params.createQuestion}
-      />
-    ),
     }
 };
 
@@ -242,52 +235,10 @@ export default class Internships extends React.Component {
 
     if (!this.state.hasLoggedIn) {
         return (<LoggedOut/>);
-    } else if (this.state.isQuestionModalVisible == true) {
-
-    return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={styles.container}>
-
-                <View style={styles.purchaseBox}>
-
-                <SearchBar
-                  lightTheme
-                  round
-                  onChangeText={(searchText) => this.setState({searchText})}
-                  onClearText={console.log('')}
-                  onSubmitEditing={() => this.resetList()}
-                  icon={{ type: 'font-awesome', name: 'search' }}
-                  containerStyle={{width: Metrics.screenWidth*.95, marginBottom: 10}}
-                  placeholder='Search For Item...'
-                  />
-
-                </View>
-
-                <View style={styles.itemList}>
-                  <SectionList
-                    sections={this.state.jedisSectioned}
-                    // onEndReached={() => this.loadMore(3,this.state.jedisSectioned[0].data.length+1)}
-                    renderItem={({item}) => this.listItemRenderer(item)}
-                    ItemSeparatorComponent = {() => (<View style={{height: 10}}/>)}
-                    keyExtractor={this._keyExtractor}
-                    contentContainerStyle = {{alignItems: 'center'}}
-                    onRefresh = {() => this.resetList()}
-                    refreshing = {this.state.refreshing}
-                    removeClippedSubviews = {true}
-                    ListFooterComponent = {<ActivityIndicator />}
-                  />
-                </View>
-          </View>
-      </TouchableWithoutFeedback>
-    );
 
   } else {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={styles.container}>
-
-                <View style={styles.purchaseBox}>
-
+          <SafeAreaView style={styles.container}>
                 <SearchBar
                   lightTheme
                   round
@@ -295,35 +246,17 @@ export default class Internships extends React.Component {
                   onClearText={console.log('')}
                   onSubmitEditing={() => this.resetList()}
                   icon={{ type: 'font-awesome', name: 'search' }}
-                  containerStyle={{width: Metrics.screenWidth*.95, marginBottom: 10}}
+                  containerStyle={{width: Metrics.screenWidth*.95, marginTop: 20, marginBottom: 20}}
                   placeholder='Search For Item...'
                   />
 
-                <CheckBox
-                  center
-                  title={this.state.currentTopic}
-                  iconRight
-                  iconType='material'
-                  checkedIcon='clear'
-                  uncheckedIcon='add'
-                  checkedColor='red'
-                  containerStyle={{width: Metrics.screenWidth*.95}}
-                  checked={this.state.checked}
-                  onPress={()=> this.onPressTopic()}
-                />
-
-                </View>
-
-                <View style={styles.itemList}>
                 <FlatList
-                  data={dataTimes}
+                  data={subject}
                   extraData={this.state}
                   keyExtractor={this._keyExtractor}
                   renderItem={this.listItemRenderer}
                 />
-                </View>
-          </View>
-      </TouchableWithoutFeedback>
+          </SafeAreaView>
     );
   }
   }

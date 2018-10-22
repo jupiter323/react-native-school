@@ -18,7 +18,13 @@ const stripe_url = 'https://api.stripe.com/v1/'
 //push to firebase backend
 //payments UI
 
-
+// const dataTimes =
+// [
+//   {key: 'High School Internships - Chegg', link: 'http://www.internships.com/high-school', summary: '6:30 am', category:'Internships'},
+//   {key: 'High School Internships - Indeed', link: 'https://www.indeed.com/jobs?q=High+School+Intern&l=', summary: '6:30 am', category: 'ACT'},
+//   {key: 'Reason Prep SAT', link: 'https://members.reasonprep.com/courses/category/SAT', summary: '6:30 am', category: 'SAT'},
+//   {key: 'Reason Prep ACT', link: 'https://members.reasonprep.com/courses/category/ACT', summary: '6:30 am', category:'ACT'},
+// ]
 
 export default class Blank extends React.Component {
 

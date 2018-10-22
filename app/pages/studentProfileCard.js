@@ -43,9 +43,36 @@ export default class StudentProfileCard extends React.Component {
     var ref = firebase.database().ref("users").child(firebase.auth().currentUser.uid);
     ref.once("value", (snapshot) => {
     const nameProfile = snapshot.child("name").val(); // {first:"Ada",last:"Lovelace"}
+    const schoolName = snapshot.child("schoolName").val();
+    const grade = snapshot.child("grade").val();
+    const cityState = snapshot.child("cityState").val();
+    const profilePicture = snapshot.child("profilePicture").val();
     console.log("name " + nameProfile);
-    this.setState({profileName: snapshot.child("name").val(), schoolName: snapshot.child("schoolName").val(), grade: snapshot.child("grade").val(),
-  cityState: snapshot.child("cityState").val(), profilePicture: snapshot.child("profilePicture").val() });
+    if (nameProfile != null) {
+        this.setState({profileName: snapshot.child("name").val()});
+    } else {
+      this.setState({profileName: 'Please Enter a Profile Name'});
+    }
+    if (schoolName != null) {
+        this.setState({schoolName: snapshot.child("schoolName").val()});
+    } else {
+      this.setState({schoolName: 'Please Enter a School Name'});
+    }
+    if (grade != null) {
+        this.setState({grade: snapshot.child("grade").val()});
+    } else {
+      this.setState({grade: 'Please Enter a Grade'});
+    }
+    if (cityState != null) {
+        this.setState({cityState: snapshot.child("cityState").val()});
+    } else {
+      this.setState({cityState: 'Please Enter a Location'});
+    }
+    if (profilePicture != null) {
+        this.setState({profilePicture: snapshot.child("profilePicture").val()});
+    } else {
+      this.setState({profilePicture: 'https://cdn.pixabay.com/photo/2012/02/23/10/40/concentration-16032_1280.jpg'});
+    }
   });
   }
 
@@ -120,7 +147,7 @@ export default class StudentProfileCard extends React.Component {
               School Name: {this.state.schoolName}
               </Text>
               <Text style={styles.textStyles}>
-              Grade: {this.state.grade}th
+              Grade: {this.state.grade}
               </Text>
               </Card>
 

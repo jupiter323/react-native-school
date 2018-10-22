@@ -41,7 +41,7 @@ export default class SelectConsultant extends React.Component {
       affiliation: '',
     }
     //See what props our StarWarsCard renders with
-    // console.log(JSON.stringify(props));
+    console.log("SelectConsultant props " + JSON.stringify(props));
   }
 
   componentDidMount() {
@@ -66,26 +66,6 @@ export default class SelectConsultant extends React.Component {
     // this.setState({description: this.props.navigation.state.params.description})
   }
 
-  onPressMessageSeller = async () => {
-    // console.log('testing message seller');
-    const { navigate } = this.props.navigation.navigate;
-    console.log("testing params" + this.props.navigation.state.params.item.seller);
-    // const navigateAction = NavigationActions.navigate({
-    //   routeName: 'Messages',
-    //   params: {item: this.props.navigation.state.params.item},
-    //   action: NavigationActions.navigate({routeName: 'MessagesScreen',params: {}}),
-    // });
-    // this.props.navigation.dispatch(navigateAction);
-     // var key =
-     await this.rememberMessage();
-     console.log("preAdd: " +JSON.stringify(this.state.previousMessage));
-     await this.add();
-     console.log("convokey: " + this.state.convoKey);
-     console.log("asynckey1: " + JSON.stringify(this.state.userID+this.state.sellerID));
-     console.log("asynckey2: " + JSON.stringify(this.state.sellerID+this.state.userID));
-     this.props.navigation.navigate('MessagesScreen', {key: this.state.convoKey});
-    //query
-  }
 
   bookAppointment= async (item) => {
     this.props.navigation.navigate('CalendarOtherScreen', {item: item});

@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   },
   cardNotSelected: {
     backgroundColor: 'white',
+    borderColor: '#9B59B6',
   },
   pictureView: {
     marginLeft: Metrics.marginHorizontal,
