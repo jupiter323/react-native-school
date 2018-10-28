@@ -30,124 +30,154 @@ export default class AnswerBlock extends React.Component {
       sellerName: '',
       previousMessage: false,
       isModalVisible: false,
-      upButtonPressed: false,
-      downButtonPressed: false,
+      totalVotes: 0,
+      upVotes : 0,
+      downVotes : 0,
+      voted : false,
     }
 
     console.log(JSON.stringify("answerblock props " + JSON.stringify(props)));
   }
 
+  componentWillMount() {
+    this.restoreVote();
+  }
   openConsultantScreen() {
     console.log('pressed ');
     this.props.purchaseItem(this.props.jedi);
   }
 
   onPressUpvote =async() => {
-    console.log("up");
-
-    if (this.state.upButtonPressed) {
-      await this.setState({ upButtonPressed: !this.state.upButtonPressed});
-      this.reverseUpvote();
-    } else {
-      await this.setState({ upButtonPressed: !this.state.upButtonPressed});
-      this.storeUpvote();
-    }
+    if(!this.state.voted){
+      console.log("up");
+      await this.setState({voted : true});
+      this.saveVote("up");
+    }    
+    // if (this.state.upButtonPressed) {
+    //   await this.setState({ upButtonPressed: !this.state.upButtonPressed});
+    //   this.reverseUpvote();
+    // } else {
+    //   await this.setState({ upButtonPressed: !this.state.upButtonPressed});
+    //   this.storeUpvote();
+    // }
   }
 
   onPressDownvote =async() => {
-    console.log("down");
-    if (this.state.downButtonPressed) {
-      await this.setState({ downButtonPressed: !this.state.downButtonPressed});
-      this.reverseDownvote();
-    } else {
-      await this.setState({ downButtonPressed: !this.state.downButtonPressed});
-      this.storeDownvote();
-    }
+    if(!this.state.voted){
+      console.log("down");
+      await this.setState({voted : true});
+      this.saveVote("down");
+    }    
   }
-
-  storeUpvote =() => {
-      var upvotes;
-      var downvotes;
-      var total;
-      firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-      .child(this.props.jedi.key).on('value',(snapshot) => {
-      var childKey = snapshot.key;
-      var childData = snapshot.val();
-      upvotes = childData.upvotes + 1;
-      downvotes = childData.downvotes;
-      total = upvotes - downvotes;
-    });
-
+    
+  saveVote = (val) => {
     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).update({
-      upvotes: upvotes,
-      downvotes: downvotes,
-      totalUpvotes: total,
-    });
+    .child(this.props.jedi.key).child('voted').child(firebase.auth().currentUser.uid).set(
+      { val : val}
+    );
   }
-
-  reverseUpvote =() => {
-    var upvotes;
-    var downvotes;
-    var total;
+  restoreVote = () => {
     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).on('value',(snapshot) => {
-    var childKey = snapshot.key;
-    var childData = snapshot.val();
-    upvotes = childData.upvotes - 1;
-    downvotes = childData.downvotes;
-    total = upvotes - downvotes;
-  });
-
-  firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  .child(this.props.jedi.key).update({
-    upvotes: upvotes,
-    downvotes: downvotes,
-    totalUpvotes: total,
-  });
+    .child(this.props.jedi.key).child('voted').on('value',(snapshots)=>{
+      if(snapshots.hasChild(firebase.auth().currentUser.uid)){
+        this.setState({voted : true});
+      } else this.setState({voted: false});
+      snapshots.forEach(snapshot=>{
+        let result = snapshot.val();
+        console.log(snapshot);
+        this.setState({totalVotes: this.state.totalVotes+1});
+        if(result.val=="up"){
+          this.setState({upVotes: this.state.upVotes+1});
+        } else if(result.val=="down") {
+          this.setState({downVotes: this.state.downVotes+1});
+        }
+      })
+    })
   }
 
-  storeDownvote =() => {
-      var upvotes;
-      var downvotes;
-      var total;
-      firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-      .child(this.props.jedi.key).on('value',(snapshot) => {
-      var childKey = snapshot.key;
-      var childData = snapshot.val();
-      upvotes = childData.upvotes;
-      downvotes = childData.downvotes + 1;
-      total = upvotes - downvotes;
-    });
+  // storeUpvote =() => {
+  //     var upvotes;
+  //     var downvotes;
+  //     var total;
+  //     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //     .child(this.props.jedi.key).on('value',(snapshot) => {
+  //     var childKey = snapshot.key;
+  //     var childData = snapshot.val();
+  //     upvotes = childData.upvotes + 1;
+  //     downvotes = childData.downvotes;
+  //     total = upvotes - downvotes;
+  //   });
 
-    firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).update({
-      upvotes: upvotes,
-      downvotes: downvotes,
-      totalUpvotes: total,
-    });
-  }
+  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //   .child(this.props.jedi.key).update({
+  //     upvotes: upvotes,
+  //     downvotes: downvotes,
+  //     totalUpvotes: total,
+  //   });
+  // }
 
-  reverseDownvote =() => {
-    var upvotes;
-    var downvotes;
-    var total;
-    firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).on('value',(snapshot) => {
-    var childKey = snapshot.key;
-    var childData = snapshot.val();
-    upvotes = childData.upvotes;
-    downvotes = childData.downvotes - 1;
-    total = upvotes - downvotes;
-  });
+  // reverseUpvote =() => {
+  //   var upvotes;
+  //   var downvotes;
+  //   var total;
+  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //   .child(this.props.jedi.key).on('value',(snapshot) => {
+  //   var childKey = snapshot.key;
+  //   var childData = snapshot.val();
+  //   upvotes = childData.upvotes - 1;
+  //   downvotes = childData.downvotes;
+  //   total = upvotes - downvotes;
+  // });
 
-  firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  .child(this.props.jedi.key).update({
-    upvotes: upvotes,
-    downvotes: downvotes,
-    totalUpvotes: total,
-  });
-  }
+  // firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  // .child(this.props.jedi.key).update({
+  //   upvotes: upvotes,
+  //   downvotes: downvotes,
+  //   totalUpvotes: total,
+  // });
+  // }
+
+  // storeDownvote =() => {
+  //     var upvotes;
+  //     var downvotes;
+  //     var total;
+  //     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //     .child(this.props.jedi.key).on('value',(snapshot) => {
+  //     var childKey = snapshot.key;
+  //     var childData = snapshot.val();
+  //     upvotes = childData.upvotes;
+  //     downvotes = childData.downvotes + 1;
+  //     total = upvotes - downvotes;
+  //   });
+
+  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //   .child(this.props.jedi.key).update({
+  //     upvotes: upvotes,
+  //     downvotes: downvotes,
+  //     totalUpvotes: total,
+  //   });
+  // }
+
+  // reverseDownvote =() => {
+  //   var upvotes;
+  //   var downvotes;
+  //   var total;
+  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  //   .child(this.props.jedi.key).on('value',(snapshot) => {
+  //   var childKey = snapshot.key;
+  //   var childData = snapshot.val();
+  //   upvotes = childData.upvotes;
+  //   downvotes = childData.downvotes - 1;
+  //   total = upvotes - downvotes;
+  // });
+
+  // firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+  // .child(this.props.jedi.key).update({
+  //   upvotes: upvotes,
+  //   downvotes: downvotes,
+  //   totalUpvotes: total,
+  // });
+  // }
 
 
   render() {
@@ -160,6 +190,9 @@ export default class AnswerBlock extends React.Component {
                     Author: {this.props.jedi.author}
                     </Text>
                     <Text style={styles.textStyles}>
+                    Votes: {this.state.totalVotes} Upvotes: {this.state.upVotes} Downvotes: {this.state.downVotes}
+                    </Text>
+                    {/* <Text style={styles.textStyles}>
                     Upvotes: {this.props.jedi.totalUpvotes}
                     </Text>
                     <Text style={styles.textStyles}>
@@ -167,15 +200,15 @@ export default class AnswerBlock extends React.Component {
                     </Text>
                     <Text style={styles.textStyles}>
                     Upvotes: {this.props.forumLocation}
-                    </Text>
+                    </Text> */}
                     <View style={styles.ratingButtons}>
-                    <Feather style={this.state.upButtonPressed ? styles.buttonPressed : styles.buttonNotPressed}
+                    <Feather style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
                       name="arrow-up"
                       size={Metrics.icons.medium}
                       color={'black'}
                       onPress={() => this.onPressUpvote()}
                     />
-                    <Feather style={this.state.downButtonPressed ? styles.buttonPressed : styles.buttonNotPressed}
+                    <Feather style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
                       name="arrow-down"
                       size={Metrics.icons.medium}
                       color={'black'}
@@ -230,7 +263,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#9B59B6',
+    color: '#999999',
   },
   buttonNotPressed: {
     color: 'black',
