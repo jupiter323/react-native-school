@@ -58,6 +58,8 @@ export default class Forum extends React.Component {
       isTopicModalVisible: false,
       isQuestionModalVisible: false,
       currentTopic: 'Select a Question Topic',
+      postQuestionTopic : 'Select a Question Topic',
+      isPostTopic : false,
       hasLoggedIn: false,
       question: '',
       userName: '',
@@ -141,7 +143,7 @@ export default class Forum extends React.Component {
   }
 
   onPressPostQuestion = async() => {
-    if ((this.state.currentTopic !== 'Select a Question Topic') && (!this.state.question == '')) {
+    if ((this.state.postQuestionTopic !== 'Select a Question Topic') && (!this.state.question == '')) {
     await this.setState({ isQuestionModalVisible: false});
 
     await firebase.database().ref('forum').push({
@@ -173,11 +175,18 @@ export default class Forum extends React.Component {
     this.setState({isQuestionModalVisible: !this.state.isQuestionModalVisible});
   }
 
-  onPressTopic = async() => {
-    await this.setState({isQuestionModalVisible: false});
-    console.log("question modal " + this.state.isQuestionModalVisible);
-    await this.setState({isTopicModalVisible: true});
-    console.log("topic modal " + this.state.isTopicModalVisible);
+  onPressTopic = async(num) => {
+    if(num){
+      await this.setState({isQuestionModalVisible: false});
+      this.setState({isPostTopic : true});
+      await this.setState({isTopicModalVisible: true});
+      console.log("topic modal " + this.state.isTopicModalVisible);
+    } else {
+      this.setState({isPostTopic : false});
+      // console.log("question modal " + this.state.isQuestionModalVisible);
+      await this.setState({isTopicModalVisible: true});
+      console.log("topic modal " + this.state.isTopicModalVisible);
+    }
   }
 
   listItemRenderer(item) {
@@ -205,31 +214,52 @@ export default class Forum extends React.Component {
   }
 
   onPressCollegeLife = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'College Life'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
+    if(this.state.isPostTopic){
+      await this.setState({ isTopicModalVisible: false, postQuestionTopic : 'College Life'});
+      await this.setState({isQuestionModalVisible: true});
+    } else {
+      await this.setState({ isTopicModalVisible: false, currentTopic: 'College Life'});
+      console.log(this.state.currentTopic);
+  
+      this.resetList();
+    }    
   }
 
   onPressCollegeApplications = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'College Applications'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
+    if(this.state.isPostTopic){
+      await this.setState({ isTopicModalVisible: false, postQuestionTopic : 'College Applications'});
+      await this.setState({isQuestionModalVisible: true});
+    } else {
+      await this.setState({ isTopicModalVisible: false, currentTopic: 'College Applications'});
+      console.log(this.state.currentTopic);
+  
+      this.resetList();
+    }
   }
 
   onPressResources = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'Resources'});
-    console.log(this.state.currentTopic);
+    if(this.state.isPostTopic){
+      await this.setState({ isTopicModalVisible: false, postQuestionTopic : 'Resources'});
+      await this.setState({isQuestionModalVisible: true});
+    } else {
 
-    this.resetList();
+      await this.setState({ isTopicModalVisible: false, currentTopic: 'Resources'});
+      console.log(this.state.currentTopic);
+  
+      this.resetList();
+    }
   }
 
   onPressAllTopics = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'All Topics'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
+    if(this.state.isPostTopic){
+      await this.setState({ isTopicModalVisible: false, postQuestionTopic : 'All Topics'});
+      await this.setState({isQuestionModalVisible: true});
+    } else {
+      await this.setState({ isTopicModalVisible: false, currentTopic: 'All Topics'});
+      console.log(this.state.currentTopic);
+  
+      this.resetList();
+    }
   }
 
   purchaseItem= async (item) => {
@@ -273,7 +303,7 @@ export default class Forum extends React.Component {
                       checkedColor='red'
                       containerStyle={{width: Metrics.screenWidth*.95}}
                       checked={this.state.checked}
-                      onPress={()=> this.onPressTopic()}
+                      onPress={()=> this.onPressTopic(0)}
                     />
 
                   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -302,8 +332,8 @@ export default class Forum extends React.Component {
                          <Button
                            color='#9B59B6'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
-                           title={this.state.currentTopic}
-                           onPress={() => this.onPressTopic()}/>
+                           title={this.state.postQuestionTopic}
+                           onPress={() => this.onPressTopic(1)}/>
                          <Button
                            color='#9B59B6'
                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
@@ -326,7 +356,7 @@ export default class Forum extends React.Component {
                     onRefresh = {() => this.resetList()}
                     refreshing = {this.state.refreshing}
                     removeClippedSubviews = {true}
-                    ListFooterComponent = {<ActivityIndicator />}
+                    // ListFooterComponent = {<ActivityIndicator />}
                   />
                 </View>
           </View>
@@ -362,7 +392,7 @@ export default class Forum extends React.Component {
                       checkedColor='red'
                       containerStyle={{width: Metrics.screenWidth*.95}}
                       checked={this.state.checked}
-                      onPress={()=> this.onPressTopic()}
+                      onPress={()=> this.onPressTopic(0)}
                     />
 
                   <View style={{ alignItems: 'center', justifyContent: 'center' }}>
