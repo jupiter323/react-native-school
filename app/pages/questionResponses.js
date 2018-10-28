@@ -128,6 +128,7 @@ export default class QuestionResponses extends React.Component {
 
   async appendJedis(count, start) {
 
+    this.setState({loading : true, refreshing: true});
     firebase.database().ref('forum').child(this.state.key).child('answers').on('child_added', (snapshot) => {
       console.log("testing loading answers");
       var childKey = snapshot.key;
@@ -253,7 +254,7 @@ export default class QuestionResponses extends React.Component {
                 onRefresh = {() => this.resetList()}
                 refreshing = {this.state.refreshing}
                 removeClippedSubviews = {true}
-                ListFooterComponent = {<ActivityIndicator />}
+                // ListFooterComponent = {<ActivityIndicator hidesWhenStopped={!this.state.refreshing}/>}
               />
               </View>
         </View>

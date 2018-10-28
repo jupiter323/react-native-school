@@ -69,8 +69,9 @@ export default class Forum extends React.Component {
   }
 
   async appendJedis(count, start) {
-
-    firebase.database().ref('forum').on('child_added', (snapshot) => {
+    
+    await this.setState({loading:true, refreshing : true});
+    await firebase.database().ref('forum').on('child_added', async(snapshot) => {
     var childKey = snapshot.key;
     var childData = snapshot.val();
     childData.key = childKey;
@@ -88,10 +89,12 @@ export default class Forum extends React.Component {
       } else if (childData.topic == this.state.currentTopic) {
         jedisList.push(childData);
       }
-  }
-    this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
+    }
+    await this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
+    console.log("loading : " + this.state.loading);
+    
     // console.log(childData);
-});
+  });
 
   console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
   this.state.jedisSectioned.forEach(function(element) {
@@ -112,7 +115,6 @@ export default class Forum extends React.Component {
 
     var userUID = firebase.auth().currentUser.uid;
     var name;
-    console.log("uid " + userUID);
     var that = this;
 
     await firebase.auth().onAuthStateChanged(function(user) {
@@ -124,8 +126,6 @@ export default class Forum extends React.Component {
           var childData = snapshot.val();
           childData.key = childKey;
           name = childData.name;
-          console.log("name " + name);
-          console.log("portal " + childData.portal);
           that.setState({userName: name, userPortal: childData.portal},
              () => console.log("user portal in function " + that.state.userPortal));
         });
@@ -134,9 +134,9 @@ export default class Forum extends React.Component {
       }
     });
 
-  await console.log("current user " + this.state.userName);
-  await console.log("current user portal " + this.state.userPortal);
-  this.appendJedis(3,1);
+    await console.log("current user " + this.state.userName);
+    await console.log("current user portal " + this.state.userPortal);
+    this.appendJedis(3,1);
 
   }
 
@@ -160,7 +160,6 @@ export default class Forum extends React.Component {
     if (loginCheck === "true") {
       await this.setState({hasLoggedIn: true});
       console.log("hasLoggedIn" + this.state.hasLoggedIn);
-      console.log("metroooooooo");
     }
    }
 
@@ -191,7 +190,8 @@ export default class Forum extends React.Component {
 
   async loadMore(count, start) {
     if (start > 1 && !this.state.refreshing && !this.state.loading) {
-      this.setState({loading: true});
+      await this.setState({loading: true});
+      console.log("loading : " + this.state.loading);
       await this.appendJedis(count,start);
     }
   }
@@ -334,6 +334,7 @@ export default class Forum extends React.Component {
     );
 
   } else {
+    const {loading} = this.state;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
@@ -410,7 +411,7 @@ export default class Forum extends React.Component {
                     onRefresh = {() => this.resetList()}
                     refreshing = {this.state.refreshing}
                     removeClippedSubviews = {true}
-                    ListFooterComponent = {<ActivityIndicator />}
+                    // ListFooterComponent = {<ActivityIndicator size="large" animating={loading}/>}
                   />
                 </View>
           </View>
