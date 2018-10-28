@@ -28,6 +28,7 @@ import StudyMaterial from './studyMaterial';
 import SATACTPrep from './satACT';
 import TimelineSheet from './timelineSheet';
 import Blank2 from './blank2';
+import InputCreditCard from './inputCreditCard'
 
 
 export {
@@ -61,4 +62,5 @@ export {
   SATACTPrep,
   TimelineSheet,
   Blank2,
+  InputCreditCard,
 }

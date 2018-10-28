@@ -207,6 +207,7 @@ export default class Login extends React.Component {
       }).then((response) => {
         response.json().then(solved => {
           console.log("Account " + JSON.stringify(solved));
+          Alert.alert("Your custom stripe account is registered to this platform correctly.");
           firebase.database().ref('stripe_customers').child(firebase.auth().currentUser.uid).child('account').set({
             id: solved.id,
             email: solved.email,

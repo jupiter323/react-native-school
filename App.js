@@ -71,6 +71,7 @@ const FindConsultantNav = StackNavigator({
   MessagesScreen: {screen: pages.Messages},
   CalendarOtherScreen: {screen: pages.CalendarOtherScreen},
   MakeAppointmentsScreen: {screen: pages.MakeAppointmentsScreen},
+  InputCreditCard : {screen: pages.InputCreditCard}
 });
 
 const ForumNav = StackNavigator({

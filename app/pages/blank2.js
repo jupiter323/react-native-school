@@ -39,6 +39,7 @@ constructor(props) {
     uid : firebase.auth().currentUser.uid,
     valid : false,
     amount : 0,
+    totalPrice : 0,
     destination : '',
     bookingStatus : false,
     consultant_id : 'qzJ7q3nwLsbZ2L9fLHETlXThlGL2',
@@ -49,11 +50,20 @@ constructor(props) {
 
 componentWillMount() {
   axios.post('https://us-central1-schoolbudd-ac7fc.cloudfunctions.net/helloWorld').then((response) => {
+
     console.log("axios");
 
-    this.getAllHistory();
-    this.getPlatformBalance();
+    //this.getAllHistory();
+    //this.getPlatformBalance();
+
   });
+  this.getAllHistory();
+  this.getPlatformBalance(); 
+  if(this.props.navigation.state.params.totalPrice != undefined){
+    this.setState({totalPrice : this.props.navigation.state.params.totalPrice});
+    console.log("TotalPrice : " + this.props.navigation.state.params.totalPrice);
+  }
+    
 }
 
 // register new credit card and get token
@@ -97,7 +107,11 @@ createToken = async() => {
         cardToken = solved.id;
         this.setState({token: cardToken});
         console.log("card token in fetch " + cardToken);
-       });
+
+        
+        this.createCharge(Math.ceil(this.state.totalPrice*1.12), solved.id);  
+       }); 
+
      }).catch((error) => {
         console.error(error);
      });
@@ -180,6 +194,7 @@ createCharge =async(amount,token) => {
         console.log("charge " + JSON.stringify(solved));
         this.getAllHistory();
         this.getPlatformBalance();
+        Alert.alert("Your money is locked for appointments! If you complete this appointment, it will be released to consultant.");
        });
      }).catch((error) => {
         console.error(error);
@@ -317,9 +332,11 @@ createCharge =async(amount,token) => {
             onChange={this._onChange}
           />
           <TouchableOpacity style={styles.buttonContainer} onPress={this.createToken}>
-            <Text style={globalStyles.btnText}>Register Credit Card</Text>
+
+            <Text style={styles.buttonText}>Charge Now!</Text>
+
             </TouchableOpacity>
-          <View
+          {/* <View
             style={{
               borderBottomColor: 'black',
               borderBottomWidth: 5,
@@ -349,7 +366,8 @@ createCharge =async(amount,token) => {
             <TouchableOpacity  style={styles.buttonContainer}  onPress={this.createNewBooking}>
               <Text style={styles.buttonText}>Booking</Text>
             </TouchableOpacity>
-          }
+
+          } */}
 
           </ScrollView>
         </View>
