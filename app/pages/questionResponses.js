@@ -36,14 +36,14 @@ export default class QuestionResponses extends React.Component {
       key: '',
       userName: '',
     }
-    console.log("props QuestionResponsesScreen " + JSON.stringify(props));
+    // console.log("props QuestionResponsesScreen " + JSON.stringify(props));
   }
 
   componentWillMount= async() => {
 
   var userUID = firebase.auth().currentUser.uid;
   var name;
-  console.log("uid " + userUID);
+  // console.log("uid " + userUID);
   var that = this;
 
   firebase.auth().onAuthStateChanged(function(user) {
@@ -63,10 +63,10 @@ export default class QuestionResponses extends React.Component {
   });
   item = this.props.navigation.state.params.item;
 
-  console.log("QuestionResponsesScreen item " + JSON.stringify(this.props.navigation.state.params.item));
-  console.log("QuestionResponsesScreen key " + JSON.stringify(this.props.navigation.state.params.item.key));
+  // console.log("QuestionResponsesScreen item " + JSON.stringify(this.props.navigation.state.params.item));
+  // console.log("QuestionResponsesScreen key " + JSON.stringify(this.props.navigation.state.params.item.key));
   await this.setState({profileName: item.author, question: item.question, key: this.props.navigation.state.params.item.key });
-  console.log("question key " + this.state.key);
+  // console.log("question key " + this.state.key);
   this.appendJedis(3,1);
   }
 
@@ -128,30 +128,36 @@ export default class QuestionResponses extends React.Component {
 
   async appendJedis(count, start) {
 
-    this.setState({loading : true, refreshing: true});
-    firebase.database().ref('forum').child(this.state.key).child('answers').on('child_added', (snapshot) => {
+    await this.setState({loading : true, refreshing: true});
+    var jedisList = this.state.jedisSectioned[0].data.slice();
+    await firebase.database().ref('forum').child(this.state.key).child('answers').on('child_added', async(snapshot) => {
       console.log("testing loading answers");
       var childKey = snapshot.key;
       var childData = snapshot.val();
       childData.key = childKey;
-      console.log("childData " + JSON.stringify(childData));
+      console.log(childData)
       // questionText = childData.question.toLowerCase();
       // searchTextLowercase = this.state.searchText.toLowerCase();
-      var jedisList = this.state.jedisSectioned[0].data.slice();
       // if (questionText.includes(searchTextLowercase)) {
         // if (this.state.currentTopic == "Select a Question Topic" || this.state.currentTopic == "All Topics") {
-          jedisList.push(childData);
+      await jedisList.push(childData);
         // } else if (childData.topic == this.state.currentTopic) {
         //   jedisList.push(childData);
         // }
     // }
-      this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
     });
 
-  console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
-  this.state.jedisSectioned.forEach(function(element) {
-    console.log("jedi " + element.value)
-  });
+    jedisList.sort(function(a,b) { 
+      if(a.totalUpvotes == b.totalUpvotes) return 0;
+      var direction = 1;
+      return b.totalUpvotes>a.totalUpvotes?direction:-direction;
+    });
+    console.log("result : " + JSON.stringify(jedisList));
+    await this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
+  // console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
+  // this.state.jedisSectioned.forEach(function(element) {
+  //   console.log("jedi " + element.value)
+  // });
   }
 
   listItemRenderer(item) {
@@ -186,7 +192,10 @@ export default class QuestionResponses extends React.Component {
     console.log("author " + JSON.stringify(firebase.auth().currentUser));
     await firebase.database().ref('forum').child(this.state.key).child('answers').push({
         answer: this.state.answer,
-        author: this.state.userName
+        author: this.state.userName,
+        downvotes : 0,
+        totalUpvotes : 0,
+        upvotes : 0
       });
     this.setState({ isAnswerModalVisible: false});
   }

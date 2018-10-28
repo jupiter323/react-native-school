@@ -183,7 +183,6 @@ export default class Forum extends React.Component {
       console.log("topic modal " + this.state.isTopicModalVisible);
     } else {
       this.setState({isPostTopic : false});
-      // console.log("question modal " + this.state.isQuestionModalVisible);
       await this.setState({isTopicModalVisible: true});
       console.log("topic modal " + this.state.isTopicModalVisible);
     }

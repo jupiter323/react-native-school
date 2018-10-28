@@ -35,8 +35,6 @@ export default class AnswerBlock extends React.Component {
       downVotes : 0,
       voted : false,
     }
-
-    console.log(JSON.stringify("answerblock props " + JSON.stringify(props)));
   }
 
   componentWillMount() {
@@ -77,14 +75,14 @@ export default class AnswerBlock extends React.Component {
     );
   }
   restoreVote = async() => {
-    firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).child('voted').on('value',(snapshots)=>{
+    await firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+    .child(this.props.jedi.key).child('voted').on('value',async(snapshots)=>{
       if(snapshots.hasChild(firebase.auth().currentUser.uid)){
-        this.setState({voted : true});
-      } else this.setState({voted: false});
+        await this.setState({voted : true});
+      } else await this.setState({voted: false});
       let upVotes = 0;
       let downVotes = 0;
-      this.setState({totalVotes : snapshots.numChildren()});
+      await this.setState({totalVotes : snapshots.numChildren()});
       snapshots.forEach(snapshot=>{
         let result = snapshot.val();
         if(result.val=="up"){
@@ -93,7 +91,11 @@ export default class AnswerBlock extends React.Component {
           downVotes++;
         }
       });
-      this.setState({upVotes : upVotes, downVotes : downVotes})
+      await firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+      .child(this.props.jedi.key).update({
+        upvotes : upVotes, downvotes : downVotes, totalUpvotes : upVotes-downVotes
+      })
+      await this.setState({upVotes : upVotes, downVotes : downVotes})
     })
   }
 
@@ -192,7 +194,7 @@ export default class AnswerBlock extends React.Component {
                     Author: {this.props.jedi.author}
                     </Text>
                     <Text style={styles.textStyles}>
-                    Votes: {this.state.totalVotes} Upvotes: {this.state.upVotes} Downvotes: {this.state.downVotes}
+                    totalUpvotes: {this.state.upVotes - this.state.downVotes} Upvotes: {this.state.upVotes} Downvotes: {this.state.downVotes}
                     </Text>
                     {/* <Text style={styles.textStyles}>
                     Upvotes: {this.props.jedi.totalUpvotes}
