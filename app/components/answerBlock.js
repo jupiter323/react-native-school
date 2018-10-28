@@ -82,6 +82,7 @@ export default class AnswerBlock extends React.Component {
       if(snapshots.hasChild(firebase.auth().currentUser.uid)){
         this.setState({voted : true});
       } else this.setState({voted: false});
+      this.setState({totalVotes: 0, upVotes: 0, downVotes: 0})
       snapshots.forEach(snapshot=>{
         let result = snapshot.val();
         console.log(snapshot);
