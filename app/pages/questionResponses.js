@@ -185,10 +185,7 @@ export default class QuestionResponses extends React.Component {
     console.log("author " + JSON.stringify(firebase.auth().currentUser));
     await firebase.database().ref('forum').child(this.state.key).child('answers').push({
         answer: this.state.answer,
-        author: this.state.userName,
-        totalUpvotes: 0,
-        upvotes: 0,
-        downvotes: 0,
+        author: this.state.userName
       });
     this.setState({ isAnswerModalVisible: false});
   }

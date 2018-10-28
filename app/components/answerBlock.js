@@ -76,23 +76,24 @@ export default class AnswerBlock extends React.Component {
       { val : val}
     );
   }
-  restoreVote = () => {
+  restoreVote = async() => {
     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
     .child(this.props.jedi.key).child('voted').on('value',(snapshots)=>{
       if(snapshots.hasChild(firebase.auth().currentUser.uid)){
         this.setState({voted : true});
       } else this.setState({voted: false});
-      this.setState({totalVotes: 0, upVotes: 0, downVotes: 0})
+      let upVotes = 0;
+      let downVotes = 0;
+      this.setState({totalVotes : snapshots.numChildren()});
       snapshots.forEach(snapshot=>{
         let result = snapshot.val();
-        console.log(snapshot);
-        this.setState({totalVotes: this.state.totalVotes+1});
         if(result.val=="up"){
-          this.setState({upVotes: this.state.upVotes+1});
+          upVotes++;
         } else if(result.val=="down") {
-          this.setState({downVotes: this.state.downVotes+1});
+          downVotes++;
         }
-      })
+      });
+      this.setState({upVotes : upVotes, downVotes : downVotes})
     })
   }
 
