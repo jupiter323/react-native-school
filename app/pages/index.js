@@ -16,6 +16,7 @@ import ConsultantProfileCard from './consultantProfileCard';
 import ConsultantProfilePreferences from './consultantProfilePreferences';
 import Forum from './forum';
 import QuestionResponses from './questionResponses';
+import AnswerScreen from './answerScreen';
 import CalendarConsultantScreen from './calendarConsultant';
 import CalendarOtherScreen from './calendarOther';
 import SetAvailabilityScreen from './setAvailabilityScreen.js';
@@ -49,6 +50,7 @@ export {
   ConsultantProfileCard,
   ConsultantProfilePreferences,
   Forum,
+  AnswerScreen,
   QuestionResponses,
   CalendarConsultantScreen,
   CalendarOtherScreen,

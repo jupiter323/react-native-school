@@ -69,6 +69,11 @@ export default class AnswerBlock extends React.Component {
     }    
   }
     
+  openAnswerScreen() {
+
+    console.log('pressed ');
+    this.props.purchaseItem(this.props.jedi);
+  }
   saveVote = (val) => {
     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
     .child(this.props.jedi.key).child('voted').child(firebase.auth().currentUser.uid).set(
@@ -121,69 +126,47 @@ export default class AnswerBlock extends React.Component {
   }
 
 
-  render() {
-          return (
-            <TouchableOpacity>
-              <View style={styles.cardView}>
-                <Card style={styles.card}>
-                  <View style={{flexDirection : 'row'}}>
-                    {this.imageButton()}
-                    <Text style={{fontSize : 15, marginLeft :20, fontWeight : 'bold', lineHeight : 30}}>{this.props.jedi.author}</Text>
-                  </View>
-                  <View style={{marginTop :10}}> 
-                    <ReadMore
-                      numberOfLines={3}
-                      renderTruncatedFooter={this._renderTruncatedFooter}
-                      renderRevealedFooter={this._renderRevealedFooter}
-                      onReady={this._handleTextReady}>
-                      <Text style={styles.cardText}>
-                        {this.props.jedi.answer}
-                      </Text>
-                    </ReadMore>
-                  </View>
-                    <Text style={styles.textStyles}>
-                    {/* totalUpvotes: {this.state.upVotes - this.state.downVotes}  */}
-                    <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
-                      name="thumbs-o-up"
-                      size={20}
-                      color={'#9B59B6'}
-                      onPress={() => this.onPressUpvote()}
-                      />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
-                    <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
-                      name="thumbs-o-down"
-                      size={20}
-                      color={'#9B59B6'}
-                      onPress={() => this.onPressDownvote()}
-                    />&nbsp;&nbsp; {this.state.downVotes}
-                    </Text>
-                    {/* <Text style={styles.textStyles}>
-                    Upvotes: {this.props.jedi.totalUpvotes}
-                    </Text>
-                    <Text style={styles.textStyles}>
-                    Upvotes: {this.props.jedi.key}
-                    </Text>
-                    <Text style={styles.textStyles}>
-                    Upvotes: {this.props.forumLocation}
-                    </Text> */}
-                  {/* <View style={styles.ratingButtons}>
-                    <Feather style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
-                      name="arrow-up"
-                      size={Metrics.icons.medium}
-                      color={'black'}
-                      onPress={() => this.onPressUpvote()}
-                    />
-                    <Feather style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
-                      name="arrow-down"
-                      size={Metrics.icons.medium}
-                      color={'black'}
-                      onPress={() => this.onPressDownvote()}
-                    />
-                  </View> */}
-                </Card>
 
-              </View>
-            </TouchableOpacity>
-            );
+  render() {
+    return (
+      <TouchableOpacity  onPress={() => this.openAnswerScreen()}>
+        <View style={styles.cardView}>
+          <Card style={styles.card}>
+            <View style={{flexDirection : 'row'}}>
+              {this.imageButton()}
+              <Text style={{fontSize : 15, marginLeft :20, fontWeight : 'bold', lineHeight : 30}}>{this.props.jedi.author}</Text>
+            </View>
+            <View style={{marginTop :10}}> 
+              <ReadMore
+                numberOfLines={3}
+                renderTruncatedFooter={this._renderTruncatedFooter}
+                renderRevealedFooter={this._renderRevealedFooter}
+                onReady={this._handleTextReady}>
+                <Text style={styles.cardText}>
+                  {this.props.jedi.answer}
+                </Text>
+              </ReadMore>
+            </View>
+              <Text style={styles.textStyles}>
+              {/* totalUpvotes: {this.state.upVotes - this.state.downVotes}  */}
+              <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
+                name="thumbs-o-up"
+                size={20}
+                color={'#9B59B6'}
+                onPress={() => this.onPressUpvote()}
+                />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
+              <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
+                name="thumbs-o-down"
+                size={20}
+                color={'#9B59B6'}
+                onPress={() => this.onPressDownvote()}
+              />&nbsp;&nbsp; {this.state.downVotes}
+              </Text>          
+          </Card>
+
+        </View>
+      </TouchableOpacity>
+      );
   }
 
   _renderTruncatedFooter = (handlePress) => {

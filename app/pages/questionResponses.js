@@ -18,6 +18,7 @@ import Modal from "react-native-modal";
 */
 export default class QuestionResponses extends React.Component {
 
+
   static navigationOptions = {
     headerTitle: 'Responses',
   };
@@ -32,6 +33,7 @@ export default class QuestionResponses extends React.Component {
       loading: false,
       refreshing: false,
       question: '',
+      topic : '',
       answer: '',
       isAnswerModalVisible: false,
       key: '',
@@ -56,7 +58,7 @@ export default class QuestionResponses extends React.Component {
         var childData = snapshot.val();
         childData.key = childKey;
         name = childData.name;
-        that.setState({ userName: name});
+        that.setState({ userName: name, profileImage : childData.profilePicture});
       });
     } else {
       console.log(" User is not signed in.");
@@ -66,7 +68,7 @@ export default class QuestionResponses extends React.Component {
 
   // console.log("QuestionResponsesScreen item " + JSON.stringify(this.props.navigation.state.params.item));
   // console.log("QuestionResponsesScreen key " + JSON.stringify(this.props.navigation.state.params.item.key));
-  await this.setState({profileName: item.author, profileImage : item.profileImage, question: item.question, key: this.props.navigation.state.params.item.key });
+  await this.setState({profileName: item.author, profileImage : item.profileImage, question: item.question, topic : item.topic, key: this.props.navigation.state.params.item.key });
   // console.log("question key " + this.state.key);
   this.appendJedis(3,1);
   }
@@ -166,6 +168,9 @@ export default class QuestionResponses extends React.Component {
     );
   }
 
+  purchaseItem= async (item) => {
+    this.props.navigation.navigate('AnswerScreen', {item: item, question: this.state.question, topic : this.state.topic});
+  }
   resetList = async () => {
     await this.setState({refreshing: true, jedisSectioned: [{title: 'Jedis', data:[]}]});
     this.appendJedis(3,1);
@@ -191,7 +196,8 @@ export default class QuestionResponses extends React.Component {
         author: this.state.userName,
         downvotes : 0,
         totalUpvotes : 0,
-        upvotes : 0
+        upvotes : 0,
+        profileImage : '',
       });
     this.setState({ isAnswerModalVisible: false});
   }
@@ -222,13 +228,18 @@ export default class QuestionResponses extends React.Component {
 
     return (
         <View style={styles.container}>
-          <Card style={styles.card}
-              title={this.state.question}>
-              <View style={{flexDirection : 'row', marginBottom : 20}}>
+          <Card style={styles.card}>
+              <View style={{flexDirection : 'row', marginBottom : 15}}>
                 {this.myImageButton()}
-                <Text style={{lineHeight : 30, fontSize :15, marginLeft: 20, fontWeight : 'bold'}}>
+                <Text style={{lineHeight : 30, fontSize :15, marginLeft: 20, fontWeight : '200'}}>
                 {this.state.profileName}
                 </Text>
+              </View>
+              <View style={{marginBottom: 10}}>
+                <Text style={{fontSize: 18, marginLeft : 15, fontWeight: 'bold'}}>{this.state.question}</Text>
+              </View>
+              <View style={{marginBottom: 15}}>
+                <Text style={{fontSize: 13, marginLeft : 15, color : '#888'}}>Topic : {this.state.topic}</Text>
               </View>
               <Button
                 icon={{name: 'code'}}
@@ -282,7 +293,6 @@ export default class QuestionResponses extends React.Component {
                 onRefresh = {() => this.resetList()}
                 refreshing = {this.state.refreshing}
                 removeClippedSubviews = {true}
-                // ListFooterComponent = {<ActivityIndicator hidesWhenStopped={!this.state.refreshing}/>}
               />
               </View>
         </View>
@@ -310,7 +320,7 @@ const styles = StyleSheet.create({
     borderRadius: Metrics.images.large * 0.5
   },
   itemList: {
-    height: Metrics.screenHeight*.6,
+    height: Metrics.screenHeight*.65,
     width: Metrics.screenWidth,
     paddingTop: 10
   },

@@ -77,6 +77,7 @@ const FindConsultantNav = StackNavigator({
 const ForumNav = StackNavigator({
   ForumScreen: {screen: pages.Forum},
   QuestionResponsesScreen: {screen: pages.QuestionResponses},
+  AnswerScreen : {screen : pages.AnswerScreen}
 });
 
 const SetAvailabilityNav = StackNavigator({

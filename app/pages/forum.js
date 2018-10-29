@@ -511,7 +511,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
-    height: 200,
+    height: 150,
     width: Metrics.width*.9,
   },
   textStyles: {
