@@ -205,6 +205,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this.rememberOnboarding();
     this.rememberPortal();
+    console.disableYellowBox = true;
     // this.checkIfUserLoggedIn();
     // console.log(JSON.stringify(this.state.hasDoneOnboarding));
   }

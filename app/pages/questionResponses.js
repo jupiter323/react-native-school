@@ -131,11 +131,9 @@ export default class QuestionResponses extends React.Component {
     await this.setState({loading : true, refreshing: true});
     var jedisList = this.state.jedisSectioned[0].data.slice();
     await firebase.database().ref('forum').child(this.state.key).child('answers').on('child_added', async(snapshot) => {
-      console.log("testing loading answers");
       var childKey = snapshot.key;
       var childData = snapshot.val();
       childData.key = childKey;
-      console.log(childData)
       // questionText = childData.question.toLowerCase();
       // searchTextLowercase = this.state.searchText.toLowerCase();
       // if (questionText.includes(searchTextLowercase)) {

@@ -169,10 +169,10 @@ export default class Login extends React.Component {
     //   // console.log("password " + this.state.signUpPassword);
     //   console.log("user " + user);
     //   // console.log("currentUser" + firebase.auth().currentUser);
-    //   const portalType = await AsyncStorage.getItem('portal');
+    const portalType = await AsyncStorage.getItem('portal');
     firebase.database().ref('users').child(user.uid).child('firstName').set(formValues.firstName);
     firebase.database().ref('users').child(user.uid).child('lastName').set(formValues.lastName);
-    //   firebase.database().ref('users').child(user.uid).child('portal').set(portalType);
+    firebase.database().ref('users').child(user.uid).child('portal').set(portalType);
     firebase.database().ref('users').child(user.uid).child('email').set(this.state.signUpEmail);
     firebase.database().ref('users').child(user.uid).child('skypeName').set(this.state.skypeName);
     await AsyncStorage.setItem("hasLoggedIn", "true");

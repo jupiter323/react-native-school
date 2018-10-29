@@ -1,24 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput,
-  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Button, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput, KeyboardAvoidingView, 
+  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Input
+  } from "native-base";
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
+import * as Expo from "expo";
 import Colors from '../Themes/Colors';
 import QuestionBlock from '../components/questionBlock';
-import { Card, ListItem, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { ListItem, Slider, CheckBox, SearchBar, Button } from 'react-native-elements'
 import firebase from 'firebase';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import LoggedOut from '../components/loggedOutScreen';
 import { globalStyles } from '../Themes/Styles';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
+ 
 const {width, height} = Dimensions.get('window');
 
 /*
   Displays information about Jedi
 */
 export default class Forum extends React.Component {
-
+ 
   static navigationOptions = ({ navigation }) => {
   const params = navigation.state.params || {};
   const { navigate } = navigation;
@@ -153,7 +157,7 @@ export default class Forum extends React.Component {
         topic: this.state.currentTopic,
       });
     } else {
-      alert("Please Fill in All Categories");
+      alert("Please choose the topic and fill the input.");
     }
   }
 
@@ -304,43 +308,66 @@ export default class Forum extends React.Component {
                       checked={this.state.checked}
                       onPress={()=> this.onPressTopic(0)}
                     />
-
-                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Modal
-                        isVisible={this.state.isQuestionModalVisible}
-                        onBackdropPress={() => this.setState({ isQuestionModalVisible: false })}
-                        backdropColor={'black'}>
-                        <View style={styles.modalViewQuestion}>
-                        <Text style={styles.modalText}>
-
-                        </Text>
-                          <Text style={styles.modalText}>
-                          Ask a Question!
-                          </Text>
-                          <Text style={styles.modalText}>
-
-
-                          </Text>
-                          <TextInput style={globalStyles.defaultTextInput}
-                             placeholder="Ex: When are the common app essays released?"
-                             underlineColorAndroid="transparent"
-                             multiline={true}
-                             onChangeText={(text) => this.setState({question: text})}
-                             onSubmitEditing={(text) => this.setState({question: text})}
-                             />
-                         <Button
-                           color='#9B59B6'
-                           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
-                           title={this.state.postQuestionTopic}
-                           onPress={() => this.onPressTopic(1)}/>
-                         <Button
-                           color='#9B59B6'
-                           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
-                           title='Post'
-                           onPress={() => this.onPressPostQuestion()}/>
-                        </View>
+                    <KeyboardAvoidingView style={{flex : 1}}>
+                      <View style={{ alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                          <Modal
+                            isVisible={this.state.isQuestionModalVisible}
+                            style={styles.modal}
+                            onBackdropPress={() => this.setState({ isQuestionModalVisible: false })}
+                            backdropColor={'black'}>   
+                            <View
+                              style={styles.modalViewQuestion}
+                            >    
+                              <View style={{flexDirection : 'row', marginTop : 10}}>
+                                <Ionicons style={{ marginLeft: 15, fontWeight : 'bold'}}
+                                  name="ios-close-circle-outline"
+                                  size={Metrics.icons.medium}
+                                  color={'#9B59B6'}
+                                  onPress={() => this.setState({ isQuestionModalVisible: false })}
+                                />
+                                <View style={{flex : 1, alignItems: 'center', width : '100%'}}>
+                                  <Text style={styles.modalText}>
+                                  Ask a Question!
+                                  </Text>
+                                </View>
+                                <FontAwesome style={{ marginRight: 15, fontWeight : 'bold'}}
+                                  name="send"
+                                  size={Metrics.icons.medium}
+                                  color={'#9B59B6'}
+                                  onPress={() => this.onPressPostQuestion()}
+                                />
+                              </View>
+                              <View 
+                              // style={styles.modalViewQuestion}
+                                style={{
+                                  flex: 1,
+                                  justifyContent: "flex-start",
+                                  alignItems: "flex-start",
+                                  width: "100%"
+                                }}
+                              >
+                              <Input style={globalStyles.defaultTextInput}
+                                placeholder="Ex: When are the common app essays released?"
+                                underlineColorAndroid="transparent"
+                                multiline={true}
+                                selectTextOnFocus={true}
+                                spellCheck={true}
+                                onChangeText={(text) => this.setState({question: text})}
+                                onSubmitEditing={(text) => this.setState({question: text})}
+                                />
+                            </View> 
+                            <View style={{flexDirection: "row", margin : 10}}>
+                              <Button
+                                titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
+                                buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                                title={this.state.postQuestionTopic}
+                                onPress={() => this.onPressTopic(1)}/>
+                            </View>
+                        </View>                         
+                          
                     </Modal>
                   </View>
+                  </KeyboardAvoidingView>
 
                 </View>
 
@@ -404,23 +431,23 @@ export default class Forum extends React.Component {
                           Pick a Category!
                           </Text>
                             <Button
-                              backgroundColor='#03A9F4'
-                              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
                               title='College Life'
                               onPress={() => this.onPressCollegeLife()}/>
                             <Button
-                              backgroundColor='#03A9F4'
-                              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
                               title='College Applications'
                               onPress={() => this.onPressCollegeApplications()}/>
                             <Button
-                              backgroundColor='#03A9F4'
-                              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
                               title='Resources'
                               onPress={() => this.onPressResources()}/>
                             <Button
-                              backgroundColor='#03A9F4'
-                              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
                               title='All Topics'
                               onPress={() => this.onPressAllTopics()}/>
                         </View>
@@ -504,9 +531,8 @@ modalViewTopic: {
   borderTopRightRadius: 15,
 },
 modalViewQuestion: {
-  // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.6,
-  padding: 15,
+  width: Metrics.screenWidth*0.9,
+  height: Metrics.screenHeight - 40,
   borderStyle: 'solid',
   borderWidth: .5,
   alignItems: 'center',
@@ -518,10 +544,38 @@ modalViewQuestion: {
   borderTopRightRadius: 15,
 },
 modalText: {
-  fontSize: 24,
+  fontSize: 25,
   fontWeight: 'bold',
+},
+modal: {
+  justifyContent: "flex-start",
+  position : "absolute",
+  // alignItems: "center",
+  zIndex: 4,
+  elevation: 4,
+  width : Metrics.screenWidth,
+  height: Metrics.screenHeight,
+  marginTop: Expo.Constants.statusBarHeight / 2
 },
 icon: {
   marginLeft: 15,
-}
+},
+footerIcons: {
+  flexDirection: "row",
+  alignItems: "center"
+},
+modalFooter: {
+  backgroundColor: "white",
+  elevation: 3,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 0.2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 2,
+  height: 54,
+  width: "100%",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  padding: 5
+},
 });
