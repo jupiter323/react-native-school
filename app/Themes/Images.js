@@ -7,6 +7,7 @@ const images = {
   atlasMoving: require('../Images/atlasMovingLogo.png'),
   curtis: require('../Images/curtisImage.png'),
   gabi: require('../Images/gabiImage.png'),
+  profile : require('../Images/profile.png'),
   movingCompanyImage: require('../Images/movingCompanyScreenshot.png'),
   freelancerImage: require('../Images/freelancerScreenshot.png'),
   buyStuffImage: require('../Images/buyStuffScreenshot.png'),

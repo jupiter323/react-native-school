@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ActivityIndicator, TouchableOpacity, Asy
 import Metrics from '../Themes/Metrics';
 import Colors from '../Themes/Colors';
 import Images from '../Themes/Images';
-import { Card, ListItem, Button, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { Card, ListItem, Button, Slider, CheckBox, SearchBar, Avatar } from 'react-native-elements'
 import firebase from 'firebase';
 import Modal from 'react-native-modal';
 
@@ -64,14 +64,41 @@ export default class QuestionBlock extends React.Component {
     this.props.messageBlock(this.state.convoKey);
   }
 
+  imageButton() {
+    if(this.props.jedi.profileImage){
+      return(
+        <Avatar
+        size="large"
+        source={{uri : this.props.jedi.profileImage}}
+        activeOpacity={0.7}
+        rounded
+      />
+      );
+    } else {
+      return(
+        <Avatar
+        size="large"
+        source={Images.profile}
+        activeOpacity={0.7}
+        rounded
+      />
+      )
+    }
+  }
   render() {
           return (
             <TouchableOpacity onPress={() => this.openConsultantScreen()}>
               <View style={styles.cardView}>
-                <Card style={styles.card}
-                    title={this.props.jedi.question}>
-                    <Text style={styles.textStyles}>
-                    Author: {this.props.jedi.author}
+                <Card style={styles.card}>
+                    <View style={{flexDirection : 'row'}}>
+                      {this.imageButton()}
+                      <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200', lineHeight : 30}}>{this.props.jedi.author}</Text>
+                    </View>
+                    <Text style={{fontSize: 18, marginLeft : 15, fontWeight: 'bold', marginTop : 10, marginBottom : 10, marginRight : 20}}>
+                      {this.props.jedi.question}
+                    </Text>
+                    <Text style={{fontSize: 13, marginLeft : 15, color : '#888', marginTop : 0, marginBottom : 10, marginRight : 20}}>
+                     Topic : {this.props.jedi.topic}
                     </Text>
                     </Card>
 
@@ -108,13 +135,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
-  },
-  textStyles: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    fontWeight: 'bold',
-    fontSize: 12,
   },
 });

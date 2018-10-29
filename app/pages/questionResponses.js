@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Image, Asy
 import Metrics from '../Themes/Metrics';
 import Colors from '../Themes/Colors';
 import Images from '../Themes/Images';
-import { Card, ListItem, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { Card, ListItem, Slider, CheckBox, SearchBar, Avatar } from 'react-native-elements'
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import AnswerBlock from '../components/answerBlock';
@@ -27,6 +27,7 @@ export default class QuestionResponses extends React.Component {
     this.state = {
       jedisSectioned: [{title: 'Jedis',data:[]}],
       profileName: '',
+      profileImage : '',
       userID: firebase.auth().currentUser.uid,
       loading: false,
       refreshing: false,
@@ -46,7 +47,7 @@ export default class QuestionResponses extends React.Component {
   // console.log("uid " + userUID);
   var that = this;
 
-  firebase.auth().onAuthStateChanged(function(user) {
+  await firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       console.log(" User is signed in.");
       // console.log("name " + firebase.database().ref('users').child(userUID).child('name'));
@@ -65,7 +66,7 @@ export default class QuestionResponses extends React.Component {
 
   // console.log("QuestionResponsesScreen item " + JSON.stringify(this.props.navigation.state.params.item));
   // console.log("QuestionResponsesScreen key " + JSON.stringify(this.props.navigation.state.params.item.key));
-  await this.setState({profileName: item.author, question: item.question, key: this.props.navigation.state.params.item.key });
+  await this.setState({profileName: item.author, profileImage : item.profileImage, question: item.question, key: this.props.navigation.state.params.item.key });
   // console.log("question key " + this.state.key);
   this.appendJedis(3,1);
   }
@@ -152,10 +153,7 @@ export default class QuestionResponses extends React.Component {
     });
     console.log("result : " + JSON.stringify(jedisList));
     await this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-  // console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
-  // this.state.jedisSectioned.forEach(function(element) {
-  //   console.log("jedi " + element.value)
-  // });
+
   }
 
   listItemRenderer(item) {
@@ -198,6 +196,26 @@ export default class QuestionResponses extends React.Component {
     this.setState({ isAnswerModalVisible: false});
   }
 
+  myImageButton() {
+    if(this.state.profileImage){
+      return(
+        <Avatar
+          size="large"
+          source={{uri : this.state.profileImage}}
+          activeOpacity={0.7}
+          rounded
+        />
+      );
+    } else {
+      return(
+        <Avatar
+          size="large"
+          source={Images.profile}
+          activeOpacity={0.7}
+          rounded
+        />);
+    }
+  }
   _keyExtractor = (item, index) => index;
 
   render() {
@@ -206,9 +224,12 @@ export default class QuestionResponses extends React.Component {
         <View style={styles.container}>
           <Card style={styles.card}
               title={this.state.question}>
-              <Text style={styles.textStyles}>
-              Author: {this.state.profileName}
-              </Text>
+              <View style={{flexDirection : 'row', marginBottom : 20}}>
+                {this.myImageButton()}
+                <Text style={{lineHeight : 30, fontSize :15, marginLeft: 20, fontWeight : 'bold'}}>
+                {this.state.profileName}
+                </Text>
+              </View>
               <Button
                 icon={{name: 'code'}}
                 backgroundColor='#03A9F4'
@@ -287,6 +308,11 @@ const styles = StyleSheet.create({
     height: Metrics.images.large,
     width: Metrics.images.large,
     borderRadius: Metrics.images.large * 0.5
+  },
+  itemList: {
+    height: Metrics.screenHeight*.6,
+    width: Metrics.screenWidth,
+    paddingTop: 10
   },
   pictureDetails: {
     flexDirection: 'column',

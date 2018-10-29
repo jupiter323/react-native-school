@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Image, ActivityIndicator, TouchableOpacity, Asy
 import Metrics from '../Themes/Metrics';
 import Colors from '../Themes/Colors';
 import Images from '../Themes/Images';
-import { Card, ListItem, Button, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import ReadMore from 'react-native-read-more-text';
+import { Card, ListItem, Button, Slider, CheckBox, SearchBar, Avatar } from 'react-native-elements'
 import firebase from 'firebase';
 import Modal from 'react-native-modal';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -99,102 +100,61 @@ export default class AnswerBlock extends React.Component {
     })
   }
 
-  // storeUpvote =() => {
-  //     var upvotes;
-  //     var downvotes;
-  //     var total;
-  //     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //     .child(this.props.jedi.key).on('value',(snapshot) => {
-  //     var childKey = snapshot.key;
-  //     var childData = snapshot.val();
-  //     upvotes = childData.upvotes + 1;
-  //     downvotes = childData.downvotes;
-  //     total = upvotes - downvotes;
-  //   });
-
-  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //   .child(this.props.jedi.key).update({
-  //     upvotes: upvotes,
-  //     downvotes: downvotes,
-  //     totalUpvotes: total,
-  //   });
-  // }
-
-  // reverseUpvote =() => {
-  //   var upvotes;
-  //   var downvotes;
-  //   var total;
-  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //   .child(this.props.jedi.key).on('value',(snapshot) => {
-  //   var childKey = snapshot.key;
-  //   var childData = snapshot.val();
-  //   upvotes = childData.upvotes - 1;
-  //   downvotes = childData.downvotes;
-  //   total = upvotes - downvotes;
-  // });
-
-  // firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  // .child(this.props.jedi.key).update({
-  //   upvotes: upvotes,
-  //   downvotes: downvotes,
-  //   totalUpvotes: total,
-  // });
-  // }
-
-  // storeDownvote =() => {
-  //     var upvotes;
-  //     var downvotes;
-  //     var total;
-  //     firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //     .child(this.props.jedi.key).on('value',(snapshot) => {
-  //     var childKey = snapshot.key;
-  //     var childData = snapshot.val();
-  //     upvotes = childData.upvotes;
-  //     downvotes = childData.downvotes + 1;
-  //     total = upvotes - downvotes;
-  //   });
-
-  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //   .child(this.props.jedi.key).update({
-  //     upvotes: upvotes,
-  //     downvotes: downvotes,
-  //     totalUpvotes: total,
-  //   });
-  // }
-
-  // reverseDownvote =() => {
-  //   var upvotes;
-  //   var downvotes;
-  //   var total;
-  //   firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  //   .child(this.props.jedi.key).on('value',(snapshot) => {
-  //   var childKey = snapshot.key;
-  //   var childData = snapshot.val();
-  //   upvotes = childData.upvotes;
-  //   downvotes = childData.downvotes - 1;
-  //   total = upvotes - downvotes;
-  // });
-
-  // firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-  // .child(this.props.jedi.key).update({
-  //   upvotes: upvotes,
-  //   downvotes: downvotes,
-  //   totalUpvotes: total,
-  // });
-  // }
+  imageButton(){
+    if(this.props.jedi.profileImage){
+      return(
+        <Avatar
+          size="large"
+          source={{uri : this.props.jedi.profileImage}}
+          activeOpacity={0.7}
+          rounded
+        />
+      );
+    } else 
+      return(
+        <Avatar
+          size="large"
+          source={Images.profile}
+          activeOpacity={0.7}
+          rounded
+        />);
+  }
 
 
   render() {
           return (
-            <TouchableOpacity onPress={() => this.openConsultantScreen()}>
+            <TouchableOpacity>
               <View style={styles.cardView}>
-                <Card style={styles.card}
-                    title={this.props.jedi.answer}>
+                <Card style={styles.card}>
+                  <View style={{flexDirection : 'row'}}>
+                    {this.imageButton()}
+                    <Text style={{fontSize : 15, marginLeft :20, fontWeight : 'bold', lineHeight : 30}}>{this.props.jedi.author}</Text>
+                  </View>
+                  <View style={{marginTop :10}}> 
+                    <ReadMore
+                      numberOfLines={3}
+                      renderTruncatedFooter={this._renderTruncatedFooter}
+                      renderRevealedFooter={this._renderRevealedFooter}
+                      onReady={this._handleTextReady}>
+                      <Text style={styles.cardText}>
+                        {this.props.jedi.answer}
+                      </Text>
+                    </ReadMore>
+                  </View>
                     <Text style={styles.textStyles}>
-                    Author: {this.props.jedi.author}
-                    </Text>
-                    <Text style={styles.textStyles}>
-                    totalUpvotes: {this.state.upVotes - this.state.downVotes} Upvotes: {this.state.upVotes} Downvotes: {this.state.downVotes}
+                    {/* totalUpvotes: {this.state.upVotes - this.state.downVotes}  */}
+                    <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
+                      name="thumbs-o-up"
+                      size={20}
+                      color={'#9B59B6'}
+                      onPress={() => this.onPressUpvote()}
+                      />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
+                    <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
+                      name="thumbs-o-down"
+                      size={20}
+                      color={'#9B59B6'}
+                      onPress={() => this.onPressDownvote()}
+                    />&nbsp;&nbsp; {this.state.downVotes}
                     </Text>
                     {/* <Text style={styles.textStyles}>
                     Upvotes: {this.props.jedi.totalUpvotes}
@@ -205,7 +165,7 @@ export default class AnswerBlock extends React.Component {
                     <Text style={styles.textStyles}>
                     Upvotes: {this.props.forumLocation}
                     </Text> */}
-                    <View style={styles.ratingButtons}>
+                  {/* <View style={styles.ratingButtons}>
                     <Feather style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
                       name="arrow-up"
                       size={Metrics.icons.medium}
@@ -218,12 +178,28 @@ export default class AnswerBlock extends React.Component {
                       color={'black'}
                       onPress={() => this.onPressDownvote()}
                     />
-                    </View>
-                    </Card>
+                  </View> */}
+                </Card>
 
               </View>
             </TouchableOpacity>
             );
+  }
+
+  _renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text style={{color: '#888', marginTop: 5}} onPress={handlePress}>
+        Read more
+      </Text>
+    );
+  }
+
+  _renderRevealedFooter = (handlePress) => {
+    return (
+      <Text style={{color: '#888', marginTop: 5}} onPress={handlePress}>
+        Show less
+      </Text>
+    );
   }
 }
 
@@ -261,15 +237,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: 15,
   },
   ratingButtons: {
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#999999',
+    color: '#999999'
   },
   buttonNotPressed: {
-    color: 'black',
+    color: '#9B59B6'
   },
 });

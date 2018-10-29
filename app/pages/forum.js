@@ -61,6 +61,7 @@ export default class Forum extends React.Component {
       searchText: '',
       isTopicModalVisible: false,
       isQuestionModalVisible: false,
+      profileImage: '',
       currentTopic: 'Select a Question Topic',
       postQuestionTopic : 'Select a Question Topic',
       isPostTopic : false,
@@ -132,7 +133,7 @@ export default class Forum extends React.Component {
           var childData = snapshot.val();
           childData.key = childKey;
           name = childData.name;
-          that.setState({userName: name, userPortal: childData.portal},
+          that.setState({userName: name, userPortal: childData.portal, profileImage : childData.profilePicture},
              () => console.log("user portal in function " + that.state.userPortal));
         });
       } else {
@@ -154,7 +155,8 @@ export default class Forum extends React.Component {
         question: this.state.question,
         portalQuestion: this.state.userPortal,
         author: this.state.userName,
-        topic: this.state.currentTopic,
+        topic: this.state.postQuestionTopic,
+        profileImage : this.state.profileImage
       });
     } else {
       alert("Please choose the topic and fill the input.");
@@ -346,7 +348,15 @@ export default class Forum extends React.Component {
                                   width: "100%"
                                 }}
                               >
-                              <Input style={globalStyles.defaultTextInput}
+                              <Input style={{
+                                flex: 1,
+                                width: "100%",
+                                fontSize: 20,
+                                alignContent: "flex-start",
+                                justifyContent: "flex-start",
+                                textAlignVertical: "top",
+                                margin: 12
+                                }}
                                 placeholder="Ex: When are the common app essays released?"
                                 underlineColorAndroid="transparent"
                                 multiline={true}
@@ -513,69 +523,69 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   itemList: {
-  height: Metrics.screenHeight*.6,
-  width: Metrics.screenWidth,
-  paddingTop: 10,
-},
-modalViewTopic: {
-  // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.6,
-  borderStyle: 'solid',
-  borderWidth: .5,
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-},
-modalViewQuestion: {
-  width: Metrics.screenWidth*0.9,
-  height: Metrics.screenHeight - 40,
-  borderStyle: 'solid',
-  borderWidth: .5,
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-},
-modalText: {
-  fontSize: 25,
-  fontWeight: 'bold',
-},
-modal: {
-  justifyContent: "flex-start",
-  position : "absolute",
-  // alignItems: "center",
-  zIndex: 4,
-  elevation: 4,
-  width : Metrics.screenWidth,
-  height: Metrics.screenHeight,
-  marginTop: Expo.Constants.statusBarHeight / 2
-},
-icon: {
-  marginLeft: 15,
-},
-footerIcons: {
-  flexDirection: "row",
-  alignItems: "center"
-},
-modalFooter: {
-  backgroundColor: "white",
-  elevation: 3,
-  shadowColor: "#000",
-  shadowOffset: { width: 0, height: 0.2 },
-  shadowOpacity: 0.3,
-  shadowRadius: 2,
-  height: 54,
-  width: "100%",
-  flexDirection: "row",
-  justifyContent: "flex-start",
-  alignItems: "center",
-  padding: 5
-},
+    height: Metrics.screenHeight*.6,
+    width: Metrics.screenWidth,
+    paddingTop: 10,
+  },
+  modalViewTopic: {
+    // width: Metrics.screenWidth,
+    height: Metrics.screenHeight*.6,
+    borderStyle: 'solid',
+    borderWidth: .5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  modalViewQuestion: {
+    width: Metrics.screenWidth*0.9,
+    height: Metrics.screenHeight - 40,
+    borderStyle: 'solid',
+    borderWidth: .5,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  modalText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  modal: {
+    justifyContent: "flex-start",
+    position : "absolute",
+    // alignItems: "center",
+    zIndex: 4,
+    elevation: 4,
+    width : Metrics.screenWidth,
+    height: Metrics.screenHeight,
+    marginTop: Expo.Constants.statusBarHeight / 2
+  },
+  icon: {
+    marginLeft: 15,
+  },
+  footerIcons: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  modalFooter: {
+    backgroundColor: "white",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0.2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    height: 54,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: 5
+  },
 });
