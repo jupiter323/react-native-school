@@ -75,10 +75,10 @@ export default class Forum extends React.Component {
     // console.log(JSON.stringify(props));
   }
 
-  async appendJedis(count, start) {
-    
-    await this.setState({loading:true, refreshing : true});
-    await firebase.database().ref('forum').on('child_added', async(snapshot) => {
+async appendJedis(count, start) {
+
+  await this.setState({loading:true, refreshing : true});
+  await firebase.database().ref('forum').on('child_added', async(snapshot) => {
     var childKey = snapshot.key;
     var childData = snapshot.val();
     childData.key = childKey;
@@ -99,7 +99,7 @@ export default class Forum extends React.Component {
     }
     await this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
     console.log("loading : " + this.state.loading);
-    
+
     // console.log(childData);
   });
 
@@ -107,14 +107,14 @@ export default class Forum extends React.Component {
   this.state.jedisSectioned.forEach(function(element) {
     console.log("jedi " + element.value)
   });
-    // var jedisList = this.state.jedisSectioned[0].data.slice();
-    // this.setState({loading: true});
-    // for(i=start; i < count+start; i++) {
-    //   await this.getJedi(i, jedisList);
-    // }
-    // this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-    //do i need a for loop right here to check to see if there are duplicate values
-  }
+  // var jedisList = this.state.jedisSectioned[0].data.slice();
+  // this.setState({loading: true});
+  // for(i=start; i < count+start; i++) {
+  //   await this.getJedi(i, jedisList);
+  // }
+  // this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
+  //do i need a for loop right here to check to see if there are duplicate values
+}
 
   componentWillMount = async() => {
     this.checkIfUserLoggedIn();

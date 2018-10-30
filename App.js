@@ -65,6 +65,10 @@ const HomeStackNav = StackNavigator({
   title: 'Home',
 });
 
+const UpcomingNav = StackNavigator({
+  UpcomingScreen : {screen : pages.UpcomingScreen}
+})
+
 const FindConsultantNav = StackNavigator({
   FindConsultantScreen: {screen: pages.FindConsultant},
   SelectConsultant: {screen: pages.SelectConsultant},
@@ -136,6 +140,7 @@ const ConsultantNav = DrawerNavigator({
   Profile: {screen: ProfileNavConsultant},
   Messages: {screen: MessagesNav},
   Forum: {screen: ForumNav},
+  Upcoming : {screen : UpcomingNav},
   Logout: {screen: pages.Logout},
   SetAvailability: {screen: SetAvailabilityNav},
 }, {
@@ -153,6 +158,7 @@ const StudentNav = DrawerNavigator({
   FindConsultant: {screen: FindConsultantNav},
   Forum: {screen: ForumNav},
   Resources: {screen: ResourcesNav},
+  Upcoming : {screen : UpcomingNav},
   Blank: {screen: pages.Blank2},
   Logout: {screen: pages.Logout},
 }, {
