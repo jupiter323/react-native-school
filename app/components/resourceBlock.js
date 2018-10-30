@@ -88,19 +88,19 @@ const styles = StyleSheet.create({
   cardSelected: {
     margin: 0,
     borderRadius: Metrics.buttonRadius,
-    backgroundColor: '#9B59B6',
+    backgroundColor: '#e0a8f7',
   },
   cardNotSelected: {
     margin: 0,
     borderRadius: Metrics.buttonRadius,
     backgroundColor: 'white',
-    borderColor: '#9B59B6',
+    borderColor: '#e0a8f7',
   },
   cardTitleSelected: {
     color: 'white',
   },
   cardTitleNotSelected: {
-    color: '#9B59B6',
+    color: '#e0a8f7',
   },
   pictureView: {
     marginLeft: Metrics.marginHorizontal,
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#9B59B6',
+    color: '#e0a8f7',
   },
   buttonNotPressed: {
     color: 'black',

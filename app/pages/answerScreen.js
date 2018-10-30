@@ -127,13 +127,13 @@ export default class AnswerScreen extends React.Component {
                         <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
                             name="thumbs-o-up"
                             size={20}
-                            color={'#cc7bed'}
+                            color={'#e0a8f7'}
                             onPress={() => this.onPressUpvote()}
                             />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
                         <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
                             name="thumbs-o-down"
                             size={20}
-                            color={'#cc7bed'}
+                            color={'#e0a8f7'}
                             onPress={() => this.onPressDownvote()}
                         />&nbsp;&nbsp; {this.state.downVotes}
                     </Text>        */}
@@ -167,6 +167,6 @@ const styles = StyleSheet.create({
     color: '#999999'
     },
     buttonNotPressed: {
-    color: '#cc7bed'
+    color: '#e0a8f7'
     },
 });

@@ -162,12 +162,12 @@ export default class UploadSaleConsultant extends React.Component {
           <Button
             onPress={() => this.onPressUploadPicture()}
             title="Upload Profile Pic"
-            color="#9B59B6"
+            color="#e0a8f7"
           />
           <Button
             onPress={() => this.onPressTakePicture()}
             title="Take Profile Pic"
-            color="#9B59B6"/>
+            color="#e0a8f7"/>
         </View>)
 
     } else {
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     marginBottom: 55,
-    backgroundColor: '#9B59B6',
+    backgroundColor: '#e0a8f7',
   },
   postButtonText: {
     color: 'white',

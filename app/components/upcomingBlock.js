@@ -79,7 +79,7 @@ export default class UpcomingBlock extends React.Component {
             return(
                 <Button
                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 100,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                buttonStyle={{width : 100,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#e0a8f7'}}
                 title={"Pay"}
                 onPress={() => this.payout()}
                 />
@@ -89,7 +89,7 @@ export default class UpcomingBlock extends React.Component {
             return(
                 <Button
                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 100,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                buttonStyle={{width : 100,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#e0a8f7'}}
                 title={"Request"}
                 onPress={() => this.payout()}            
                 ></Button>

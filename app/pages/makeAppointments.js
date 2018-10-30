@@ -31,7 +31,7 @@ export default class MakeAppointments extends React.Component {
         <Feather style={styles.icon}
           name="menu"
           size={Metrics.icons.medium}
-          color={'#cc7bed'}
+          color={'#e0a8f7'}
           onPress={() => navigate('DrawerToggle')}
         />
       ),
@@ -39,7 +39,7 @@ export default class MakeAppointments extends React.Component {
         <Feather style={{ marginRight: 15}}
           name="save"
           size={Metrics.icons.medium}
-          color={'#cc7bed'}
+          color={'#e0a8f7'}
           onPress={params.saveAppointments}
         />
       ),
@@ -306,7 +306,7 @@ export default class MakeAppointments extends React.Component {
                            onSubmitEditing={(text) => this.setState({appointmentGoal: text})}
                            />
                        <Button
-                         color='#cc7bed'
+                         color='#e0a8f7'
                          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                          title='Book'
                          onPress={() => this.onPressBookAppointments()}/>

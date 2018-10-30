@@ -80,7 +80,7 @@ export default class FindConsultant extends React.Component {
         <Feather style={styles.icon}
           name="menu"
           size={Metrics.icons.medium}
-          color={'#cc7bed'}
+          color={'#e0a8f7'}
           onPress={() => navigate('DrawerToggle')}
         />
       )
@@ -339,7 +339,7 @@ export default class FindConsultant extends React.Component {
               <View style={{ height: 200, width: Metrics.screenWidth * .9, justifyContent: 'center', marginBottom: 10 }}>
                 <Slider
                   value={this.state.price}
-                  thumbTintColor='#cc7bed'
+                  thumbTintColor='#e0a8f7'
                   minimumValue={5}
                   maximumValue={250}
                   value={140}

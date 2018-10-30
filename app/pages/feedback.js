@@ -17,7 +17,7 @@ export default class Feedback extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#cc7bed'}
+        color={'#e0a8f7'}
         onPress={() => navigate('DrawerToggle')}
       />
       )
@@ -32,7 +32,7 @@ export default class Feedback extends React.Component {
                   <Button
                   title="Give Feedback"
                   onPress={this.handleEmail}
-                  backgroundColor="#cc7bed"/>
+                  backgroundColor="#e0a8f7"/>
                 </View>
             </View>
         )
@@ -50,7 +50,7 @@ export default class Feedback extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#cc7bed',
+      backgroundColor: '#e0a8f7',
       alignItems: 'center',
       justifyContent: 'center'
     },

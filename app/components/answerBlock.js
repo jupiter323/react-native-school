@@ -152,13 +152,13 @@ export default class AnswerBlock extends React.Component {
               <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
                 name="thumbs-o-up"
                 size={20}
-                color={'#9B59B6'}
+                color={'#e0a8f7'}
                 onPress={() => this.onPressUpvote()}
                 />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
               <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
                 name="thumbs-o-down"
                 size={20}
-                color={'#9B59B6'}
+                color={'#e0a8f7'}
                 onPress={() => this.onPressDownvote()}
               />&nbsp;&nbsp; {this.state.downVotes}
               </Text>          
