@@ -269,12 +269,12 @@ export default class QuestionResponses extends React.Component {
                        onSubmitEditing={(text) => this.setState({answer: text})}
                        />
                    <Button
-                     color='#9B59B6'
+                     color='#cc7bed'
                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                      title='Post'
                      onPress={() => this.onPressPostAnswer()}/>
                    <Button
-                     color='#9B59B6'
+                     color='#cc7bed'
                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
                      title='Cancel'
                      onPress={() => this.setState({ isAnswerModalVisible: false})}/>

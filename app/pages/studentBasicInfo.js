@@ -22,7 +22,7 @@ export default class StudentBasicInfo extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#9B59B6'}
+        color={'#cc7bed'}
         onPress={() => navigate('DrawerToggle')}
       />
       )

@@ -69,7 +69,7 @@ export default class SetAvailabilityScreen extends React.Component {
       <Feather style={styles.icon}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#9B59B6'}
+        color={'#cc7bed'}
         onPress={() => navigate('DrawerToggle')}
       />
       )

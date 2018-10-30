@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   movingView: {
     flex: 1,
-    backgroundColor: '#9B59B6',
+    backgroundColor: '#cc7bed',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   buyingView: {
     flex: 1,
-    backgroundColor: '#9B59B6',
+    backgroundColor: '#cc7bed',
     justifyContent: 'center',
     alignItems: 'center',
   },

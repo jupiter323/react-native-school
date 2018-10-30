@@ -33,7 +33,7 @@ export default class Forum extends React.Component {
       <Feather style={{ marginLeft: 15}}
         name="menu"
         size={Metrics.icons.medium}
-        color={'#9B59B6'}
+        color={'#cc7bed'}
         onPress={() => navigate('DrawerToggle')}
       />
     ),
@@ -41,7 +41,7 @@ export default class Forum extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'#9B59B6'}
+        color={'#cc7bed'}
         onPress={params.createQuestion}
       />
     ),
@@ -324,7 +324,7 @@ async appendJedis(count, start) {
                                 <Ionicons style={{ marginLeft: 15, fontWeight : 'bold'}}
                                   name="ios-close-circle-outline"
                                   size={Metrics.icons.medium}
-                                  color={'#9B59B6'}
+                                  color={'#cc7bed'}
                                   onPress={() => this.setState({ isQuestionModalVisible: false })}
                                 />
                                 <View style={{flex : 1, alignItems: 'center', width : '100%'}}>
@@ -335,7 +335,7 @@ async appendJedis(count, start) {
                                 <FontAwesome style={{ marginRight: 15, fontWeight : 'bold'}}
                                   name="send"
                                   size={Metrics.icons.medium}
-                                  color={'#9B59B6'}
+                                  color={'#cc7bed'}
                                   onPress={() => this.onPressPostQuestion()}
                                 />
                               </View>
@@ -369,7 +369,7 @@ async appendJedis(count, start) {
                             <View style={{flexDirection: "row", margin : 10}}>
                               <Button
                                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                                buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                                buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#cc7bed'}}
                                 title={this.state.postQuestionTopic}
                                 onPress={() => this.onPressTopic(1)}/>
                             </View>
