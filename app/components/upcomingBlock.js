@@ -77,21 +77,22 @@ export default class UpcomingBlock extends React.Component {
     paymentButton(){
         if(this.state.portal=='student'){
             return(
-            <Button
-            titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-            buttonStyle={{width : 150,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
-            title={"Pay"}
-            onPress={() => this.payout()}
-            />
+                <Button
+                titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
+                buttonStyle={{width : 100,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                title={"Pay"}
+                onPress={() => this.payout()}
+                />
+          
             );
         } else {
             return(
-            <Button
-            titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-            buttonStyle={{width : 150,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
-            title={"Request"}
-            onPress={() => this.payout()}            
-            ></Button>
+                <Button
+                titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
+                buttonStyle={{width : 100,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#9B59B6'}}
+                title={"Request"}
+                onPress={() => this.payout()}            
+                ></Button>
             );
         }
     }
@@ -101,12 +102,15 @@ export default class UpcomingBlock extends React.Component {
         return(
             <View style={styles.cardView}>
                 <Card>
-                    <View style={{flexDirection : 'row'}}>
-                        {this.imageButton()}
-                        <View style={{flexDirection : 'column'}}>
-                            <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{this.state.profileName}</Text>
-                            <Text style={{fontSize : 13, marginLeft :20}}>{this.props.upcoming.startTime} - {this.props.upcoming.endTime}</Text>
-                        </View>     
+                    <View style={{flexDirection : 'row', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection : 'row'}}>
+                            {this.imageButton()}
+                            <View style={{flexDirection : 'column'}}>
+                                <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{this.state.profileName}</Text>
+                                <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.startTime} -</Text>
+                                <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.endTime}</Text>
+                            </View>     
+                        </View>                       
                         {this.paymentButton()}                  
                     </View>
                 </Card>
