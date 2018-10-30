@@ -226,9 +226,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonPressed: {
-    color: '#999999'
+    fontWeight : 'bold',
+    color: '#03A9F4'
   },
   buttonNotPressed: {
-    color: '#9B59B6'
+    fontWeight : 'bold',
+    color: '#999999'
   },
 });

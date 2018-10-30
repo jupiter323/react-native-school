@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ActivityIndicator, TouchableOpacity, Asy
 import Metrics from '../Themes/Metrics';
 import Colors from '../Themes/Colors';
 import Images from '../Themes/Images';
-import { Card, ListItem, Button, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { Card, ListItem, Button, Slider, CheckBox, SearchBar, Avatar } from 'react-native-elements'
 import firebase from 'firebase';
 import { WebBrowser } from 'expo';
 import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-check-app-install';
@@ -47,6 +47,7 @@ export default class SaleBlock extends React.Component {
   }
 
   componentWillMount =async() => {
+    console.log("SaleBlock page open");
     var that = this;
     await firebase.database().ref('users').child(this.props.jedi.key).on('value', (snapshot) => {
       var childKey = snapshot.key;
@@ -95,7 +96,25 @@ export default class SaleBlock extends React.Component {
     console.log("pressed message: ");
     this.props.messageBlock(this.state.convoKey);
   }
-
+  imageButton(){
+    if(this.state.profilePicture){
+      return(
+        <Avatar
+          size="xlarge"
+          source={{uri : this.state.profilePicture}}
+          activeOpacity={0.7}
+          rounded
+        />
+      );
+    } else 
+      return(
+        <Avatar
+          size="xlarge"
+          source={Images.profile}
+          activeOpacity={0.7}
+          rounded
+        />);
+  }
 
   render() {
     return (
@@ -104,20 +123,28 @@ export default class SaleBlock extends React.Component {
           <Card style={styles.card}
               // title={this.state.name}
               image={{uri: this.state.profilePicture}}
-              imageStyle={{ flex: 1, height: metrics.screenWidth - 30}}
-              imageProps={{ resizeMode: 'cover'}}>
-              <Text style={styles.textStyles}>
-              Name: {this.state.name}
-              </Text>
-              <Text style={styles.textStyles}>
-              Hometown: {this.state.cityState}
-              </Text>
-              <Text style={styles.textStyles}>
-              Affiliation: {this.state.schoolName}
-              </Text>
-              <Text style={styles.textStyles}>
-              Price: ${this.props.jedi.price}/hr
-              </Text>
+              imageStyle={{ flex: 1,  marginLeft: 'auto', marginRight : 'auto', width : 300, height: 200}}
+              imageProps={{ resizeMode: 'cover'}}
+              >
+              <View style={{flexDirection :'row'}}>
+
+                {/* {this.imageButton()} */}
+                <View style={{flexDirection :'column'}}>
+                  <Text style={styles.textStyles}>
+                  Name: {this.state.name}
+                  </Text>
+                  <Text style={styles.textStyles}>
+                  Hometown: {this.state.cityState}
+                  </Text>
+                  <Text style={styles.textStyles}>
+                  Affiliation: {this.state.schoolName}
+                  </Text>
+                  <Text style={styles.textStyles}>
+                  Price: ${this.props.jedi.price}/hr
+                  </Text>
+                </View>
+              </View>
+              
               <Button
                 icon={{name: 'code'}}
                 backgroundColor='#03A9F4'
