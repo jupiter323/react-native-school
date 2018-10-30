@@ -20,6 +20,7 @@ export default class Logout extends React.Component {
       console.log("hasLoggedOut" + logoutCheck);
       console.log("jimmmmmmmmm");
       await firebase.auth().signOut();
+      await AsyncStorage.setItem('portal', '');
       this.props.navigation.navigate('Home');
     }
 
@@ -38,7 +39,7 @@ export default class Logout extends React.Component {
                   <Button
                   title="Logout"
                   onPress={() => this.onPressLogout()}
-                  color="#e0a8f7"/>
+                  color="#c77ce8"/>
                 </View>
 
               </View>
@@ -53,7 +54,7 @@ export default class Logout extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#e0a8f7',
+      backgroundColor: '#c77ce8',
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
       height: Metrics.screenHeight*.05,
       borderWidth: 1,
       marginBottom: 55,
-      backgroundColor: '#e0a8f7',
+      backgroundColor: '#c77ce8',
       alignItems: 'center',
       justifyContent: 'center',
     },
