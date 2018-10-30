@@ -50,7 +50,7 @@ export default class Feedback extends React.Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#c77ce8',
+      backgroundColor: '#c77ce855',
       alignItems: 'center',
       justifyContent: 'center'
     },

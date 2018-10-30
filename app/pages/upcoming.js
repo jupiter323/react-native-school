@@ -10,6 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import UpcomingBlock from '../components/upcomingBlock'
 import Metrics from '../Themes/Metrics';
 import * as Expo from "expo";
+import LoggedOut from '../components/loggedOutScreen';
 export default class UpcomingScreen extends React.Component {
 
     static navigationOptions = {
@@ -21,13 +22,15 @@ export default class UpcomingScreen extends React.Component {
             portal : '',
             loading : false,
             refreshing : false,
-            userId : firebase.auth().currentUser.uid,
+            userId : '',
             upcomingApts: [{title: 'upcoming',data:[]}],
+            hasLoggedIn: false,
         }        
     }
 
    
     componentWillMount= async() => {
+        await this.checkIfUserLoggedIn();
         var userUID = firebase.auth().currentUser.uid;
         var that = this;
         await firebase.auth().onAuthStateChanged(async function(user) {
@@ -49,10 +52,20 @@ export default class UpcomingScreen extends React.Component {
         });   
         
     }
+    checkIfUserLoggedIn = async() => {
+        const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
+        if (loginCheck === "true") {
+          await this.setState({hasLoggedIn: true});
+          await this.setState({userId : firebase.auth().currentUser.uid})
+          console.log("hasLoggedIn" + this.state.hasLoggedIn);
+          console.log("metroooooooo");
+        }
+    }
 
     async appendUpcoming(count, start) {
     
         await this.setState({loading:true, refreshing : true});
+        
         await firebase.database().ref('appointments').on('child_added', async(snapshot) => {
             var childKey = snapshot.key;
             var childData = snapshot.val();
@@ -105,25 +118,31 @@ export default class UpcomingScreen extends React.Component {
     //     )
     // }
     render() {
-        return(
-            <View style={styles.container}>
-                <View style={styles.itemList}>
-                <SectionList
-                sections={this.state.upcomingApts}
-                // onEndReached={() => this.loadMore(3,this.state.jedisSectioned[0].data.length+1)}
-                renderItem={({item}) => this.listItemRenderer(item)}
-                // renderItem={this.renderItem}
-                ItemSeparatorComponent = {() => (<View style={{height: 10}}/>)}
-                keyExtractor={this._keyExtractor}
-                contentContainerStyle = {{alignItems: 'center'}}
-                onRefresh = {() => this.resetList()}
-                refreshing = {this.state.refreshing}
-                removeClippedSubviews = {true}
-                />
-            </View>
-            </View>
-          
+
+        if (!this.state.hasLoggedIn) {
+            return (<LoggedOut/>);
+        } else {
+        
+            return(
+                <View style={styles.container}>
+                    <View style={styles.itemList}>
+                    <SectionList
+                    sections={this.state.upcomingApts}
+                    // onEndReached={() => this.loadMore(3,this.state.jedisSectioned[0].data.length+1)}
+                    renderItem={({item}) => this.listItemRenderer(item)}
+                    // renderItem={this.renderItem}
+                    ItemSeparatorComponent = {() => (<View style={{height: 10}}/>)}
+                    keyExtractor={this._keyExtractor}
+                    contentContainerStyle = {{alignItems: 'center'}}
+                    onRefresh = {() => this.resetList()}
+                    refreshing = {this.state.refreshing}
+                    removeClippedSubviews = {true}
+                    />
+                </View>
+                </View>
+       
         )
+        }
     }
 }
 
