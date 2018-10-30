@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView  } from 'react-native';
 import PropTypes from 'prop-types';
+
+import { Button } from 'react-native-elements'
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import Onboarding from 'react-native-onboarding-swiper';
@@ -53,25 +55,30 @@ export default class OnboardingScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-      <View style={styles.feedbackBox}>
-      <Text style={styles.textStyles}>Here at MoveItMoveIt, we love to improve. Your input can help us do that. :)</Text>
+        <View style={styles.feedbackBox}>
+          <Text style={styles.textStyles}>Here at MoveItMoveIt, we love to improve.</Text>
+          <Text style={styles.textStyles}>Your input can help us do that. :)</Text>
           <Button
           title="Students"
+          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={this._selectPortalStudent}
           backgroundColor="#e0a8f7"/>
 
           <Button
           title="Consultants"
+          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={this._selectPortalConsultant}
           backgroundColor="#e0a8f7"/>
 
           <Button
           title="Educators"
+          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={this._selectPortalSchool}
           backgroundColor="#e0a8f7"/>
 
           <Button
           title="Parents"
+          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={this._selectPortalParent}
           backgroundColor="#e0a8f7"/>
         </View>
@@ -94,4 +101,9 @@ const styles = StyleSheet.create({
     width: Metrics.screenWidth*.5,
     borderRadius: 15
   },
+  textStyles : {
+    textAlign : 'center',
+    fontSize : 20,
+    fontWeight : 'bold',
+  }
 });
