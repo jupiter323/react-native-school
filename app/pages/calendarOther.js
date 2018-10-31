@@ -39,11 +39,11 @@ export default class CalendarScreen extends React.Component {
     return (
       <View style={styles.container}>
       <StatusBar barStyle="light-content"/>
-      <View>
+      {/* <View>
         <TouchableOpacity onPress={() => this._onPressBack() }><Text>Back</Text></TouchableOpacity>
                     <Text></Text>
                     <Text></Text>
-      </View>
+      </View> */}
         <Calendar
           onDayPress={this.onDayPress}
           style={styles.calendar}
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   calendar: {
-    borderTopWidth: 1,
+    margin : 20,
+    borderWidth: 2,
     paddingTop: 5,
-    borderBottomWidth: 1,
     borderColor: '#c77ce8',
     height: 350
   }

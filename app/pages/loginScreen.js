@@ -438,7 +438,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c77ce8',
+    backgroundColor: '#c77ce855',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -449,6 +449,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
     borderStyle: 'solid',
+    borderColor : '#c77ce8',
     borderWidth: 0.5,
     borderTopLeftRadius: Metrics.screenWidth * .05,
     borderTopRightRadius: Metrics.screenWidth * .05,
