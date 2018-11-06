@@ -9,10 +9,13 @@
 
 import React from 'react';
 import {
-  AppRegistry, StyleSheet, Text, View, TouchableOpacity, StatusBar, Button,
+  AppRegistry, StyleSheet, Text, View, TouchableOpacity, StatusBar, 
   SectionList, ActivityIndicator, FlatList, TextInput, AsyncStorage} from 'react-native';
+import { Input
+  } from "native-base";
 import * as firebase from 'firebase'
 import TimelineBlock from '../components/timelineBlock';
+import { Button } from 'react-native-elements'
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import Metrics from '../Themes/Metrics';
@@ -23,10 +26,19 @@ export default class TimelineSheet extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
   const params = navigation.state.params || {};
-  const { navigate } = navigation;
+  const { navigate, state } = navigation;
   return {
     headerTitle: params.year + " Year",
     title: 'Timeline',
+    headerRight: (
+      <Feather
+        style={{ marginRight: 15}}
+        onPress={state.params.handleAdd}
+        name="plus-circle"
+        size={Metrics.icons.medium}
+        color={'#c77ce8'}
+      />
+    ),
     }
 };
 
@@ -46,6 +58,7 @@ export default class TimelineSheet extends React.Component {
    _keyExtractor = (item, index) => item.key;
 
    componentWillMount =async() => {
+     this.props.navigation.setParams({handleAdd : this.toggleModal});
      await this.setState({ year: this.props.navigation.state.params.year});
      var goalsArrayRetrieved = await AsyncStorage.getItem(JSON.stringify(this.state.year));
      console.log("goals array retrieved " + goalsArrayRetrieved);
@@ -119,15 +132,9 @@ export default class TimelineSheet extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={this.listItemRenderer}
         />
-        <Feather
-          onPress={()=> this.toggleModal()}
-          name="plus-circle"
-          size={Metrics.icons.medium}
-          color={'#c77ce8'}
-        />
+       
         <Button
-          color='#c77ce8'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 30}}
           title='Save'
           onPress={() => this.onPressSaveGoals()}/>
 
@@ -147,7 +154,21 @@ export default class TimelineSheet extends React.Component {
 
 
                 </Text>
-                <TextInput style={globalStyles.defaultTextInput}
+                <Input style={{
+                    width: '100%',
+                    alignContent: "flex-start",
+                    justifyContent: "flex-start",
+                    minHeight: 40,
+                    textAlignVertical: "top",
+                    padding: 10,
+                    fontSize: 14,
+                    textDecorationLine: 'none',
+                    lineHeight: 20,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    borderColor: '#c77ce8',
+                    backgroundColor: 'white',
+                }}
                    placeholder="Ex: When are the common app essays released?"
                    underlineColorAndroid="transparent"
                    multiline={true}
@@ -155,8 +176,7 @@ export default class TimelineSheet extends React.Component {
                    onSubmitEditing={(text) => this.setState({goalText: text})}
                    />
                <Button
-                 color='#c77ce8'
-                 buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                 buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 10}}
                  title='Add'
                  onPress={() => this.onPressPushGoal()}/>
               </View>
@@ -174,7 +194,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     // width: Metrics.screenWidth,
-    height: Metrics.screenHeight*.6,
+    height: Metrics.screenHeight*.3,
     padding: 15,
     borderStyle: 'solid',
     borderWidth: .5,

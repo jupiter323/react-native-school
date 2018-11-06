@@ -51,25 +51,25 @@ navigateSeniorYear= async() =>{
         {/* <View style = {{flex: 1}}> */}
 
         <Button
-          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateFreshmanYear()}
           title='Freshman Year'>
         </Button>
 
         <Button
-          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateSophomoreYear()}
           title='Sophomore Year'>
         </Button>
 
         <Button
-          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateJuniorYear()}
           title='Junior Year'>
         </Button>
 
         <Button
-          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateSeniorYear()}
           title='Senior Year'>
         </Button>
