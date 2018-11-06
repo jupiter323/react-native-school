@@ -396,11 +396,8 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    backgroundColor: 'white',    
+    borderRadius: 15,
   },
   modalText: {
     fontSize: 25,

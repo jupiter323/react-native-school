@@ -44,17 +44,10 @@ export default class CollegePrep extends React.Component {
     super(props);
     this.state = {
       jedisSectioned: [{title: 'Jedis',data:[]}],
-      buttonText: 'Show me your ID Card!',
       loading: false,
       refreshing: false,
-      price: 140,
-      description: '',
       searchText: '',
-      isTopicModalVisible: false,
-      isQuestionModalVisible: false,
-      currentTopic: 'Select a Question Topic',
       hasLoggedIn: false,
-      question: '',
       userName: '',
       portalQuestion: '',
       userPortal: '',
@@ -65,32 +58,32 @@ export default class CollegePrep extends React.Component {
 
   async appendJedis(count, start) {
 
-//     firebase.database().ref('forum').on('child_added', (snapshot) => {
-//     var childKey = snapshot.key;
-//     var childData = snapshot.val();
-//     childData.key = childKey;
-//     questionText = childData.question.toLowerCase();
-//     searchTextLowercase = this.state.searchText.toLowerCase();
-//     var jedisList = this.state.jedisSectioned[0].data.slice();
-//     console.log("current topic " + this.state.currentTopic);
-//     console.log("userPortal " + this.state.userPortal);
-//     // if (questionText.includes(searchTextLowercase) && (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase())) {
-//     if ((questionText.includes(searchTextLowercase)) &&
-//     (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase() || (this.state.userPortal == 'consultant'))) {
-//       if (this.state.currentTopic == "Select a Question Topic" || this.state.currentTopic == "All Topics") {
-//         jedisList.push(childData);
-//       } else if (childData.topic == this.state.currentTopic) {
-//         jedisList.push(childData);
-//       }
-//   }
-//     this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-//     // console.log(childData);
-// });
-//
-//   console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
-//   this.state.jedisSectioned.forEach(function(element) {
-//     console.log("jedi " + element.value)
-//   });
+    // firebase.database().ref('forum').on('child_added', (snapshot) => {
+    //   var childKey = snapshot.key;
+    //   var childData = snapshot.val();
+    //   childData.key = childKey;
+    //   questionText = childData.question.toLowerCase();
+    //   searchTextLowercase = this.state.searchText.toLowerCase();
+    //   var jedisList = this.state.jedisSectioned[0].data.slice();
+    //   console.log("current topic " + this.state.currentTopic);
+    //   console.log("userPortal " + this.state.userPortal);
+    //   // if (questionText.includes(searchTextLowercase) && (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase())) {
+    //   if ((questionText.includes(searchTextLowercase)) &&
+    //   (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase() || (this.state.userPortal == 'consultant'))) {
+    //     if (this.state.currentTopic == "Select a Question Topic" || this.state.currentTopic == "All Topics") {
+    //       jedisList.push(childData);
+    //     } else if (childData.topic == this.state.currentTopic) {
+    //       jedisList.push(childData);
+    //     }
+    //  }
+    //   this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
+    //   // console.log(childData);
+    // });
+
+    // console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
+    // this.state.jedisSectioned.forEach(function(element) {
+    //   console.log("jedi " + element.value)
+    // });
     // var jedisList = this.state.jedisSectioned[0].data.slice();
     // this.setState({loading: true});
     // for(i=start; i < count+start; i++) {
@@ -197,41 +190,7 @@ export default class CollegePrep extends React.Component {
     this.appendJedis(3,1);
   }
 
-  onPressCollegeLife = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'College Life'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
-  }
-
-  onPressCollegeApplications = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'College Applications'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
-  }
-
-  onPressResources = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'Resources'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
-  }
-
-  onPressAllTopics = async() => {
-    await this.setState({ isTopicModalVisible: false, currentTopic: 'All Topics'});
-    console.log(this.state.currentTopic);
-
-    this.resetList();
-  }
-
-  purchaseItem= async (item) => {
-    this.props.navigation.navigate('QuestionResponsesScreen', {item: item});
-  }
-
-  messageBlock= async (key) => {
-    this.props.navigation.navigate('MessagesScreen', {key: key});
-  }
+ 
 
   render() {
 
