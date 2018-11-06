@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
-import { StyleSheet, Text, View, Platform, TouchableHighlight, Button} from 'react-native';
+import { StyleSheet, Text, View, Platform, TouchableHighlight} from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Button } from 'react-native-elements'
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Metrics from '../Themes/Metrics';
 
@@ -47,29 +48,33 @@ navigateSeniorYear= async() =>{
     return (
       <View style={styles.container} >
 
-        <View style = {{flex: 1}}>
+        {/* <View style = {{flex: 1}}> */}
 
         <Button
+          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateFreshmanYear()}
           title='Freshman Year'>
         </Button>
 
         <Button
+          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateSophomoreYear()}
           title='Sophomore Year'>
         </Button>
 
         <Button
+          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateJuniorYear()}
           title='Junior Year'>
         </Button>
 
         <Button
+          buttonStyle={{backgroundColor : '#c77ce8', width : 200, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={() => this.navigateSeniorYear()}
           title='Senior Year'>
         </Button>
 
-        </View>
+        {/* </View> */}
      </View>
     );
   }
@@ -78,6 +83,7 @@ navigateSeniorYear= async() =>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
   },

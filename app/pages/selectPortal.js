@@ -60,27 +60,23 @@ export default class OnboardingScreen extends React.Component {
           <Text style={styles.textStyles}>Your input can help us do that. :)</Text>
           <Button
           title="Students"
-          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalStudent}
-          backgroundColor="#c77ce8"/>
+          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          onPress={this._selectPortalStudent}/>
 
           <Button
           title="Consultants"
-          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalConsultant}
-          backgroundColor="#c77ce8"/>
+          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          onPress={this._selectPortalConsultant}/>
 
           <Button
           title="Educators"
-          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalSchool}
-          backgroundColor="#c77ce8"/>
+          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          onPress={this._selectPortalSchool}/>
 
           <Button
           title="Parents"
-          buttonStyle={{backgroundColor : '#7d99e8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalParent}
-          backgroundColor="#c77ce8"/>
+          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+          onPress={this._selectPortalParent}/>
         </View>
       </SafeAreaView>
     );
