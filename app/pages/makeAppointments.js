@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput,
-  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Button, AsyncStorage } from 'react-native';
+  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import Colors from '../Themes/Colors';
+import { Input
+} from "native-base";
 import SaleBlock from '../components/saleBlock';
-import { Card, ListItem, Slider, CheckBox, SearchBar } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import firebase from 'firebase';
 import moment from 'moment';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -57,6 +59,7 @@ export default class MakeAppointments extends React.Component {
       hasLoggedIn: true,
       selectedItems: [],
       timeslotsArray: [],
+      timeslotsArrayString: "",
       totalPrice: 0,
       hourlyPrice: 0,
       consultantKey: '',
@@ -109,12 +112,17 @@ export default class MakeAppointments extends React.Component {
     console.log("time slots retrieved " +  JSON.stringify(selectedTimeslots));
     selectedTimeslots = JSON.parse(selectedTimeslots);
     if ((selectedTimeslots !== null) && (selectedTimeslots.length !== 0)) {
-    await this.setState({ timeslotsArray: selectedTimeslots});
-    await this.setState({ totalPrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * 1.15)});
-  } else {
-    await this.setState({ timeslotsArray: []});
-    await this.setState({ totalPrice: 0});
-  }
+      var selectedTimeslotsString = selectedTimeslots[0];
+      for(var i = 1; i < selectedTimeslots.length; i++ ){
+        selectedTimeslotsString = ", " + selectedTimeslots[i];
+      }
+      await this.setState({ timeslotsArrayString : selectedTimeslotsString});
+      await this.setState({ timeslotsArray: selectedTimeslots});
+      await this.setState({ totalPrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * 1.15)});
+    } else {
+      await this.setState({ timeslotsArray: []});
+      await this.setState({ totalPrice: 0});
+    }
     this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
   }
 
@@ -270,7 +278,7 @@ export default class MakeAppointments extends React.Component {
                     onRefresh = {() => this.resetList()}
                     refreshing = {this.state.refreshing}
                     removeClippedSubviews = {true}
-                    ListFooterComponent = {<ActivityIndicator />}
+                    // ListFooterComponent = {<ActivityIndicator />}
                   />
                 </View>
 
@@ -280,34 +288,38 @@ export default class MakeAppointments extends React.Component {
                       onBackdropPress={() => this.setState({ isAppointmentModalVisible: false })}
                       backdropColor={'black'}>
                       <View style={styles.modalViewQuestion}>
-                      <Text style={styles.modalText}>
-
-                      </Text>
                         <Text style={styles.modalText}>
                         Confirm Appointment!
                         </Text>
-                        <Text style={styles.modalText}>
-
-
+                        <Text style={{fontSize : 15}}>
+                          Timeslot(s): {this.state.timeslotsArrayString}
                         </Text>
-                        <Text>
-                        Timeslot(s): {this.state.timeslotsArray}
+                        <Text style={{fontSize : 15}}>
+                          Price: ${this.state.totalPrice.toFixed(2)} total
                         </Text>
-                        <Text>
-
-                        Price: ${this.state.totalPrice.toFixed(2)} total
-
-                        </Text>
-                        <TextInput style={styles.inputText}
-                           placeholder="Goal of Appointment (ex: Essay Editing)"
-                           underlineColorAndroid="transparent"
-                           value={this.state.appointmentGoal}
-                           onChangeText={(text) => this.setState({appointmentGoal: text})}
-                           onSubmitEditing={(text) => this.setState({appointmentGoal: text})}
-                           />
+                        <Input style={{
+                                width: '100%',
+                                alignContent: "flex-start",
+                                justifyContent: "flex-start",
+                                minHeight: 40,
+                                textAlignVertical: "top",
+                                padding: 10,
+                                fontSize: 14,
+                                textDecorationLine: 'none',
+                                lineHeight: 20,
+                                borderRadius: 10,
+                                borderWidth: 1,
+                                borderColor: '#c77ce8',
+                                backgroundColor: 'white',
+                            }}
+                          placeholder="Goal of Appointment (ex: Essay Editing)"
+                          underlineColorAndroid="transparent"
+                          value={this.state.appointmentGoal}
+                          onChangeText={(text) => this.setState({appointmentGoal: text})}
+                          onSubmitEditing={(text) => this.setState({appointmentGoal: text})}
+                          />
                        <Button
-                         color='#c77ce8'
-                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                         buttonStyle={{backgroundColor : '#c77ce8', width : 300, borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 10}}
                          title='Book'
                          onPress={() => this.onPressBookAppointments()}/>
                       </View>
@@ -358,42 +370,43 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   itemList: {
-  height: Metrics.screenHeight*.8,
-  width: Metrics.screenWidth,
-  paddingTop: 10,
-},
-modalView: {
-  // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.6,
-  borderStyle: 'solid',
-  borderWidth: .5,
-  alignItems: 'center',
-  justifyContent: 'space-around',
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-},
-modalViewQuestion: {
-  // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.3,
-  // flex : 1,
-  borderStyle: 'solid',
-  borderWidth: .5,
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 15,
-  borderBottomRightRadius: 15,
-  borderTopLeftRadius: 15,
-  borderTopRightRadius: 15,
-},
-modalText: {
-  fontSize: 24,
-  fontWeight: 'bold',
-},
-icon: {
-  marginLeft: 15,
-}
+    height: Metrics.screenHeight*.8,
+    width: Metrics.screenWidth,
+    paddingTop: 10,
+  },
+  modalView: {
+    // width: Metrics.screenWidth,
+    height: Metrics.screenHeight*.6,
+    borderStyle: 'solid',
+    borderWidth: .5,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  modalViewQuestion: {
+    // width: Metrics.screenWidth,
+    height: Metrics.screenHeight*.3,
+    // flex : 1,
+    borderStyle: 'solid',
+    borderWidth: .5,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  modalText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  icon: {
+    marginLeft: 15,
+  }
 });

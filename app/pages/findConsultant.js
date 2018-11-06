@@ -357,7 +357,14 @@ export default class FindConsultant extends React.Component {
                   selectText='Choose some things...'
                   style={{ backgroundColor: 'red' }}
                   styles={{
-                    selectToggle: [{ flex: 1, marginTop: 15, }, globalStyles.btn],
+                    selectToggle: [{ flex: 1, marginTop: 15, },  {
+                      alignItems: 'center',
+                      height: 40,
+                      marginBottom: 15,
+                      padding: 20,
+                      borderRadius: 10,
+                      backgroundColor: '#c77ce8',
+                    }],
                     selectToggleText: globalStyles.btnText,
                   }}
                   colors={{selectToggleTextColor : '#FFF'}}

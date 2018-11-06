@@ -47,7 +47,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     marginBottom: 15,
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
     backgroundColor: '#c77ce8',
   },
