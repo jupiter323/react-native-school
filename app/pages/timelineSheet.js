@@ -112,11 +112,7 @@ export default class TimelineSheet extends React.Component {
     return (
       <View style={styles.container}>
       <StatusBar barStyle="light-content"/>
-      <View>
-        <TouchableOpacity onPress={() => this._onPressBack() }><Text>Back</Text></TouchableOpacity>
-                    <Text></Text>
-                    <Text></Text>
-      </View>
+      {/* <View>  */}
         <FlatList
           data={this.state.goalsArray}
           extraData={this.state}

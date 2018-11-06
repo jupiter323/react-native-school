@@ -50,26 +50,26 @@ navigateSeniorYear= async() =>{
         <View style = {{flex: 1}}>
 
         <Button
-        onPress={() => this.navigateFreshmanYear()}
+          onPress={() => this.navigateFreshmanYear()}
           title='Freshman Year'>
-          </Button>
+        </Button>
 
-            <Button
-              onPress={() => this.navigateSophomoreYear()}
-              title='Sophomore Year'>
-              </Button>
+        <Button
+          onPress={() => this.navigateSophomoreYear()}
+          title='Sophomore Year'>
+        </Button>
 
-            <Button
-              onPress={() => this.navigateJuniorYear()}
-              title='Junior Year'>
-              </Button>
+        <Button
+          onPress={() => this.navigateJuniorYear()}
+          title='Junior Year'>
+        </Button>
 
-          <Button
-            onPress={() => this.navigateSeniorYear()}
-            title='Senior Year'>
-            </Button>
+        <Button
+          onPress={() => this.navigateSeniorYear()}
+          title='Senior Year'>
+        </Button>
 
-          </View>
+        </View>
      </View>
     );
   }

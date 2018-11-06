@@ -389,12 +389,12 @@ const styles = StyleSheet.create({
     marginLeft: 70,
     marginTop: 10,
     borderStyle: 'solid',
-    borderWidth: .5,
     backgroundColor: 'white',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    borderColor : '#c77ce8'
     //  padding: 10,
   },
   picture: {

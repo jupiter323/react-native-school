@@ -360,15 +360,16 @@ export default class FindConsultant extends React.Component {
                     selectToggle: [{ flex: 1, marginTop: 15, }, globalStyles.btn],
                     selectToggleText: globalStyles.btnText,
                   }}
+                  colors={{selectToggleTextColor : '#FFF'}}
                   showDropDowns={true}
                   readOnlyHeadings={true}
                   onSelectedItemsChange={this.onSelectedItemsChange}
                   selectedItems={this.state.selectedItems}
                   showCancelButton={true}
-                  showChips={false}
+                  showChips={true}
                   onConfirm={() => this.resetList()}
-                  selectToggleIconComponent={
-                    <Icon type="material" name="add" color="white" />
+                  // selectToggleIconComponent={
+                  //   <Icon type="material" name="add" color="white" />
                     // <CheckBox
                     //   center
                     //   // title={"Filter Consultants"}
@@ -378,7 +379,7 @@ export default class FindConsultant extends React.Component {
                     //   containerStyle={{width: '100%', height: 40, alignSelf: 'center'}}
                     //   onPress={() => this.SectionedMultiSelect._toggleSelector()}
                     // />
-                  }
+                  // }
                 />
               </View>
 

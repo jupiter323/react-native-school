@@ -295,7 +295,7 @@ export default class MakeAppointments extends React.Component {
                         </Text>
                         <Text>
 
-                        Price: ${this.state.totalPrice} total
+                        Price: ${this.state.totalPrice.toFixed(2)} total
 
                         </Text>
                         <TextInput style={styles.inputText}
@@ -377,7 +377,8 @@ modalView: {
 },
 modalViewQuestion: {
   // width: Metrics.screenWidth,
-  height: Metrics.screenHeight*.6,
+  height: Metrics.screenHeight*.3,
+  // flex : 1,
   borderStyle: 'solid',
   borderWidth: .5,
   alignItems: 'center',
