@@ -55,43 +55,6 @@ export default class CollegePrep extends React.Component {
     console.log(JSON.stringify(props));
   }
 
-  async appendJedis(count, start) {
-
-    // firebase.database().ref('forum').on('child_added', (snapshot) => {
-    //   var childKey = snapshot.key;
-    //   var childData = snapshot.val();
-    //   childData.key = childKey;
-    //   questionText = childData.question.toLowerCase();
-    //   searchTextLowercase = this.state.searchText.toLowerCase();
-    //   var jedisList = this.state.jedisSectioned[0].data.slice();
-    //   console.log("current topic " + this.state.currentTopic);
-    //   console.log("userPortal " + this.state.userPortal);
-    //   // if (questionText.includes(searchTextLowercase) && (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase())) {
-    //   if ((questionText.includes(searchTextLowercase)) &&
-    //   (this.state.userPortal.toLowerCase() == childData.portalQuestion.toLowerCase() || (this.state.userPortal == 'consultant'))) {
-    //     if (this.state.currentTopic == "Select a Question Topic" || this.state.currentTopic == "All Topics") {
-    //       jedisList.push(childData);
-    //     } else if (childData.topic == this.state.currentTopic) {
-    //       jedisList.push(childData);
-    //     }
-    //  }
-    //   this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-    //   // console.log(childData);
-    // });
-
-    // console.log("jedis " + JSON.stringify(this.state.jedisSectioned));
-    // this.state.jedisSectioned.forEach(function(element) {
-    //   console.log("jedi " + element.value)
-    // });
-    // var jedisList = this.state.jedisSectioned[0].data.slice();
-    // this.setState({loading: true});
-    // for(i=start; i < count+start; i++) {
-    //   await this.getJedi(i, jedisList);
-    // }
-    // this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
-    //do i need a for loop right here to check to see if there are duplicate values
-  }
-
   componentWillMount = async() => {
     this.checkIfUserLoggedIn();
     this.setState({subject1 : subject});
