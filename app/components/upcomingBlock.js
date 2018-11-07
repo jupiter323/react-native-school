@@ -15,7 +15,7 @@ import Modal from 'react-native-modal';
 export default class UpcomingBlock extends React.Component {
     constructor(props){
         super(props);
-    
+
         this.state = {
             profileId : '',
             profileImage: '',
@@ -26,12 +26,12 @@ export default class UpcomingBlock extends React.Component {
             userId : '',
             portal : ''
         }
-    
+
         console.log(JSON.stringify("questionblock props " + JSON.stringify(props)));
     }
 
     componentWillMount = async() => {
-        
+
         await this.setState({portal : this.props.portal});
         console.log("portal3 : " + this.state.portal);
         if(this.state.portal == 'student') {
@@ -46,7 +46,7 @@ export default class UpcomingBlock extends React.Component {
             if(childData.profilePicture) that.setState({profileImage: childData.profilePicture});
             that.setState({profileName : childData.name});
           });
-        
+
     }
 
     imageButton() {
@@ -83,7 +83,7 @@ export default class UpcomingBlock extends React.Component {
                 title={"Pay"}
                 onPress={() => this.payout()}
                 />
-          
+
             );
         } else {
             return(
@@ -91,14 +91,14 @@ export default class UpcomingBlock extends React.Component {
                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
                 buttonStyle={{width : 100,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                 title={"Request"}
-                onPress={() => this.payout()}            
+                onPress={() => this.payout()}
                 ></Button>
             );
         }
     }
 
     render()  {
-        
+
         return(
             <View style={styles.cardView}>
                 <Card>
@@ -109,9 +109,9 @@ export default class UpcomingBlock extends React.Component {
                                 <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{this.state.profileName}</Text>
                                 <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.startTime} -</Text>
                                 <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.endTime}</Text>
-                            </View>     
-                        </View>                       
-                        {this.paymentButton()}                  
+                            </View>
+                        </View>
+                        {this.paymentButton()}
                     </View>
                 </Card>
             </View>
@@ -123,5 +123,5 @@ const styles = StyleSheet.create({
     cardView: {
       width: Metrics.screenWidth,
       borderRadius: Metrics.buttonRadius,
-    }, 
+    },
 })
