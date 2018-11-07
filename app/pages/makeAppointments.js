@@ -108,13 +108,14 @@ export default class MakeAppointments extends React.Component {
   }
 
   toggleAppointmentModal = async() => {
+    await this.setState({timeslotsArrayString : ""});
     var selectedTimeslots = await AsyncStorage.getItem('selectedTimeslots');
     console.log("time slots retrieved " +  JSON.stringify(selectedTimeslots));
     selectedTimeslots = JSON.parse(selectedTimeslots);
     if ((selectedTimeslots !== null) && (selectedTimeslots.length !== 0)) {
       var selectedTimeslotsString = selectedTimeslots[0];
       for(var i = 1; i < selectedTimeslots.length; i++ ){
-        selectedTimeslotsString = ", " + selectedTimeslots[i];
+        selectedTimeslotsString += ", " + selectedTimeslots[i];
       }
       await this.setState({ timeslotsArrayString : selectedTimeslotsString});
       await this.setState({ timeslotsArray: selectedTimeslots});
@@ -133,12 +134,12 @@ export default class MakeAppointments extends React.Component {
 
     firebase.database().ref('consultants').child(this.state.consultantKey).child('availabilities')
     .child(this.state.dateString).on('child_added', (snapshot) => {
-    var childKey = snapshot.key;
-    var childData = snapshot.val();
-    childData.key = childKey;
-    console.log("child data " + JSON.stringify(childData));
-    jedisList.push(childData);
-  });
+      var childKey = snapshot.key;
+      var childData = snapshot.val();
+      childData.key = childKey;
+      console.log("child data " + JSON.stringify(childData));
+      jedisList.push(childData);
+    });
 
     this.setState({loading: false, refreshing: false, jedisSectioned: [{title: 'Jedis', data:jedisList}]});
   }
@@ -199,12 +200,6 @@ export default class MakeAppointments extends React.Component {
       });
       });
 
-// var dateTime = new Date(this.state.dateString + " 14:24:36 a");
-// console.log(dateTime);
-//dateTime = moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-    //}
-    // this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
-  // } else {
       this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
       this.props.navigation.navigate('InputCreditCard',{totalPrice :this.state.totalPrice, consultantId : this.state.consultantKey});
     }
@@ -289,7 +284,7 @@ export default class MakeAppointments extends React.Component {
                       backdropColor={'black'}>
                       <View style={styles.modalViewQuestion}>
                         <Text style={styles.modalText}>
-                        Confirm Appointment!
+                          Confirm Appointment!
                         </Text>
                         <Text style={{fontSize : 15}}>
                           Timeslot(s): {this.state.timeslotsArrayString}
