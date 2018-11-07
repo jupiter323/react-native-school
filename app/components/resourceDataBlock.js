@@ -65,13 +65,13 @@ navigateResource() {
             <TouchableOpacity onPress={() => this.navigateResource()}>
               <View style={styles.cardView}>
                 <Card
-                containerStyle= {this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
-                wrapperStyle= {this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
-                    title={this.props.jedi.item.key}>
+                  containerStyle={this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
+                  wrapperStyle={this.state.cardSelected ? styles.cardSelected : styles.cardNotSelected}
+                  title={this.props.jedi.item.key}>
                     <Text>
                     summary: {this.props.jedi.item.summary}
-                    </Text>>
-                    </Card>
+                    </Text>
+                  </Card>
 
               </View>
             </TouchableOpacity>

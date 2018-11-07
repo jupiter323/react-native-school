@@ -43,17 +43,16 @@ export default class CollegePrep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jedisSectioned: [{title: 'Jedis',data:[]}],
       loading: false,
       refreshing: false,
+      subject1 : [],
       searchText: '',
       hasLoggedIn: false,
       userName: '',
-      portalQuestion: '',
       userPortal: '',
     }
     //see what props App.js is constructed with:
-    // console.log(JSON.stringify(props));
+    console.log(JSON.stringify(props));
   }
 
   async appendJedis(count, start) {
@@ -95,51 +94,9 @@ export default class CollegePrep extends React.Component {
 
   componentWillMount = async() => {
     this.checkIfUserLoggedIn();
-  //   this.props.navigation.setParams({ createQuestion: this.toggleQuestionModal });
-  //
-  //   var userUID = firebase.auth().currentUser.uid;
-  //   var name;
-  //   console.log("uid " + userUID);
-  //   var that = this;
-  //
-  //   await firebase.auth().onAuthStateChanged(function(user) {
-  //     if (user) {
-  //       console.log(" User is signed in.");
-  //       // console.log("name " + firebase.database().ref('users').child(userUID).child('name'));
-  //       firebase.database().ref('users').child(userUID).on('value', function(snapshot) {
-  //         var childKey = snapshot.key;
-  //         var childData = snapshot.val();
-  //         childData.key = childKey;
-  //         name = childData.name;
-  //         console.log("name " + name);
-  //         console.log("portal " + childData.portal);
-  //         that.setState({userName: name, userPortal: childData.portal},
-  //            () => console.log("user portal in function " + that.state.userPortal));
-  //       });
-  //     } else {
-  //       console.log(" User is not signed in.");
-  //     }
-  //   });
-  //
-  // await console.log("current user " + this.state.userName);
-  // await console.log("current user portal " + this.state.userPortal);
-   this.appendJedis(3,1);
+    this.setState({subject1 : subject});
   }
 
-  onPressPostQuestion = async() => {
-    if ((this.state.currentTopic !== 'Select a Question Topic') && (!this.state.question == '')) {
-    await this.setState({ isQuestionModalVisible: false});
-
-    await firebase.database().ref('forum').push({
-        question: this.state.question,
-        portalQuestion: this.state.userPortal,
-        author: this.state.userName,
-        topic: this.state.currentTopic,
-      });
-    } else {
-      alert("Please Fill in All Categories");
-    }
-  }
 
   checkIfUserLoggedIn = async() => {
     const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
@@ -150,22 +107,7 @@ export default class CollegePrep extends React.Component {
     }
    }
 
-  toggleTopicModal = async() => {
-    await this.setState({isTopicModalVisible: true});
-    console.log("topic " + this.state.isTopicModalVisible);
-  }
 
-
-  toggleQuestionModal = async() => {
-    this.setState({isQuestionModalVisible: !this.state.isQuestionModalVisible});
-  }
-
-  onPressTopic = async() => {
-    await this.setState({isQuestionModalVisible: false});
-    console.log("question modal " + this.state.isQuestionModalVisible);
-    await this.setState({isTopicModalVisible: true});
-    console.log("topic modal " + this.state.isTopicModalVisible);
-  }
 
   listItemRenderer(item) {
     return (
@@ -175,19 +117,11 @@ export default class CollegePrep extends React.Component {
     );
   }
 
-  async loadMore(count, start) {
-    if (start > 1 && !this.state.refreshing && !this.state.loading) {
-      this.setState({loading: true});
-      await this.appendJedis(count,start);
-    }
-  }
-
   _keyExtractor = (item, index) => index;
 
 
   resetList = async () => {
-    await this.setState({refreshing: true, jedisSectioned: [{title: 'Jedis', data:[]}]});
-    this.appendJedis(3,1);
+    await this.setState({subject1 : subject.filter((item=>{return item.key.toLowerCase().search(this.state.searchText.toLowerCase())!==-1;}))});
   }
 
  
@@ -212,7 +146,7 @@ export default class CollegePrep extends React.Component {
                   />
 
                 <FlatList
-                  data={subject}
+                  data={this.state.subject1}
                   extraData={this.state}
                   keyExtractor={this._keyExtractor}
                   renderItem={this.listItemRenderer}

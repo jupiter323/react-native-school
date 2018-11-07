@@ -118,7 +118,9 @@ export default class SaleBlock extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => this.openConsultantScreen()}>
+      <TouchableOpacity 
+      // onPress={() => this.openConsultantScreen()}
+      >
         <View style={styles.cardView}>
           <Card style={styles.card}
               // title={this.state.name}
@@ -147,14 +149,12 @@ export default class SaleBlock extends React.Component {
               
               <Button
                 icon={{name: 'code'}}
-                backgroundColor='#03A9F4'
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 10}}
                 title='Book Appointment'
                 onPress={() => this.onPressBookAppointment()}/>
               <Button
                 icon={{name: 'code'}}
-                backgroundColor='#03A9F4'
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 5, marginTop: 5}}
+                buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 10}}
                 title='Message Consultant'
                 onPress={() => this.onPressMessageSeller()}/>
               </Card>
