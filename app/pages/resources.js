@@ -27,7 +27,7 @@ export default class Resources extends React.Component {
     headerTitle: 'Resources',
     title: 'Resources',
     headerLeft: (
-      <Feather style={styles.icon}
+      <Feather style={{marginLeft: 15}}
         name="menu"
         size={Metrics.icons.medium}
         color={'#c77ce8'}

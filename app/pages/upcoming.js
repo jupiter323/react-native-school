@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput, KeyboardAvoidingView, 
+import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput, KeyboardAvoidingView,
   SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
 
 import { Card, Avatar } from 'react-native-elements'
@@ -15,6 +15,7 @@ export default class UpcomingScreen extends React.Component {
 
     static navigationOptions = {
         headerTitle: 'Upcoming Appointments',
+        title: 'Upcoming Appointments',
     };
     constructor(props) {
         super(props);
@@ -25,10 +26,10 @@ export default class UpcomingScreen extends React.Component {
             userId : '',
             upcomingApts: [{title: 'upcoming',data:[]}],
             hasLoggedIn: false,
-        }        
+        }
     }
 
-   
+
     componentWillMount= async() => {
         await this.checkIfUserLoggedIn();
         var userUID = firebase.auth().currentUser.uid;
@@ -49,8 +50,8 @@ export default class UpcomingScreen extends React.Component {
           } else {
             console.log(" User is not signed in.");
           }
-        });   
-        
+        });
+
     }
     checkIfUserLoggedIn = async() => {
         const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
@@ -63,9 +64,9 @@ export default class UpcomingScreen extends React.Component {
     }
 
     async appendUpcoming(count, start) {
-    
+
         await this.setState({loading:true, refreshing : true});
-        
+
         await firebase.database().ref('appointments').on('child_added', async(snapshot) => {
             var childKey = snapshot.key;
             var childData = snapshot.val();
@@ -80,17 +81,17 @@ export default class UpcomingScreen extends React.Component {
                 if(this.state.userId == childData.consultantID){
                     upcomingList.push(childData);
                 }
-            }   
-            await this.setState({loading: false, refreshing: false, upcomingApts: [{title: 'upcoming', data:upcomingList}]});     
+            }
+            await this.setState({loading: false, refreshing: false, upcomingApts: [{title: 'upcoming', data:upcomingList}]});
         })
-        
+
         console.log("result " +  JSON.stringify(this.state.upcomingApts))
         console.log("loading : " + this.state.loading);
-        
+
         // console.log(childData);
     };
 
-        
+
     _keyExtractor = (item, index) => index;
     resetList = async () => {
         await this.setState({refreshing: true, jedisSectioned: [{title: 'upcoming', data:[]}]});
@@ -111,7 +112,7 @@ export default class UpcomingScreen extends React.Component {
     //                     <View style={{flexDirection : 'column'}}>
     //                         <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{row.item.profileName}</Text>
     //                         <Text style={{fontSize : 13, marginLeft :20}}>{row.item.startTime} - {row.item.endTime}</Text>
-    //                     </View>                       
+    //                     </View>
     //                 </View>
     //             </Card>
     //         </View>
@@ -122,7 +123,7 @@ export default class UpcomingScreen extends React.Component {
         if (!this.state.hasLoggedIn) {
             return (<LoggedOut/>);
         } else {
-        
+
             return(
                 <View style={styles.container}>
                     <View style={styles.itemList}>
@@ -140,7 +141,7 @@ export default class UpcomingScreen extends React.Component {
                     />
                 </View>
                 </View>
-       
+
         )
         }
     }
@@ -161,5 +162,5 @@ const styles = StyleSheet.create({
     cardView: {
         width: Metrics.screenWidth,
         borderRadius: Metrics.buttonRadius,
-      }, 
+      },
 });

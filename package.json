@@ -6,7 +6,7 @@
     "ReactNative-checkbox": "^1.0.4",
     "axios": "^0.18.0",
     "expo": "^26.0.0",
-    "firebase": "^4.11.0",
+    "firebase": "^4.13.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "native-base": "^2.8.1",
