@@ -95,12 +95,12 @@ export default class MakeAppointments extends React.Component {
   });
     const user = firebase.auth().currentUser
     await this.setState({ currentUserID: user.uid});
-    console.log("current user " + this.state.currentUserID);
+    // console.log("current user " + this.state.currentUserID);
     await this.setState({ hourlyPrice: price});
     this.appendJedis(3,1);
     var dateTime = "2015-06-17 02:24:36 AM";
     dateTime = moment(dateTime, 'YYYY-MM-DD, HH:mm:ss A').format('YYYY-MM-DD HH:mm:ss A');
-    console.log("test date time " + dateTime);
+    // console.log("test date time " + dateTime);
   }
 
   componentWillUnmount =async() => {
@@ -150,6 +150,7 @@ export default class MakeAppointments extends React.Component {
     } else if (this.state.timeslotsArray.length == 0) {
       alert("Please Select a TimeSlot");
     } else {
+      console.log("Testing 1 1 1 ");
       //for each loop through timeslots array {
       // await this.payForAppointment();
       // if (payment == true) {
@@ -157,35 +158,24 @@ export default class MakeAppointments extends React.Component {
       this.state.timeslotsArray.forEach(function(element) {
         var startTime = DataTimes[element].startTime;
         var endTime = DataTimes[element].endTime;
-        console.log("start time pre " + startTime);
-        console.log("end time pre " + endTime);
-        startTime = "2015-06-17 " + startTime;
+        // console.log("start time pre " + startTime);
+        // console.log("end time pre " + endTime);
+        startTime = JSON.stringify(that.state.dateString) + " " + + startTime;
         endTime = JSON.stringify(that.state.dateString) + " " + endTime;
-        console.log("end time " + endTime);
+        // console.log("end time " + endTime);
         startTime = moment(startTime, 'YYYY-MM-DD, HH:mm A').format('YYYY-MM-DD HH:mm:ss A');
         endTime = moment(endTime, 'YYYY-MM-DD, HH:mm A').format('YYYY-MM-DD HH:mm:ss A');
-        console.log("date time check start" + JSON.stringify(startTime));
+        // console.log("date time check start" + JSON.stringify(startTime));
         console.log("date time check end" + JSON.stringify(endTime));
-      var pushRef = firebase.database().ref('appointments').push({
-        studentID: that.state.currentUserID,
-        consultantID: that.state.consultantKey,
-        summary: that.state.appointmentGoal,
-        startTime: startTime,
-        endTime: endTime,
-        });
-      var pushRefID = pushRef.key;
-      //  get push id, store that
-        firebase.database().ref('students').child(that.state.currentUserID).child("appointments").push({
-        startTime: startTime,
-        endTime: endTime,
-        consultantID: that.state.consultantKey,
-        appointmentID: pushRefID,
-        });
-        firebase.database().ref('consultants').child(that.state.consultantKey).child("appointments").push({
-        startTime: startTime,
-        endTime: endTime,
-        studentID: that.state.currentUserID,
-        appointmentID: pushRefID,
+        var pushRef = firebase.database().ref('appointments').push();
+        firebase.database().ref('appointments/' + pushRef.key).set({
+          appointmentId : pushRef.key,
+          studentID: that.state.currentUserID,
+          consultantID: that.state.consultantKey,
+          summary: that.state.appointmentGoal,
+          startTime: startTime,
+          endTime: endTime,
+          price : Number(this.state.totalPrice.toFixed(2))
         });
       var ref = firebase.database().ref('consultants').child(that.state.consultantKey).child("availabilities").child(that.state.dateString);
         firebase.database().ref('consultants').child(that.state.consultantKey).child("availabilities").child(that.state.dateString)
@@ -201,7 +191,7 @@ export default class MakeAppointments extends React.Component {
       });
 
       this.setState({isAppointmentModalVisible: !this.state.isAppointmentModalVisible});
-      this.props.navigation.navigate('InputCreditCard',{totalPrice :this.state.totalPrice, consultantId : this.state.consultantKey});
+      this.props.navigation.navigate('InputCreditCard',{totalPrice :Number(this.state.totalPrice.toFixed(2)), consultantId : this.state.consultantKey});
     }
   }
 
@@ -215,7 +205,7 @@ export default class MakeAppointments extends React.Component {
     var user = firebase.auth().currentUser;
     if (user) {
       this.setState({currentUserID: user.uid });
-      this.toggleAppointmentModal();
+      // this.toggleAppointmentModal();
     } else {
       // No user is signed in.
       // alert("Please Sign In");
@@ -309,7 +299,7 @@ export default class MakeAppointments extends React.Component {
                             }}
                           placeholder="Goal of Appointment (ex: Essay Editing)"
                           underlineColorAndroid="transparent"
-                          value={this.state.appointmentGoal}
+                          // value={this.state.appointmentGoal}
                           onChangeText={(text) => this.setState({appointmentGoal: text})}
                           onSubmitEditing={(text) => this.setState({appointmentGoal: text})}
                           />
@@ -370,7 +360,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   modalView: {
-    // width: Metrics.screenWidth,
+    
     height: Metrics.screenHeight*.6,
     borderStyle: 'solid',
     borderWidth: .5,
@@ -381,6 +371,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+
   },
   modalViewQuestion: {
     // width: Metrics.screenWidth,

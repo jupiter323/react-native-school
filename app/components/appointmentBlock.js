@@ -32,34 +32,17 @@ export default class AppointmentBlock extends React.Component {
 
   componentWillMount= async() => {
 
-  var userUID = firebase.auth().currentUser.uid;
-  var name;
-  console.log("uid " + userUID);
-  await this.setState({ currentUserID: userUID});
-  // var that = this;
-  // var dataTimes = DataTimes['6:00 - 6:30 am'].startTime;
-  // await console.log("time string " + JSON.stringify(dataTimes));
-  // // await firebase.auth().onAuthStateChanged(function(user) {
-  // //   if (user) {
-  // //     console.log(" User is signed in.");
-  // //     // console.log("name " + firebase.database().ref('users').child(userUID).child('name'));
-  // //     firebase.database().ref('users').child(userUID).on('value', function(snapshot) {
-  // //       var childKey = snapshot.key;
-  // //       var childData = snapshot.val();
-  // //       childData.key = childKey;
-  // //       userUID = childData.uid;
-  // //       that.setState({ currentUserID: userUID});
-  // //     });
-  // //   } else {
-  // //     console.log(" User is not signed in.");
-  // //   }
-  // // });
+    var userUID = firebase.auth().currentUser.uid;
+    var name;
+    console.log("uid " + userUID);
+    await this.setState({ currentUserID: userUID});
 
-  await this.setState({ currentUserID: userUID});
-  await this.setState({ consultantID: this.props.consultantKey});
-  await this.setState({ dateString: this.props.dateString });
-  await this.setState({ timeSlot: this.props.jedi.timeSlot})
-}
+
+    await this.setState({ currentUserID: userUID});
+    await this.setState({ consultantID: this.props.consultantKey});
+    await this.setState({ dateString: this.props.dateString });
+    await this.setState({ timeSlot: this.props.jedi.timeSlot})
+  }
 
   componentDidMount() {
     // this.setState({ time: this.props.jedi.item.key})
@@ -70,7 +53,7 @@ export default class AppointmentBlock extends React.Component {
     //availability from the consultant
     //maybe the push id can be stored?
     if (!this.state.cardSelected) {
-    this.setState({ cardSelected: !this.state.cardSelected});
+      this.setState({ cardSelected: !this.state.cardSelected});
       const date = this.state.dateString
       const timeSlot = this.state.timeSlot
 
@@ -91,10 +74,10 @@ export default class AppointmentBlock extends React.Component {
           var selectedTimeslots = await AsyncStorage.getItem('selectedTimeslots');
           console.log("time slots retrieved " +  JSON.stringify(selectedTimeslots));
           selectedTimeslots = JSON.parse(selectedTimeslots);
-            if (!selectedTimeslots.includes(timeSlot)) {
-              selectedTimeslots.push(timeSlot);
-              await AsyncStorage.setItem('selectedTimeslots', JSON.stringify(selectedTimeslots));
-            }
+          if (!selectedTimeslots.includes(timeSlot)) {
+            selectedTimeslots.push(timeSlot);
+            await AsyncStorage.setItem('selectedTimeslots', JSON.stringify(selectedTimeslots));
+          }
           var selectedTimeslots = await AsyncStorage.getItem('selectedTimeslots');
           console.log("time slots pushed " +  JSON.stringify(selectedTimeslots));
         }
@@ -135,7 +118,7 @@ const styles = StyleSheet.create({
   cardView: {
     width: Metrics.screenWidth,
     borderRadius: Metrics.buttonRadius,
-    height: Metrics.screenHeight* .1,
+    height: Metrics.screenHeight* .14,
   },
   cardSelected: {
     backgroundColor: '#c77ce8',

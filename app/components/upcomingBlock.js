@@ -79,7 +79,7 @@ export default class UpcomingBlock extends React.Component {
             return(
                 <Button
                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 100,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
+                buttonStyle={{width : 70,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                 title={"Pay"}
                 onPress={() => this.payout()}
                 />
@@ -89,7 +89,7 @@ export default class UpcomingBlock extends React.Component {
             return(
                 <Button
                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 100,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
+                buttonStyle={{width : 70,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                 title={"Request"}
                 onPress={() => this.payout()}            
                 ></Button>
@@ -109,6 +109,7 @@ export default class UpcomingBlock extends React.Component {
                                 <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{this.state.profileName}</Text>
                                 <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.startTime} -</Text>
                                 <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.endTime}</Text>
+                                <Text style={{fontSize: 15, marginLeft :20, color : '#999'}}>{this.props.upcoming.price}</Text>
                             </View>     
                         </View>                       
                         {this.paymentButton()}                  

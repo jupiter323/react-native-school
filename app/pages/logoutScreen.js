@@ -21,7 +21,7 @@ export default class Logout extends React.Component {
       console.log("jimmmmmmmmm");
       await firebase.auth().signOut();
       await AsyncStorage.setItem('portal', '');
-      this.props.navigation.navigate('Home');
+      this.props.navigation.goBack(null);
     }
 
     render() {
