@@ -58,12 +58,12 @@ componentWillMount() {
 
   });
   this.getAllHistory();
-  this.getPlatformBalance(); 
+  this.getPlatformBalance();
   if(this.props.navigation.state.params.totalPrice != undefined){
     this.setState({totalPrice : this.props.navigation.state.params.totalPrice});
     console.log("TotalPrice : " + this.props.navigation.state.params.totalPrice);
   }
-    
+
 }
 
 // register new credit card and get token
@@ -108,9 +108,9 @@ createToken = async() => {
         this.setState({token: cardToken});
         console.log("card token in fetch " + cardToken);
 
-        
-        this.createCharge(Math.ceil(this.state.totalPrice*1.12), solved.id);  
-       }); 
+
+        this.createCharge(Math.ceil(this.state.totalPrice*1.12), solved.id);
+       });
 
      }).catch((error) => {
         console.error(error);
@@ -119,7 +119,7 @@ createToken = async() => {
 
  // create new transfer from platform account to consultant account
  // parameers : transfer amount, firebase id of consultant
- createTransfer =async(amount, consultant_id) => {
+ createTransfer = async(amount, consultant_id) => {
 
   firebase.database().ref('stripe_customers').child(consultant_id).child('account').once('value')
   .then(value=>{
@@ -163,7 +163,7 @@ createToken = async() => {
 
  // create new charge from credit card to platform account
  // parameters :  charge amount, source or token
-createCharge =async(amount,token) => {
+createCharge = async(amount,token) => {
 
     var chargeDetails = {
       "amount": amount,
@@ -178,7 +178,7 @@ createCharge =async(amount,token) => {
       var encodedKey = encodeURIComponent(property);
       var encodedValue = encodeURIComponent(chargeDetails[property]);
       formBody.push(encodedKey + "=" + encodedValue);
-    }
+    } 
     formBody = formBody.join("&");
     return fetch(stripe_url + 'charges', {
        method: 'POST',
@@ -221,7 +221,7 @@ createCharge =async(amount,token) => {
 
  // book new appointment
  // it will charge 1.2 * appointment's amount from credit card to platform
- createNewBooking = async() =>{
+ createNewBooking = async() => {
    await this.createCharge(Math.ceil(this.state.amount*1.12), this.state.token);
    await this.setState({bookingStatus : true});
  }

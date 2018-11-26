@@ -70,7 +70,8 @@ export default class MakeAppointments extends React.Component {
       year: '',
       month: '',
       day: '',
-      price : 0
+      preFeePrice : 0,
+      fees: 0,
     }
     //see what props App.js is constructed with:
     console.log("make appointment screen props " + JSON.stringify(props));
@@ -120,6 +121,8 @@ export default class MakeAppointments extends React.Component {
       await this.setState({ timeslotsArrayString : selectedTimeslotsString});
       await this.setState({ timeslotsArray: selectedTimeslots});
       await this.setState({ totalPrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * 1.15)});
+      await this.setState({ preFeePrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length)});
+      await this.setState({ preFeePrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * .15)});
     } else {
       await this.setState({ timeslotsArray: []});
       await this.setState({ totalPrice: 0});
@@ -145,6 +148,7 @@ export default class MakeAppointments extends React.Component {
   }
 
   onPressBookAppointments = async() => {
+    //should be creating a charge for booking the appointments
     if (this.state.appointmentGoal == "") {
       alert("Please Fill Out a Goal for the Appointment");
     } else if (this.state.timeslotsArray.length == 0) {
@@ -280,7 +284,9 @@ export default class MakeAppointments extends React.Component {
                           Timeslot(s): {this.state.timeslotsArrayString}
                         </Text>
                         <Text style={{fontSize : 15}}>
-                          Price: ${this.state.totalPrice.toFixed(2)} total
+                          Price: ${this.state.preFeePrice.toFixed(2)}
+                          Fees: ${this.state.fees.toFixed(2)}
+                          Total Price: ${this.state.totalPrice.toFixed(2)} total
                         </Text>
                         <Input style={{
                                 width: '100%',
@@ -360,7 +366,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   modalView: {
-    
+
     height: Metrics.screenHeight*.6,
     borderStyle: 'solid',
     borderWidth: .5,
@@ -382,7 +388,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: 'white',    
+    backgroundColor: 'white',
     borderRadius: 15,
   },
   modalText: {
