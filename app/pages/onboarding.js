@@ -23,9 +23,8 @@ export default class OnboardingScreen extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
         <Onboarding
-          showSkip={false}
+          onSkip= {this._onDone}
           onDone= {this._onDone}
           pages={[
             {
@@ -66,7 +65,6 @@ export default class OnboardingScreen extends React.Component {
             },
           ]}
         />
-      </SafeAreaView>
     );
   }
 }
@@ -77,8 +75,8 @@ const styles = StyleSheet.create({
     height: Metrics.screenHeight,
     // flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
   },
   contentImage: {
     height: Metrics.screenHeight*.35,

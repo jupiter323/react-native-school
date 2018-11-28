@@ -221,7 +221,8 @@ export default class App extends React.Component {
   rememberOnboarding = async () => {
     try {
       const completed = await AsyncStorage.getItem('onboarding');
-      await this.setState({hasDoneOnboarding: JSON.parse(completed)});
+      // await this.setState({hasDoneOnboarding: JSON.parse(completed)});
+      await this.setState({hasDoneOnboarding: null});
     } catch (error) {
       console.log(error);
     }
