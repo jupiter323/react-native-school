@@ -52,22 +52,9 @@ constructor(props) {
   console.log(JSON.stringify(props));
 }
 
-componentWillMount = async() => {
-  this.checkIfUserLoggedIn();
+componentDidMount = async() => {
   this.setState({subject1 : subject});
 }
-
-
-checkIfUserLoggedIn = async() => {
-  const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
-  if (loginCheck === "true") {
-    await this.setState({hasLoggedIn: true});
-    console.log("hasLoggedIn" + this.state.hasLoggedIn);
-    console.log("metroooooooo");
-  }
- }
-
-
 
 listItemRenderer(item) {
   return (
@@ -79,25 +66,27 @@ listItemRenderer(item) {
 
 _keyExtractor = (item, index) => index;
 
+checkForBlank = async(searchText) => {
+  await this.setState({searchText: searchText});
+  if (this.state.searchText === '') {
+    this.resetList();
+  }
+}
 
 resetList = async () => {
   await this.setState({subject1 : subject.filter((item=>{return item.key.toLowerCase().search(this.state.searchText.toLowerCase())!==-1;}))});
+
 }
 
 
 
 render() {
-
-  if (!this.state.hasLoggedIn) {
-      return (<LoggedOut/>);
-
-} else {
   return (
         <SafeAreaView style={styles.container}>
               <SearchBar
                 lightTheme
                 round
-                onChangeText={(searchText) => this.setState({searchText})}
+                onChangeText={(searchText) => this.checkForBlank(searchText)}
                 onClearText={console.log('')}
                 onSubmitEditing={() => this.resetList()}
                 icon={{ type: 'font-awesome', name: 'search' }}
@@ -113,9 +102,9 @@ render() {
               />
         </SafeAreaView>
   );
+  }
 }
-}
-}
+
 
 const styles = StyleSheet.create({
   container: {
