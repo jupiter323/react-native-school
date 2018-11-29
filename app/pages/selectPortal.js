@@ -7,7 +7,17 @@ import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import Onboarding from 'react-native-onboarding-swiper';
 
-export default class OnboardingScreen extends React.Component {
+export default class SelectPortalScreen extends React.Component {
+
+  // <Button
+  // title="Educators"
+  // buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+  // onPress={this._selectPortalSchool}/>
+  //
+  // <Button
+  // title="Parents"
+  // buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
+  // onPress={this._selectPortalParent}/>
 
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
@@ -68,15 +78,6 @@ export default class OnboardingScreen extends React.Component {
           buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
           onPress={this._selectPortalConsultant}/>
 
-          <Button
-          title="Educators"
-          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalSchool}/>
-
-          <Button
-          title="Parents"
-          buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}
-          onPress={this._selectPortalParent}/>
         </View>
       </SafeAreaView>
     );

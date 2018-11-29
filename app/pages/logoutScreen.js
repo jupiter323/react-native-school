@@ -4,10 +4,6 @@ import Metrics from '../Themes/Metrics';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from 'firebase';
 
-
-
-
-
 export default class Logout extends React.Component {
 
   static navigationOptions = {
@@ -21,7 +17,7 @@ export default class Logout extends React.Component {
       console.log("jimmmmmmmmm");
       await firebase.auth().signOut();
       await AsyncStorage.setItem('portal', '');
-      this.props.navigation.goBack(null);
+      this.props.navigation.navigate("SelectPortalScreen");
     }
 
     render() {

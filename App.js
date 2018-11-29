@@ -161,6 +161,7 @@ const StudentNav = DrawerNavigator({
   Upcoming : {screen : UpcomingNav},
   Blank: {screen: pages.Blank2},
   Logout: {screen: pages.Logout},
+  SelectPortal: {}
 }, {
     initialRouteName: 'Home',
     drawerOpenRoute: 'DrawerOpen',
