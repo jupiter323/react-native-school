@@ -11,13 +11,14 @@ export default class Logout extends React.Component {
    };
 
     onPressLogout = async() => {
+      console.log("props " + JSON.stringify(this.props));
       await AsyncStorage.setItem("hasLoggedIn", "false");
       const logoutCheck = await AsyncStorage.getItem("hasLoggedIn");
       console.log("hasLoggedOut" + logoutCheck);
       console.log("jimmmmmmmmm");
       await firebase.auth().signOut();
       await AsyncStorage.setItem('portal', '');
-      this.props.navigation.navigate("SelectPortalScreen");
+      this.props.navigation.navigate("SelectPortalScreen", this.props.screenProps);
     }
 
     render() {

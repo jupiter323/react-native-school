@@ -171,6 +171,10 @@ const styles = StyleSheet.create({
     width: Metrics.screenWidth,
     borderRadius: Metrics.buttonRadius,
   },
+  card: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   pictureView: {
     marginLeft: Metrics.marginHorizontal,
     marginRight: Metrics.marginHorizontal,

@@ -5,6 +5,8 @@ import {Facebook} from 'expo';
 import * as pages from './app/pages';
 import firebase from 'firebase';
 import Stripe from 'firebase';
+import SelectPortal from './app/pages/selectPortal';
+
 
 var config1 = {
     apiKey: "AIzaSyBUcTA24OEVHAoOGOUCAJwsG77rOBU-LdQ",
@@ -24,6 +26,14 @@ var config1 = {
    initialRouteName: 'MessageTableViewScreen',
    title: 'Messages',
  });
+
+  const LogoutNav = StackNavigator({
+    Logout: {screen: pages.Logout},
+    SelectPortalScreen: {screen: pages.SelectPortal}
+  },{
+    initialRouteName: 'Logout',
+    title: 'Logout',
+  });
 
 const HomeNav = TabNavigator({
   Feedback: {screen: pages.Feedback},
@@ -89,6 +99,7 @@ const SetAvailabilityNav = StackNavigator({
   SetAvailabilityScreen: {screen: pages.SetAvailabilityScreen},
 });
 
+
 const InternshipsNav = StackNavigator({
   Internships: {screen: pages.Internships},
   ResourcesScreen: {screen: pages.Resources},
@@ -141,7 +152,7 @@ const ConsultantNav = DrawerNavigator({
   Messages: {screen: MessagesNav},
   Forum: {screen: ForumNav},
   Upcoming : {screen : UpcomingNav},
-  Logout: {screen: pages.Logout},
+  Logout: {screen: LogoutNav},
   SetAvailability: {screen: SetAvailabilityNav},
 }, {
     initialRouteName: 'Home',
@@ -160,8 +171,7 @@ const StudentNav = DrawerNavigator({
   Resources: {screen: ResourcesNav},
   Upcoming : {screen : UpcomingNav},
   Blank: {screen: pages.Blank2},
-  Logout: {screen: pages.Logout},
-  SelectPortal: {}
+  Logout: {screen: LogoutNav},
 }, {
     initialRouteName: 'Home',
     drawerOpenRoute: 'DrawerOpen',

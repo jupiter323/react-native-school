@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'react-native-elements'
 import Metrics from '../Themes/Metrics';
-import Images from '../Themes/Images';
-import Onboarding from 'react-native-onboarding-swiper';
+
 
 export default class SelectPortalScreen extends React.Component {
 
@@ -24,13 +23,14 @@ export default class SelectPortalScreen extends React.Component {
   };
 
   static propTypes = {
-      selectPortalStudent: PropTypes.func.isRequired,
-      selectPortalConsultant: PropTypes.func.isRequired,
-      selectPortalSchool: PropTypes.func.isRequired,
-      selectPortalParent: PropTypes.func.isRequired,
+      // selectPortalStudent: PropTypes.func.isRequired,
+      // selectPortalConsultant: PropTypes.func.isRequired,
+      // selectPortalSchool: PropTypes.func.isRequired,
+      // selectPortalParent: PropTypes.func.isRequired,
   };
 
   _selectPortalStudent = () => {
+    console.log("props " + JSON.stringify(this.props));
     if (this.props.selectPortalStudent) {
       console.log("props " + this.props);
       console.log("select portal working");
@@ -66,8 +66,7 @@ export default class SelectPortalScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.feedbackBox}>
-          <Text style={styles.textStyles}>Here at MoveItMoveIt, we love to improve.</Text>
-          <Text style={styles.textStyles}>Your input can help us do that. :)</Text>
+          <Text style={styles.textStyles}>Are you a student or a consultant?</Text>
           <Button
           title="Students"
           buttonStyle={{backgroundColor : '#c77ce8', borderColor : 'transparent', borderWidth : 0, borderRadius : 20, margin : 15}}

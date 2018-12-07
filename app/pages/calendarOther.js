@@ -47,12 +47,12 @@ export default class CalendarScreen extends React.Component {
         <Calendar
           onDayPress={this.onDayPress}
           style={styles.calendar}
-          hideExtraDays
+          minDate={Date()-1}
           markedDates={{[this.state.selected]: {selected: true}}}
           theme={{
-            selectedDayBackgroundColor: 'green',
-            todayTextColor: 'green',
-            arrowColor: 'green',
+            selectedDayBackgroundColor: 'purple',
+            todayTextColor: 'purple',
+            arrowColor: 'purple',
           }}
         />
       </View>
@@ -62,13 +62,15 @@ export default class CalendarScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    // alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+
   },
   calendar: {
-    margin : 20,
     borderWidth: 2,
-    paddingTop: 5,
-    borderColor: '#c77ce8',
+    borderColor: '#c77ce855',
     height: 350
   }
 });

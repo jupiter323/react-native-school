@@ -29,14 +29,6 @@ export default class MakeAppointments extends React.Component {
   return {
       headerTitle: 'Make Appointment',
       title: 'Make Appointment',
-      headerLeft: (
-        <Feather style={styles.icon}
-          name="menu"
-          size={Metrics.icons.medium}
-          color={'#c77ce8'}
-          onPress={() => navigate('DrawerToggle')}
-        />
-      ),
       headerRight: (
         <Feather style={{ marginRight: 15}}
           name="save"

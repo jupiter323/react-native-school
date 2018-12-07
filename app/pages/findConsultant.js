@@ -332,11 +332,11 @@ export default class FindConsultant extends React.Component {
                 onClearText={console.log('')}
                 onSubmitEditing={() => this.resetList()}
                 icon={{ type: 'font-awesome', name: 'search' }}
-                containerStyle={{ width: Metrics.screenWidth * .95, marginTop: 20, marginBottom: 10 }}
+                containerStyle={{ width: Metrics.screenWidth * .95, marginTop: 10}}
                 placeholder='Search For Consultant...'
               />
 
-              <View style={{ height: 200, width: Metrics.screenWidth * .9, justifyContent: 'center', marginBottom: 10 }}>
+              <View style={{ height: 120, width: Metrics.screenWidth * .9, justifyContent: 'center' }}>
                 <Slider
                   value={this.state.price}
                   thumbTintColor='#c77ce8'
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   itemList: {
-    height: Metrics.screenHeight * .6,
+    height: Metrics.screenHeight * .7,
     width: Metrics.screenWidth,
     paddingTop: 10,
   },

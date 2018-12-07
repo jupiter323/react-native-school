@@ -314,7 +314,6 @@ async appendJedis(count, start) {
                       <View style={{ alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                           <Modal
                             isVisible={this.state.isQuestionModalVisible}
-                            style={styles.modal}
                             onBackdropPress={() => this.setState({ isQuestionModalVisible: false })}
                             backdropColor={'black'}>   
                             <View
@@ -349,14 +348,14 @@ async appendJedis(count, start) {
                                 }}
                               >
                               <Input style={{
-                                flex: 1,
-                                width: "100%",
-                                fontSize: 20,
-                                alignContent: "flex-start",
-                                justifyContent: "flex-start",
-                                textAlignVertical: "top",
-                                margin: 12
-                                }}
+                                  flex: 1,
+                                  width: "100%",
+                                  fontSize: 20,
+                                  alignContent: "flex-start",
+                                  justifyContent: "flex-start",
+                                  textAlignVertical: "top",
+                                  margin: 12
+                                  }}
                                 placeholder="Ex: When are the common app essays released?"
                                 underlineColorAndroid="transparent"
                                 multiline={true}
@@ -542,7 +541,7 @@ const styles = StyleSheet.create({
   },
   modalViewQuestion: {
     width: Metrics.screenWidth*0.9,
-    height: Metrics.screenHeight - 40,
+    height: Metrics.screenHeight * .6,
     borderStyle: 'solid',
     borderWidth: .5,
     alignItems: 'center',
