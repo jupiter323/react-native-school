@@ -2,20 +2,17 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput,
   SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
 import Metrics from '../Themes/Metrics';
-import Images from '../Themes/Images';
+import Functions from '../Themes/Functions';
 import Colors from '../Themes/Colors';
 import { Input
 } from "native-base";
-import SaleBlock from '../components/saleBlock';
 import { Button } from 'react-native-elements'
 import firebase from 'firebase';
 import moment from 'moment';
-import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather} from '@expo/vector-icons';
 import DataTimes from '../Themes/DataTimes'
 import Modal from "react-native-modal";
 import LoggedOut from '../components/loggedOutScreen';
-import SelectMultiple from 'react-native-select-multiple';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import AppointmentBlock from '../components/appointmentBlock';
 
 
@@ -149,7 +146,8 @@ export default class MakeAppointments extends React.Component {
       console.log("Testing 1 1 1 ");
       //for each loop through timeslots array {
       // await this.payForAppointment();
-      // if (payment == true) {
+      // if (payment == true) { //needs to make sure student has a stripe account/credit card 
+      //hooked up to the database
       var that = this;
       this.state.timeslotsArray.forEach(function(element) {
         var startTime = DataTimes[element].startTime;
@@ -173,6 +171,9 @@ export default class MakeAppointments extends React.Component {
           endTime: endTime,
           price : Number(this.state.totalPrice.toFixed(2))
         });
+    //Functions.createCharge(this.state.totalPrice,card token(either from firebase or with create token function))
+    //they should be able to select from previously saved cards, or navigate to the card input;
+    //they should only have to navigate to the card input once, not during each iteration of the foreach loop
       var ref = firebase.database().ref('consultants').child(that.state.consultantKey).child("availabilities").child(that.state.dateString);
         firebase.database().ref('consultants').child(that.state.consultantKey).child("availabilities").child(that.state.dateString)
         .on("child_added", function(snapshot) {
