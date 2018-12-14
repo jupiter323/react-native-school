@@ -10,7 +10,7 @@ import Modal from 'react-native-modal';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 /*
-  Displays a Jedi ID Card
+  Displays a Jedi ID Card 
 
   start at
   load more
@@ -34,7 +34,9 @@ export default class AnswerBlock extends React.Component {
       totalVotes: 0,
       upVotes : 0,
       downVotes : 0,
-      voted : false,
+      upVoted : false,
+      downVoted : false,
+      voted: false,
     }
   }
 
@@ -47,26 +49,52 @@ export default class AnswerBlock extends React.Component {
   }
 
   onPressUpvote =async() => {
-    if(!this.state.voted){
-      console.log("up");
-      await this.setState({voted : true});
-      this.saveVote("up");
+      if(!this.state.voted){
+        console.log("up");
+        await this.setState({upVoted : true, downVoted: false});
+        this.saveVote("up");
+      } else {
+        if (this.state.upVoted) {
+          var vote = "up";
+          this.removeVote(vote);
+          //remove vote
+        } else {
+          console.log("up");
+          await this.setState({upVoted : true, downVoted: false});
+          this.saveVote("up");
+        }   
     }    
-    // if (this.state.upButtonPressed) {
-    //   await this.setState({ upButtonPressed: !this.state.upButtonPressed});
-    //   this.reverseUpvote();
-    // } else {
-    //   await this.setState({ upButtonPressed: !this.state.upButtonPressed});
-    //   this.storeUpvote();
-    // }
   }
 
   onPressDownvote =async() => {
     if(!this.state.voted){
       console.log("down");
-      await this.setState({voted : true});
+      await this.setState({downVoted : true, upVoted: false});
       this.saveVote("down");
-    }    
+    } else {
+      if (this.state.downVoted) {
+        var vote = "down";
+        this.removeVote(vote);
+        //remove vote
+      } else {
+        console.log("down");
+        await this.setState({downVoted : true, upVoted: false});
+        this.saveVote("down");
+      }   
+  }
+}
+
+  removeVote = async(vote) => {
+    var ref = firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
+    .child(this.props.jedi.key).child('voted');
+    await ref.remove();
+    if (vote == "up") {
+      var upVotes = this.state.upVotes;
+      await this.setState({upVotes: upVotes});
+    } else if (vote == "down") {
+      var downVotes = this.state.downVotes;
+      await this.setState({downVotes: downVotes});
+    }
   }
     
   openAnswerScreen() {
@@ -82,10 +110,18 @@ export default class AnswerBlock extends React.Component {
   }
   restoreVote = async() => {
     await firebase.database().ref('forum').child(this.props.forumLocation).child('answers')
-    .child(this.props.jedi.key).child('voted').on('value',async(snapshots)=>{
+    .child(this.props.jedi.key).child('voted').on('value',async(snapshots)=> {
       if(snapshots.hasChild(firebase.auth().currentUser.uid)){
-        await this.setState({voted : true});
-      } else await this.setState({voted: false});
+        await this.setState({voted: true});
+        if (snapshots.child(firebase.auth().currentUser.uid).val().val == "up") {
+          console.log("snapshot " + JSON.stringify(snapshots.child(firebase.auth().currentUser.uid).val().val));
+          await this.setState({upVoted : true, downVoted: false});
+        } else {
+          console.log("snapshot " + JSON.stringify(snapshots.child(firebase.auth().currentUser.uid).val().val));
+          await this.setState({downVoted : true, upVoted: false});
+        }
+      } else await this.setState({upVoted: false, downVoted: false});
+
       let upVotes = 0;
       let downVotes = 0;
       await this.setState({totalVotes : snapshots.numChildren()});
@@ -149,13 +185,13 @@ export default class AnswerBlock extends React.Component {
             </View>
               <Text style={styles.textStyles}>
               {/* totalUpvotes: {this.state.upVotes - this.state.downVotes}  */}
-              <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed} 
+              <FontAwesome style={this.state.upVoted ? styles.buttonPressed : styles.buttonNotPressed} 
                 name="thumbs-o-up"
                 size={20}
                 color={'#c77ce8'}
                 onPress={() => this.onPressUpvote()}
                 />&nbsp;&nbsp; {this.state.upVotes} &nbsp;&nbsp;
-              <FontAwesome style={this.state.voted ? styles.buttonPressed : styles.buttonNotPressed}
+              <FontAwesome style={this.state.downVoted ? styles.buttonPressed : styles.buttonNotPressed}
                 name="thumbs-o-down"
                 size={20}
                 color={'#c77ce8'}

@@ -41,7 +41,7 @@ export default class Forum extends React.Component {
       <Feather style={{ marginRight: 15}}
         name="plus-circle"
         size={Metrics.icons.medium}
-        color={'#c77ce8'}
+        color={'#c77ce8'} 
         onPress={params.createQuestion}
       />
     ),
