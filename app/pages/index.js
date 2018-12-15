@@ -30,7 +30,9 @@ import SATACTPrep from './satACT';
 import TimelineSheet from './timelineSheet';
 import Blank2 from './blank2';
 import UpcomingScreen from './upcoming';
-import InputCreditCard from './inputCreditCard'
+import InputCreditCard from './inputCreditCard';
+import AddQuestionScreen from './addQuestionScreen';
+
 
 
 export {
@@ -67,4 +69,5 @@ export {
   TimelineSheet,
   Blank2,
   InputCreditCard,
+  AddQuestionScreen,
 }

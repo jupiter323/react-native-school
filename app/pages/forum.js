@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput, KeyboardAvoidingView, 
   SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
-import { Input
-  } from "native-base";
+import { Input } from "native-base";
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import * as Expo from "expo";
@@ -70,7 +69,7 @@ export default class Forum extends React.Component {
       userPortal: '',
     }
     //see what props App.js is constructed with:
-    // console.log(JSON.stringify(props));
+    console.log("forum props " + JSON.stringify(props));
   }
 
 async appendJedis(count, start) {
@@ -116,7 +115,7 @@ async appendJedis(count, start) {
 
   componentWillMount = async() => {
     this.checkIfUserLoggedIn();
-    this.props.navigation.setParams({ createQuestion: this.toggleQuestionModal });
+    this.props.navigation.setParams({ createQuestion: () => this.props.navigation.navigate('AddQuestionScreen')});
 
     var userUID = firebase.auth().currentUser.uid;
     var name;
@@ -377,6 +376,39 @@ async appendJedis(count, start) {
                     </Modal>
                   </View>
                   </KeyboardAvoidingView>
+
+                  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                      <Modal
+                        isVisible={this.state.isTopicModalVisible}
+                        onBackdropPress={() => this.setState({ isTopicModalVisible: false })}
+                        backdropColor={'black'}>
+                        <View style={styles.modalViewTopic}>
+                          <Text style={styles.modalText}>
+                          Pick a Category!
+                          </Text>
+                            <Button
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
+                              title='College Life'
+                              onPress={() => this.onPressCollegeLife()}/>
+                            <Button
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
+                              title='College Applications'
+                              onPress={() => this.onPressCollegeApplications()}/>
+                            <Button
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
+                              title='Resources'
+                              onPress={() => this.onPressResources()}/>
+                            <Button
+                              titleStyle={{color : 'white', fontWeight: '700', fontSize: 20}}
+                              buttonStyle={{width : 200, borderRadius: 5, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#03A9F4'}}
+                              title='All Topics'
+                              onPress={() => this.onPressAllTopics()}/>
+                        </View>
+                    </Modal>
+                  </View>
 
                 </View>
 
