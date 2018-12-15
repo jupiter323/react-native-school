@@ -18,9 +18,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
  
 const {width, height} = Dimensions.get('window');
 
-/*
-  Displays information about Jedi
-*/
+//use renderdraggable type conditional rendering
 export default class Forum extends React.Component {
  
   static navigationOptions = ({ navigation }) => {
@@ -181,18 +179,20 @@ async appendJedis(count, start) {
     this.setState({isQuestionModalVisible: !this.state.isQuestionModalVisible});
   }
 
-  onPressTopic = async(num) => {
-    if(num){
+  onPressTopic = async() => {
       await this.setState({isQuestionModalVisible: false});
-      this.setState({isPostTopic : true});
-      await this.setState({isTopicModalVisible: true});
-      console.log("topic modal " + this.state.isTopicModalVisible);
-    } else {
       this.setState({isPostTopic : false});
       await this.setState({isTopicModalVisible: true});
       console.log("topic modal " + this.state.isTopicModalVisible);
-    }
   }
+
+  onPressTopicPostQuestion = async() => {
+    await this.setState({isQuestionModalVisible: false});
+    this.setState({isPostTopic : true});
+    await this.setState({isTopicModalVisible: true});
+    console.log("question modal " + this.state.isQuestionModalVisible);
+    console.log("topic modal " + this.state.isTopicModalVisible);
+}
 
   listItemRenderer(item) {
     return (
@@ -308,7 +308,7 @@ async appendJedis(count, start) {
                       checkedColor='red'
                       containerStyle={{width: Metrics.screenWidth*.95}}
                       checked={this.state.checked}
-                      onPress={()=> this.onPressTopic(0)}
+                      onPress={()=> this.onPressTopic()}
                     />
                     <KeyboardAvoidingView style={{flex : 1}}>
                       <View style={{ alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
