@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import Modal from "react-native-modal";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Card, Avatar, Button } from 'react-native-elements'
+import { ListItem, Slider, CheckBox, SearchBar, Button } from 'react-native-elements'
 import Images from '../Themes/Images';
 import firebase from 'firebase';
 import { FontAwesome } from '@expo/vector-icons';
@@ -21,7 +21,7 @@ export default class AddQuestionScreen extends React.Component {
     this.state = {
       userID: firebase.auth().currentUser.uid,
       question: '',
-      postQuestionTopic: '',
+      postQuestionTopic : 'Select a Question Topic',
       isQuestionModalVisible: true,
       userPortal: '',
       userName: '',
@@ -147,7 +147,7 @@ export default class AddQuestionScreen extends React.Component {
                                 titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
                                 buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                                 title={this.state.postQuestionTopic}
-                                onPress={() => this.onPressTopic(1)}/>
+                                onPress={() => this.onPressTopic()}/>
                             </View>
                         </View>                         
                           
