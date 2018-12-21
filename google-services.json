@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1092951149798",
+    "firebase_url": "https://schoolbudd-ac7fc.firebaseio.com",
+    "project_id": "schoolbudd-ac7fc",
+    "storage_bucket": "schoolbudd-ac7fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092951149798:android:058e12045fc52534",
+        "android_client_info": {
+          "package_name": "com.joshuaosagie06.schoolbudd2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092951149798-b276h3e4utp82c5vha34nqjks8rjs5gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV36IfIVc3zFOXiqsYnjW8Hn4am3K4rbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

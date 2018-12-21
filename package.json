@@ -35,5 +35,9 @@
     "stripe-client": "^1.1.5",
     "tipsi-stripe": "^5.6.0"
   },
+  "scripts": {
+    "android_build":"expo build:android",
+    "android_push":"expo push:android:upload --api-key AAAA_nj3DOY:APA91bEXKTnNhFEZlxlcL9OUbbZ2pDNV6lZTDJc0BoODeqaEoyckQaJOAfC0NT5JBPZapGuwPm0piRCPjp4J1OgixgUSFaCIylHV6nhNF23_PR1dFZM1YnxmpCW0yn-gW_y99qfFkrhL"
+  },
   "devDependencies": {}
 }

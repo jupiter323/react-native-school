@@ -76,6 +76,7 @@ export default class MakeAppointments extends React.Component {
     await this.setState({ day: this.props.navigation.state.params.bookingDate.day });
 
     console.log("consultantkey " + this.state.consultantKey);
+
     var that = this;
     var price;
     firebase.database().ref('consultants').child(this.state.consultantKey).on('value',(snapshot) => {
@@ -91,10 +92,12 @@ export default class MakeAppointments extends React.Component {
     var dateTime = "2015-06-17 02:24:36 AM";
     dateTime = moment(dateTime, 'YYYY-MM-DD, HH:mm:ss A').format('YYYY-MM-DD HH:mm:ss A');
     // console.log("test date time " + dateTime);
+   
   }
 
   componentWillUnmount =async() => {
     await AsyncStorage.removeItem('selectedTimeslots');
+   
   }
 
   toggleAppointmentModal = async() => {

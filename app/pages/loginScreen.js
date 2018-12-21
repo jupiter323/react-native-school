@@ -10,6 +10,7 @@ import { WebBrowser } from 'expo';
 import GenerateForm from 'react-native-form-builder';
 import { View, Text } from 'native-base';
 import { globalStyles } from '../Themes/Styles';
+import Functions from '../Themes/Functions';
 
 
 const stripe_url = 'https://api.stripe.com/v1/'
@@ -257,7 +258,7 @@ export default class Login extends React.Component {
   }
 
   onPressSaveLogin = async () => {
-    await firebase.auth().signInWithEmailAndPassword(this.state.loginEmail, this.state.loginPassword)
+    var result = await firebase.auth().signInWithEmailAndPassword(this.state.loginEmail, this.state.loginPassword)
       .catch(error => this.setState({ errorMessageLogin: error.message }));
 
     if (this.state.errorMessageLogin == "") {
@@ -266,6 +267,11 @@ export default class Login extends React.Component {
       console.log("password " + this.state.loginPassword);
       // firebase.database().ref('users').child(user.uid).child('name');
       await AsyncStorage.setItem("hasLoggedIn", "true");
+
+      /// pushnotification token save
+      await Functions.registerForPushNotificationsAsync(result.uid);
+
+
       this.toggleLoginModal();
     } else {
       alert(this.state.errorMessageLogin);
@@ -305,10 +311,16 @@ export default class Login extends React.Component {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       var result = await firebase.auth().signInWithCredential(credential);
 
+      /// pushnotification token save
+      await Functions.registerForPushNotificationsAsync(result.uid);
+
       //After signing in/up, we add some additional user info to the database
       //so that we can use it for other things, e.g. users needing to know
       //names of each other
       firebase.database().ref('users').child(result.uid).child('name').set(name);
+
+
+
       await AsyncStorage.setItem("hasLoggedIn", "true");
     } else {
       // this.logInWithFacebook();
@@ -449,7 +461,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
     borderStyle: 'solid',
-    borderColor : '#c77ce8',
+    borderColor: '#c77ce8',
     borderWidth: 0.5,
     borderTopLeftRadius: Metrics.screenWidth * .05,
     borderTopRightRadius: Metrics.screenWidth * .05,

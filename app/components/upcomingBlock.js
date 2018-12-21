@@ -14,112 +14,114 @@ import Modal from 'react-native-modal';
   load more
 */
 export default class UpcomingBlock extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            profileId : '',
+            profileId: '',
             profileImage: '',
-            startTime : '',
-            endTime : '',
-            profileName : '',
-            summary : '',
-            userId : '',
-            portal : ''
+            startTime: '',
+            endTime: '',
+            profileName: '',
+            summary: '',
+            userId: '',
+            portal: ''
         }
 
         console.log(JSON.stringify("questionblock props " + JSON.stringify(props)));
     }
 
-    componentWillMount = async() => {
-//get consultant price with id
-        await this.setState({portal : this.props.portal});
+    componentWillMount = async () => {
+        //get consultant price with id
+        await this.setState({ portal: this.props.portal });
         console.log("portal3 : " + this.state.portal);
-        if(this.state.portal == 'student') {
-            await this.setState({profileId : this.props.upcoming.consultantID})
-        } else await this.setState({profileId : this.props.upcoming.studentID});
+        if (this.state.portal == 'student') {
+            await this.setState({ profileId: this.props.upcoming.consultantID })
+        } else await this.setState({ profileId: this.props.upcoming.studentID });
 
         var that = this;
-        firebase.database().ref('users').child(this.state.profileId).on('value', function(snapshot) {
+        firebase.database().ref('users').child(this.state.profileId).on('value', function (snapshot) {
             var childKey = snapshot.key;
             var childData = snapshot.val();
             childData.key = childKey;
-            if(childData.profilePicture) that.setState({profileImage: childData.profilePicture});
-            that.setState({profileName : childData.name});
-          });
+            if (childData.profilePicture) that.setState({ profileImage: childData.profilePicture });
+            that.setState({ profileName: childData.name });
+        });
 
     }
 
     imageButton() {
-        if(this.state.profileImage){
-          return(
-            <Avatar
-            size="large"
-            source={{uri : this.state.profileImage}}
-            activeOpacity={0.7}
-            rounded
-          />
-          );
+        if (this.state.profileImage) {
+            return (
+                <Avatar
+                    size="large"
+                    source={{ uri: this.state.profileImage }}
+                    activeOpacity={0.7}
+                    rounded
+                />
+            );
         } else {
-          return(
-            <Avatar
-            size="large"
-            source={Images.profile}
-            activeOpacity={0.7}
-            rounded
-          />
-          )
+            return (
+                <Avatar
+                    size="large"
+                    source={Images.profile}
+                    activeOpacity={0.7}
+                    rounded
+                />
+            )
         }
     }
 
     payout() {
-      this.state.release();
-      Functions.createTransfer(this.props.upcoming.price, this.state.profileId);
+        // this.state.release();
+        this.props.navigation.navigate('InputCreditCard', { totalPrice: this.props.upcoming.price, consultantId: this.state.profileId });
+        // Functions.createTransfer(this.props.upcoming.price, this.state.profileId);
 
-      console.log("payout done.");
+        console.log("payout done.");
     }
-    requestFund() {
-      //push notification to student for the release
-      //https://docs.expo.io/versions/latest/guides/push-notifications
-      console.log("payout done.");
-      alert("The student will be notified of the completed appointment");
+    async requestFund() {
+        //push notification to student for the release
+        //https://docs.expo.io/versions/latest/guides/push-notifications
+        await Functions.sendPushnotification(this.props.upcoming.studentID);
+        console.log("payout done.");
+        alert("The student will be notified of the completed appointment");
     }
-    paymentButton(){
-        if(this.state.portal=='student'){
-            return(
+    paymentButton() {
+        if (this.state.portal == 'student') {
+            return (
                 <Button
-                titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 70,borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
-                title={"Pay"}
-                onPress={() => this.payout()}
+                    titleStyle={{ color: 'white', fontWeight: '700', fontSize: 25 }}
+                    buttonStyle={{ width: 70, borderRadius: 20, margin: 5, borderWidth: 1, borderColor: '#FFF', backgroundColor: '#c77ce8' }}
+                    title={"Pay"}
+                    onPress={() => this.payout()}
                 />
 
             );
         } else {
-            return(
+            return (
                 <Button
-                titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
-                buttonStyle={{width : 70,borderRadius: 20, margin: 5, marginBottom : 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
-                title={"Request"}
-                onPress={() => this.requestFund()}
+                    titleStyle={{ color: 'white', fontWeight: '700', fontSize: 25 }}
+                    buttonStyle={{ width: 70, borderRadius: 20, margin: 5, marginBottom: 5, borderWidth: 1, borderColor: '#FFF', backgroundColor: '#c77ce8' }}
+                    title={"Request"}
+                    onPress={() => this.requestFund()}
                 ></Button>
             );
         }
     }
 
-    render()  {
+    render() {
 
-        return(
+        return (
             <View style={styles.cardView}>
                 <Card>
-                    <View style={{flexDirection : 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection : 'row'}}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row' }}>
                             {this.imageButton()}
-                            <View style={{flexDirection : 'column'}}>
-                                <Text style={{fontSize : 15, marginLeft :20, fontWeight : '200'}}>{this.state.profileName}</Text>
-                                <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.startTime} -</Text>
-                                <Text style={{fontSize : 13, marginLeft :20, color : '#999'}}>{this.props.upcoming.endTime}</Text>
-                                <Text style={{fontSize: 15, marginLeft :20, color : '#999'}}>{this.props.upcoming.price}</Text>
+                            <View style={{ flexDirection: 'column' }}>
+                                <Text style={{ fontSize: 15, marginLeft: 20, fontWeight: '200' }}>{this.state.profileName}</Text>
+                                <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>{this.props.upcoming.startTime} -</Text>
+                                <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>{this.props.upcoming.endTime}</Text>
+                                <Text style={{ fontSize: 15, marginLeft: 20, color: '#999' }}>{this.props.upcoming.price}</Text>
                             </View>
                         </View>
                         {this.paymentButton()}
@@ -133,7 +135,7 @@ export default class UpcomingBlock extends React.Component {
 
 const styles = StyleSheet.create({
     cardView: {
-      width: Metrics.screenWidth,
-      borderRadius: Metrics.buttonRadius,
+        width: Metrics.screenWidth,
+        borderRadius: Metrics.buttonRadius,
     },
 })

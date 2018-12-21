@@ -32,10 +32,12 @@ import Blank2 from './blank2';
 import UpcomingScreen from './upcoming';
 import InputCreditCard from './inputCreditCard';
 import AddQuestionScreen from './addQuestionScreen';
+import AccountInfo from './accountInfo';
 
 
 
 export {
+  AccountInfo,
   Home,
   FindConsultant,
   StudentBasicInfo,

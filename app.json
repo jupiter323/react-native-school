@@ -22,10 +22,11 @@
       "bundleIdentifier": "com.joshuaosagie06.schoolbudd2",
       "infoPlist": {
         "LSApplicationQueriesSchemes": ["skype"]
-      },
+      }
     },
     "android": {
-      "package": "com.joshuaosagie06.schoolbudd2"
+      "package": "com.joshuaosagie06.schoolbudd2",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
