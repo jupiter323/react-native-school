@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SectionList, TextInput, KeyboardAvoidingView, 
-  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage } from 'react-native';
+  SafeAreaView, Dimensions, TouchableWithoutFeedback, Keyboard, TouchableOpacity, AsyncStorage, Button } from 'react-native';
 import { Input } from "native-base";
 import Metrics from '../Themes/Metrics';
 import Images from '../Themes/Images';
 import * as Expo from "expo";
 import Colors from '../Themes/Colors';
 import QuestionBlock from '../components/questionBlock';
-import { ListItem, Slider, CheckBox, SearchBar, Button } from 'react-native-elements'
+import { ListItem, Slider, CheckBox, SearchBar } from 'react-native-elements'
 import firebase from 'firebase';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Modal from "react-native-modal";
