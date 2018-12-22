@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, AsyncStorage, Button, TextInput, Alert, Dimensions } from 'react-native';
+import { StyleSheet, TouchableOpacity, AsyncStorage, Button, TextInput, Alert, Dimensions, ScrollView } from 'react-native';
 import Metrics from '../Themes/Metrics';
 import Colors from '../Themes/Colors';
 import Images from '../Themes/Images';
@@ -288,6 +288,7 @@ export default class Login extends React.Component {
                           title="Post Question"
                           onPress={() => this.onPressPostQuestion()}/>
                       </View>
+
                   </View>                         
                     
               </Modal>
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: .5,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     backgroundColor: 'white',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
