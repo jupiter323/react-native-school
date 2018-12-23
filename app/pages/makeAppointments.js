@@ -97,7 +97,6 @@ export default class MakeAppointments extends React.Component {
 
   componentWillUnmount =async() => {
     await AsyncStorage.removeItem('selectedTimeslots');
-   
   }
 
   toggleAppointmentModal = async() => {
@@ -114,7 +113,7 @@ export default class MakeAppointments extends React.Component {
       await this.setState({ timeslotsArray: selectedTimeslots});
       await this.setState({ totalPrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * 1.15)});
       await this.setState({ preFeePrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length)});
-      await this.setState({ preFeePrice: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * .15)});
+      await this.setState({ fees: (this.state.hourlyPrice * 0.5 * selectedTimeslots.length * .15)});
     } else {
       await this.setState({ timeslotsArray: []});
       await this.setState({ totalPrice: 0});

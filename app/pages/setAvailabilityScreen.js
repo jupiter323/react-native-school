@@ -10,11 +10,13 @@
 import React from 'react';
 import {
   AppRegistry, StyleSheet, Text, View, TouchableOpacity, StatusBar, Button,
-  SectionList, ActivityIndicator, FlatList} from 'react-native';
+  SectionList, ActivityIndicator, FlatList, Alert, AsyncStorage} from 'react-native';
 import * as firebase from 'firebase'
 import AvailabilityBlock from '../components/availabilityBlock';
 import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import Metrics from '../Themes/Metrics';
+import Modal from "react-native-modal";
+
 
 const dataTimes =
 [
@@ -91,9 +93,29 @@ export default class SetAvailabilityScreen extends React.Component {
    componentDidMount =async() => {
      console.log(JSON.stringify(this.props.navigation.state.params.bookingDate.dateString));
      console.log("book date prop " + this.state.bookingDate);
-
+     var showAgain = AsyncStorage.getItem('showAgain');
+     console.log('showAgain ' + JSON.stringify(showAgain));
+     if (JSON.stringify(showAgain) !== 'true') {
+       var that = this;
+     Alert.alert(
+      'Set Availibility',
+      'Clicking a time period saves it as available. Students will be able to book this timeslot for an appointment!',
+      [
+        {text: 'Do not show again', onPress: () => that.doNotShowAgain()},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
+    }
      //create an alert that allows people to know that pressing a block saves the availibility
      // this.setState({ bookingDate: this.props.navigation.state.params.bookingDate })
+
+   }
+
+   doNotShowAgain = async() => {
+    await AsyncStorage.setItem('showAgain', 'true');
+    console.log("do not show again entered");
    }
 
    listItemRenderer =(item) => {
@@ -139,6 +161,7 @@ export default class SetAvailabilityScreen extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={this.listItemRenderer}
         />
+
       </View>
     );
   }
