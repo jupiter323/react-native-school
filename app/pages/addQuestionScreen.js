@@ -197,7 +197,7 @@ export default class Login extends React.Component {
     } else {
 
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
+        <View style={styles.container}>
               <CheckBox
                 center
                 title="Ask a Question"
@@ -226,10 +226,10 @@ export default class Login extends React.Component {
                   <Modal
                       isVisible={this.state.isQuestionModalVisible}
                       onBackdropPress={() => this.setState({ isQuestionModalVisible: false })}
-                      backdropColor={'black'}>   
-                      <View
-                        style={styles.modalViewQuestion}
-                      >    
+                      backdropColor={'black'}
+                      style={{ justifyContent: "flex-start", margin: 0}}>  
+                      <View style={styles.modalViewQuestion}> 
+                  
                         <View style={{flexDirection : 'row', marginTop : 10}}>
                           <Ionicons style={{ marginLeft: 15, fontWeight : 'bold'}}
                             name="ios-close-circle-outline"
@@ -282,15 +282,13 @@ export default class Login extends React.Component {
                           buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                           title={this.state.postQuestionTopic}
                           onPress={() => this.onPressTopic()}/>
-                          <Button
+                        <Button
                           titleStyle={{color : 'white', fontWeight: '700', fontSize: 25}}
                           buttonStyle={{borderRadius: 20, margin: 5, borderWidth : 1, borderColor : '#FFF', backgroundColor :'#c77ce8'}}
                           title="Post Question"
                           onPress={() => this.onPressPostQuestion()}/>
                       </View>
-
-                  </View>                         
-                    
+                    </View>
               </Modal>
               </View>
             </View>
@@ -305,10 +303,9 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: 40,
+    justifyContent: "flex-start",
+    alignItems: "center",
     backgroundColor: Colors.snow,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   header: {
     height: 60,
@@ -356,17 +353,27 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
   modalViewQuestion: {
-    width: Metrics.screenWidth*0.9,
-    height: Metrics.screenHeight * .3,
+    // width: Metrics.screenWidth*0.9,
+    // height: Metrics.screenHeight * .3,
+    flex: .5,
     borderStyle: 'solid',
     borderWidth: .5,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    backgroundColor: 'white',
+    marginTop: 10,
+    // justifyContent: 'flex-end',
+    // backgroundColor: 'white',
+    marginTop: Metrics.screenWidth*.1,
+    marginLeft: 20,
+    marginRight: 20,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    backgroundColor: "white",
+    padding: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "rgba(0, 0, 0, 0.1)"
+
   },
   modalText: {
     fontSize: 25,
