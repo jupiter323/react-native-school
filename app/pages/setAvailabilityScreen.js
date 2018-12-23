@@ -83,15 +83,16 @@ export default class SetAvailabilityScreen extends React.Component {
        jedisSectioned: [{title: 'Jedis',data:[]}],
        refreshing: false,
      }
+     console.log("set availability screen props " + JSON.stringify(props));
    }
 
    _keyExtractor = (item, index) => item.key;
 
-   componentWillMount =async() => {
+   componentDidMount =async() => {
      console.log(JSON.stringify(this.props.navigation.state.params.bookingDate.dateString));
      console.log("book date prop " + this.state.bookingDate);
 
-
+     //create an alert that allows people to know that pressing a block saves the availibility
      // this.setState({ bookingDate: this.props.navigation.state.params.bookingDate })
    }
 
@@ -103,10 +104,10 @@ export default class SetAvailabilityScreen extends React.Component {
      );
    }
 
-  // _onPressBack(){
-  //   const {goBack} = this.props.navigation
-  //   goBack()
-  // }
+  _onPressBack(){
+    const {goBack} = this.props.navigation
+    goBack()
+  }
   //
   // _bookSlot(status,key,value) {
   //   const month = this.state.bookingDate.month

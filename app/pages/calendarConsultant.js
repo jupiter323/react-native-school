@@ -4,18 +4,42 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  AsyncStorage,
 } from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import Metrics from '../Themes/Metrics';
-
+import LoggedOut from '../components/loggedOutScreen';
+import firebase from 'firebase';
 
 export default class CalendarScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      hasLoggedIn: false,
+      emailVerification: true,
+    };
     this.onDayPress = this.onDayPress.bind(this);
+    console.log("calendar consultant props " + JSON.stringify(props));
   }
+
+  componentDidMount =async() => {
+    this.checkIfUserLoggedIn();
+  }
+
+  checkIfUserLoggedIn = async () => {
+    const loginCheck = await AsyncStorage.getItem("hasLoggedIn");
+    if (loginCheck === "true") {
+      await this.setState({ hasLoggedIn: true });
+      console.log("hasLoggedIn" + this.state.hasLoggedIn);
+      console.log("metroooooooo");
+    }
+    const emailVerification = firebase.auth().currentUser.emailVerified;
+    if (emailVerification == true) {
+      await this.setState({ emailVerified: true});
+    }
+  }
+
   onDayPress(day) {
     this.setState({
       selected: day.dateString
@@ -25,9 +49,12 @@ export default class CalendarScreen extends React.Component {
   }
   _onPressBack(){
     const {goBack} = this.props.navigation
-      goBack()
+      goBack();
   }
   render() {
+    if (!this.state.hasLoggedIn || !this.state.emailVerified) {
+      return (<LoggedOut />);
+    } else {
     return (
       <View style={styles.container}>
       <StatusBar barStyle="light-content"/>
@@ -50,6 +77,7 @@ export default class CalendarScreen extends React.Component {
       </View>
     );
   }
+}
 }
 
 const styles = StyleSheet.create({

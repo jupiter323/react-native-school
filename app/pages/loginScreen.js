@@ -272,7 +272,7 @@ export default class Login extends React.Component {
       await Functions.registerForPushNotificationsAsync(result.uid);
 
 
-      this.toggleLoginModal();
+      await this.setState({isLoginModalVisible: false});
     } else {
       alert(this.state.errorMessageLogin);
     }
