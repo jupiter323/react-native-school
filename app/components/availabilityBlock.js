@@ -61,12 +61,16 @@ export default class AvailabilityBlock extends React.Component {
   }
 
   checkHighlight = async() => {
+    var that = this;
     firebase.database().ref('consultants').child(firebase.auth().currentUser.uid).child('availabilities')
     .child(this.state.date).on('child_added', (snapshot) => {
       var childKey = snapshot.key;
       var childData = snapshot.val();
       childData.key = childKey;
       console.log("availibility block child data " + JSON.stringify(childData));
+      if (this.state.time == childData.timeSlot) {
+        that.setState({cardSelected: true});
+      }
     });
     console.log("highlight checked");
   }

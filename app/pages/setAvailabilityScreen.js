@@ -84,6 +84,7 @@ export default class SetAvailabilityScreen extends React.Component {
        bookingDate: this.props.navigation.state.params.bookingDate,
        jedisSectioned: [{title: 'Jedis',data:[]}],
        refreshing: false,
+       showAgain: true,
      }
      console.log("set availability screen props " + JSON.stringify(props));
    }
@@ -93,15 +94,19 @@ export default class SetAvailabilityScreen extends React.Component {
    componentDidMount =async() => {
      console.log(JSON.stringify(this.props.navigation.state.params.bookingDate.dateString));
      console.log("book date prop " + this.state.bookingDate);
-     var showAgain = AsyncStorage.getItem('showAgain');
-     console.log('showAgain ' + JSON.stringify(showAgain));
-     if (JSON.stringify(showAgain) !== 'true') {
-       var that = this;
+     var that = this;
+     await AsyncStorage.getItem('showAgain', (err, result) => {
+      console.log("result show again " + result);
+      if (result == "true") {
+        that.setState({showAgain: false});
+      }
+    });
+     if (that.state.showAgain == true) {
      Alert.alert(
       'Set Availibility',
       'Clicking a time period saves it as available. Students will be able to book this timeslot for an appointment!',
       [
-        {text: 'Do not show again', onPress: () => that.doNotShowAgain()},
+        {text: 'Do not show again', onPress: () => {that.doNotShowAgain()}},
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ],
@@ -115,6 +120,9 @@ export default class SetAvailabilityScreen extends React.Component {
 
    doNotShowAgain = async() => {
     await AsyncStorage.setItem('showAgain', 'true');
+    await AsyncStorage.getItem('showAgain', (err, result) => {
+      console.log('show again test ' + result);
+    });
     console.log("do not show again entered");
    }
 
