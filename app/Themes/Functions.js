@@ -29,14 +29,18 @@ const Functions = {
     let token = await Notifications.getExpoPushTokenAsync();
     alert(token);
     // POST the token to your backend server from where you can retrieve it to send push notifications.
-    await firebase.database.ref('users').child(uid).set({ pushNotificationToken: token });
+    await firebase.database().ref('users').child(uid).set({ pushNotificationToken: token });
 
+  },
+  deleteUpcomming: async (appointmentId) => {
+    console.log(appointmentId);
+    await firebase.database().ref('appointments').child(appointmentId).remove();
   },
   sendPushnotification: async (reciepUid) => {
 
     var bodydata = { from: firebase.auth().currentUser.uid, data: "Request pay" }
 
-    await firebase.database.ref('users').child(reciepUid).once('value', async (snapshot) => {
+    await firebase.database().ref('users').child(reciepUid).once('value', async (snapshot) => {
       var childKey = snapshot.key;
       var childData = snapshot.val();
       childData.key = childKey;

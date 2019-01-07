@@ -118,6 +118,8 @@ export default class AccountInfo extends React.Component {
       childData.key = childKey;
       console.log("balance", JSON.stringify(childData));
       await this.setState({ balance: `Available : $ ${childData.available[0].amount}    Pending : $ ${childData.pending[0].amount}` })
+
+
     });
 
   }
@@ -155,6 +157,7 @@ export default class AccountInfo extends React.Component {
   _keyExtractor = (item, index) => index;
   render() {
 
+    // if (!this.state.hasLoggedIn) {
     if (!this.state.hasLoggedIn || !this.state.emailVerified) {
       return (<LoggedOut />);
     } else {
@@ -166,41 +169,48 @@ export default class AccountInfo extends React.Component {
               {this.state.portal === "consultant" &&
                 <View>
                   <Text style={{ margin: 30, fontSize: 20, marginBottom: 0 }}>Your Balance</Text>
-                  <Text style={{ margin: 30, fontSize: 17, marginBottom: 0, marginLeft: 35 }}>{this.state.balance}</Text>
+                  <Text style={{ margin: 30, fontSize: 17, marginBottom: 0, marginLeft: 35 }}>{this.state.balance || "Available: $0   Pending: $0"}</Text>
                 </View>
               }
 
               {this.state.portal === "student" &&
                 <View>
-                  <Text style={{ margin: 30, fontSize: 20, marginBottom:0 }}>Select your card</Text>
-                  <View style={styles.cardView}>
-                    <TouchableOpacity>
-                      <Card>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <View style={{ flexDirection: 'row' }}>
-                            <View style={{ flexDirection: 'column' }}>
-                              <Text style={{ fontSize: 15, marginLeft: 20, fontWeight: '200' }}>Card number:  {this.state.cardInfo.cardNum}</Text>
-                              <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>Expire day: {this.state.cardInfo.expMonth} / {this.state.cardInfo.expYear}</Text>
-                              <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>CVC:  {this.state.cardInfo.cvc}</Text>
-                              <Text style={{ fontSize: 15, marginLeft: 20, color: '#999' }}>Name: {this.state.cardInfo.name}</Text>
-                              <Text style={{ fontSize: 15, marginLeft: 20, color: '#999' }}>Postal code: {this.state.cardInfo.postalCode}</Text>
-                            </View>
-                            <View style={{ marginLeft: 30 }}>
-                              <Icon
-                                name='check'
-                                type='evilicon'
-                                color='#517fa4'
-                              />
+                  <Text style={{ margin: 30, fontSize: 20, marginBottom: 0 }}>Select your card</Text>
+                  {this.state.cardInfo ?
+                    <View style={styles.cardView}>
+                      <TouchableOpacity>
+                        <Card>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <View style={{ flexDirection: 'row' }}>
+                              <View style={{ flexDirection: 'column' }}>
+                                <Text style={{ fontSize: 15, marginLeft: 20, fontWeight: '200' }}>Card number:  {this.state.cardInfo.cardNum}</Text>
+                                <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>Expire day: {this.state.cardInfo.expMonth} / {this.state.cardInfo.expYear}</Text>
+                                <Text style={{ fontSize: 13, marginLeft: 20, color: '#999' }}>CVC:  {this.state.cardInfo.cvc}</Text>
+                                <Text style={{ fontSize: 15, marginLeft: 20, color: '#999' }}>Name: {this.state.cardInfo.name}</Text>
+                                {/* <Text style={{ fontSize: 15, marginLeft: 20, color: '#999' }}>Postal code: {this.state.cardInfo.postalCode}</Text> */}
+                              </View>
+                              <View style={{ marginLeft: 30 }}>
+                                <Icon
+                                  name='check'
+                                  type='evilicon'
+                                  color='#517fa4'
+                                />
+                              </View>
                             </View>
                           </View>
-                        </View>
-                      </Card>
-                    </TouchableOpacity>
-                  </View>
+                        </Card>
+                      </TouchableOpacity>
+                    </View> :
+                    <Text style={{ fontSize: 13, margin: 30, color: '#999' }}>
+                      There is not any inputed card
+                    </Text>
+                  }
                 </View>
               }
               <Text style={{ margin: 30, fontSize: 20, marginBottom: 0 }}>Transactions History</Text>
               <View style={styles.itemList}>
+                <Text style={{ margin: 30, fontSize: 17, marginBottom: 0, marginLeft: 35 }}>{this.state.thSectioned[0].data.length == 0 && "No transactions"}</Text>
+
                 <SectionList
                   sections={this.state.thSectioned}
                   // onEndReached={() => this.loadMore(3,this.state.thSectioned[0].data.length+1)}
@@ -213,7 +223,7 @@ export default class AccountInfo extends React.Component {
                   removeClippedSubviews={true}
                   ListFooterComponent={this.state.refreshing ? <ActivityIndicator /> : <View />}
                 />
-                <View style={{margin:20}}></View>
+                <View style={{ margin: 20 }}></View>
               </View>
             </Content>
           </SafeAreaView>

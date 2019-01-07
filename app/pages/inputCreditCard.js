@@ -8,6 +8,7 @@ import Modal from "react-native-modal";
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { CreditCardInput } from "react-native-credit-card-input";
 import axios from 'axios';
+import Functions from '../Themes/Functions';
 
 // const stripe = Stripe('pk_test_qkgEe4JVlRcszR12vsEMODWU');
 // Stripe.setPublishableKey('pk_test_qkgEe4JVlRcszR12vsEMODWU');
@@ -150,7 +151,8 @@ export default class InputCreditCard extends React.Component {
 
         this.pushTransactionHistory(solved.balance_transaction, "charge", solved.amount);
 
-        Alert.alert("Your money is locked for appointments! If you complete this appointment, it will be released to consultant.");
+        // Alert.alert("Your money is locked for appointments! If you complete this appointment, it will be released to consultant.");
+        Alert.alert("Your money was charged in our platform. you can complete your transfer to your consultant");
       });
     }).catch((error) => {
       console.error(error);
@@ -273,8 +275,14 @@ export default class InputCreditCard extends React.Component {
   }
 
   appointmentComplete = async () => {
+    const { navigate } = this.props.navigation;
+    const { appointmentId } = this.props.navigation.state.params
     await this.createTransfer(Math.floor(this.state.totalPrice * 0.95), this.state.consultantId)
-    await this.setState({ bookingStatus: false });
+    await this.setState({ bookingStatus: false });    
+    await Functions.deleteUpcomming(appointmentId);
+    alert("Your payment succeed!");
+    navigate('AccountInfo');
+
   }
 
   render() {
@@ -288,7 +296,7 @@ export default class InputCreditCard extends React.Component {
 
               requiresName
               requiresCVC
-              requiresPostalCodea
+              // requiresPostalCode
 
               labelStyle={styles.label}
               inputStyle={styles.input}

@@ -25,7 +25,8 @@ export default class UpcomingBlock extends React.Component {
             profileName: '',
             summary: '',
             userId: '',
-            portal: ''
+            portal: '',
+            appointmentId:''
         }
 
         console.log(JSON.stringify("questionblock props " + JSON.stringify(props)));
@@ -34,7 +35,7 @@ export default class UpcomingBlock extends React.Component {
     componentWillMount = async () => {
         //get consultant price with id
         await this.setState({ portal: this.props.portal });
-        console.log("portal3 : " + this.state.portal);
+        await this.setState({appointmentId:this.props.upcoming.appointmentId});
         if (this.state.portal == 'student') {
             await this.setState({ profileId: this.props.upcoming.consultantID })
         } else await this.setState({ profileId: this.props.upcoming.studentID });
@@ -46,6 +47,7 @@ export default class UpcomingBlock extends React.Component {
             childData.key = childKey;
             if (childData.profilePicture) that.setState({ profileImage: childData.profilePicture });
             that.setState({ profileName: childData.name });
+            
         });
 
     }
@@ -74,7 +76,7 @@ export default class UpcomingBlock extends React.Component {
 
     payout() {
         // this.state.release();
-        this.props.navigation.navigate('InputCreditCard', { totalPrice: this.props.upcoming.price, consultantId: this.state.profileId });
+        this.props.navigation.navigate('InputCreditCard', { totalPrice: this.props.upcoming.price, consultantId: this.state.profileId, appointmentId:this.state.appointmentId });
         // Functions.createTransfer(this.props.upcoming.price, this.state.profileId);
 
         console.log("payout done.");
